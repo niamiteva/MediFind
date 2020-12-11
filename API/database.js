@@ -2,6 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const md5 = require('md5');
 //The .verbose() modifier is to get extra information for debugging. 
 //MD5 is used to create a hash for stored passwords, avoiding to save plain text passwords.
+//https://blog.pagesd.info/2019/10/08/crud-with-express-sqlite-10-steps/
 
 const DBSOURCE = "./database.db";
 
