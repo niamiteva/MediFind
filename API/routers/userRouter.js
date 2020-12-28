@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const userCtrl = require('../controllers').user;
+const userCtrl = require('../controllers/userController');
 
 //TODO: 
 //routes with express router:

@@ -1,9 +1,5 @@
 const db = require('../models');
 
-// const create = (properties) => {
-//   return await db.User.create(properties);
-// }
-
 module.exports = {
   users(req, res){
     return db.User.findAll()

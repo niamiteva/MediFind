@@ -9,7 +9,7 @@ const helmet = require("helmet");
 
 const models = require('./models');
 const routes = require('./routers/index');
-//const auth  = require('./routes/auth');
+const auth  = require('./routers/authRouter');
 const users  = require('./routers/userRouter');
 
 const app = express();
@@ -31,7 +31,7 @@ app.get('/api',(req,res) => {
 })
 
 
-//app.use('/', auth);
+app.use('/', auth);
 app.use('/', users);
 app.use(routes);
 // Default response for any other request

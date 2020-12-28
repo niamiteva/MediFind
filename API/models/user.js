@@ -6,6 +6,10 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
     }
+
+    authenticate(password){
+      return password === this.password;
+    }
   };
   User.init({
     userId: {
