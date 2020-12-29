@@ -1,10 +1,14 @@
 const db = require('../models');
+const jwt = require('jsonwebtoken');
+const expressJwt = require('express-jwt');
+const config = require('../../configs/config');
 
 module.exports = {
 
   logIn(req, res) {
     const email = req.body.email;
     const password = req.body.password;
+    console.log(req.body);
     return db.User.findOne({
       where: {
         email: email,
@@ -23,8 +27,10 @@ module.exports = {
         })
       }
   
+      console.log(user);
+
       const token = jwt.sign({
-        _id: user._id
+        userId: user.userId
       }, config.jwtSecret)
   
       res.cookie("t", token, {
@@ -34,19 +40,21 @@ module.exports = {
       return res.json({
         token,
         user: {
-          _id: user._id,
+          userId: user.userId,
           name: user.name,
           email: user.email
         }
       })
     })
     .catch((err) => {
-      return res.status('401').json({
+      console.error(err);
+      return res.status('401').send({
         error: "Could not sign in"
       });
     })
 
   },
+
   logOut() {},
 
   requireSignin() {

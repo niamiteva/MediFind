@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 const isActive = (history: any, path: any) => {
-  if (history.location.pathname == path)
+  if (history.location.pathname === path)
     return {color: '#ffffff'}
   else
     return {color: '#ffffff'}

@@ -29,5 +29,24 @@ module.exports = {
           error: "Could not retrieve user"
         });
       });
+  },
+
+  create(req, res) {
+    const {firstName, lastName, personalNumber, email, password} = req.body;
+    return db.User.create({firstName, lastName, personalNumber, email, password})
+      .then((user) => {
+        if(!user) {
+          return res.status(400).send({
+            error: "Error occured during sign in."
+          })
+        }
+
+        res.status(200).send({
+          message: "Successfully signed up!"
+        });
+      })
+      .catch((err) => {
+        return res.status(400).send(err);
+      });
   }
 }

@@ -1,30 +1,45 @@
-import React, {useState} from 'react'
-import Card from '@material-ui/core/Card'
-import CardActions from '@material-ui/core/CardActions'
-import CardContent from '@material-ui/core/CardContent'
-import Button from '@material-ui/core/Button'
-import TextField from '@material-ui/core/TextField'
-import Typography from '@material-ui/core/Typography'
+import React, {useState} from 'react';
+import {Card, CardActions, CardContent} from '@material-ui/core';
+import {Button, TextField, Typography} from '@material-ui/core';
 import Icon from '@material-ui/core/Icon'
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles, Theme } from '@material-ui/core/styles'
 import auth from '../api/auth'
 import {Redirect} from 'react-router-dom'
-import {login} from '../api/users'
+import {login} from '../api/users';
+import homeImg from '../content/img/homepage.jpg';
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles((theme: Theme) => ({
+  backContent: {
+    height: '100%', 
+    position: 'relative',
+    color: theme.palette.common.white,
+    backgroundImage: homeImg,
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    backgroundPosition: 'center',
+  },
+  overlay: {
+    height: '100%',
+    position: 'absolute',
+    top: 0,
+    bottom: 0,
+    right: 0,
+    left: 0,
+    backgroundColor: 'rgba(0,0,0,.3)',
+  },
   card: {
+    position: 'relative', 
     maxWidth: 600,
     margin: 'auto',
     textAlign: 'center',
     marginTop: theme.spacing(5),
-    paddingBottom: theme.spacing(2)
+    paddingBottom: theme.spacing(2) 
   },
   error: {
     verticalAlign: 'middle'
   },
   title: {
     marginTop: theme.spacing(2),
-    color: theme.palette.openTitle
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -38,7 +53,8 @@ const useStyles = makeStyles((theme: any) => ({
 }))
 
 export default function LogIn(props: any) {
-  const classes = useStyles()
+  const classes = useStyles();
+  const img = homeImg;
   const [values, setValues] = useState({
       email: '',
       password: '',
@@ -78,6 +94,10 @@ export default function LogIn(props: any) {
   }
 
   return (
+    <main>
+      <div className={classes.backContent} style={{ backgroundImage: `url(${img})` }}>
+      {<img style={{ display: 'none' }} src={img}/>}
+      <div className={classes.overlay} />
       <Card className={classes.card}>
         <CardContent>
           <Typography variant="h6" className={classes.title}>
@@ -96,5 +116,7 @@ export default function LogIn(props: any) {
           <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
         </CardActions>
       </Card>
+      </div>
+      </main>
     )
 }

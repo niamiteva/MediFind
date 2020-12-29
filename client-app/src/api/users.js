@@ -1,7 +1,8 @@
+const apiUrl = 'http://localhost:3000';
 
   const createUser = async (user) => {
     try {
-        let response = await fetch('/api/users/', {
+        let response = await fetch(apiUrl + '/api/users/', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -17,7 +18,7 @@
 
 const getAllUsers = async (signal) => {
     try {
-      let response = await fetch('/api/users/', {
+      let response = await fetch(apiUrl + '/api/users/', {
         method: 'GET',
         signal: signal,
       })
@@ -29,7 +30,7 @@ const getAllUsers = async (signal) => {
 
 const getUserById = async(params, credentials, signal) => {
     try {
-      let response = await fetch('/api/users/' + params.userId, {
+      let response = await fetch(apiUrl + '/api/users/' + params.userId, {
         method: 'GET',
         signal: signal,
         headers: {
@@ -46,7 +47,7 @@ const getUserById = async(params, credentials, signal) => {
 
   const updateUser = async (params, credentials, user) => {
     try {
-      let response = await fetch('/api/users/' + params.userId, {
+      let response = await fetch(apiUrl + '/api/users/' + params.userId, {
         method: 'PUT',
         headers: {
           'Accept': 'application/json',
@@ -78,14 +79,15 @@ const getUserById = async(params, credentials, signal) => {
   // }
 
   const login = async (user) => {
+    console.log(user);
     try {
-      let response = await fetch('/api/auth/signin/', {
+      let response = await fetch(apiUrl + '/api/auth/login/', {
         method: 'POST',
+        credentials: 'same-origin',
         headers: {
           'Accept': 'application/json',
           'Content-Type': 'application/json'
         },
-        credentials: 'include',
         body: JSON.stringify(user)
       })
       return await response.json()
@@ -96,7 +98,7 @@ const getUserById = async(params, credentials, signal) => {
   
   const logout = async () => {
     try {
-      let response = await fetch('/api/auth/logout/', { method: 'GET' })
+      let response = await fetch(apiUrl + '/api/auth/logout/', { method: 'GET' })
       return await response.json()
     } catch(err) {
       console.log(err)

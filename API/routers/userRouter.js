@@ -6,8 +6,8 @@ const userCtrl = require('../controllers/userController');
 //routes with express router:
 const router = express.Router();
 router.route('/api/users')
-  .get(userCtrl.users);
-//   .post(userCtrl.create);
+  .get(userCtrl.users)
+  .post(userCtrl.create);
 
 router.route("/api/user/:id")
   .get(userCtrl.userById);

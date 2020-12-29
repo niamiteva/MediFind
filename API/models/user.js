@@ -49,7 +49,12 @@ module.exports = (sequelize, DataTypes) => {
       validate: {
         isEmail: true
       }
-    }
+    },
+    password: {
+      type: DataTypes.STRING,
+      unique: true,
+      allowNull: false,
+    } 
   }, {
     sequelize,
     modelName: 'User',

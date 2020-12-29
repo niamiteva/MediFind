@@ -31,7 +31,7 @@ app.get('/api',(req,res) => {
 })
 
 
-app.use('/', auth);
+app.use('/', cors(), auth);
 app.use('/', users);
 app.use(routes);
 // Default response for any other request
