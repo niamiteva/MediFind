@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
@@ -93,6 +93,19 @@ const useStyles = makeStyles((theme: Theme) => ({
 export default function Home(){
   const classes = useStyles();
   const img = homeImg;
+
+  const [values, setValues] = useState({
+    search: '',
+  });
+
+  const clickSubmit = () => {
+
+  };
+
+  const handleChange = (name: string) => (event: any) => {
+    setValues({ ...values, [name]: event.target.value })
+  };
+
     return (
       <main>
         <div className={classes.backContent} style={{ backgroundImage: `url(${img})` }}>
@@ -150,8 +163,10 @@ export default function Home(){
                   className={classes.input}
                   placeholder="Търсене..."
                   inputProps={{ 'aria-label': 'търсене...' }}
+                  id="search" type="search"
+                  value={values.search} onChange={handleChange('search')} 
                 />
-                <IconButton type="submit" className={classes.iconButton} aria-label="search">
+                <IconButton type="submit" className={classes.iconButton} onClick={clickSubmit} aria-label="search">
                   <SearchIcon />
                 </IconButton>             
               </Paper>

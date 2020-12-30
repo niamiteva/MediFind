@@ -17,6 +17,7 @@
   "author": "-",
   "license": "ISC",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.5",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
@@ -26,9 +27,11 @@
     "helmet": "^4.2.0",
     "jsonwebtoken": "^8.5.1",
     "md": "^0.6.0",
+    "puppeteer": "^5.5.0",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-router-dom": "^5.2.0",
+    "request": "^2.88.2",
     "sequelize": "^6.3.5",
     "sqlite3": "^5.0.0"
   },

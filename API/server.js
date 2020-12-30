@@ -11,6 +11,7 @@ const models = require('./models');
 const routes = require('./routers/index');
 const auth  = require('./routers/authRouter');
 const users  = require('./routers/userRouter');
+const search  = require("./routers/searchRouter");
 
 const app = express();
 
@@ -33,6 +34,7 @@ app.get('/api',(req,res) => {
 
 app.use('/', cors(), auth);
 app.use('/', users);
+app.use('/', search);
 app.use(routes);
 // Default response for any other request
 // catch 404 and forward to error handler
