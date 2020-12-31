@@ -4,7 +4,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import homeImg from '../content/img/homepage.jpg';
 import { Grid, Typography, Button, Divider, IconButton, InputBase, Paper } from '@material-ui/core';
-import {Link} from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -95,84 +95,87 @@ export default function Home(){
   const img = homeImg;
 
   const [values, setValues] = useState({
-    search: '',
+    searchText: '',
+    error: '',
   });
 
   const clickSubmit = () => {
+    const searchText = values.searchText || '';
 
+    return (<Redirect to={{ pathname: `/search/remedy/?${searchText}` }} />)
   };
 
   const handleChange = (name: string) => (event: any) => {
-    setValues({ ...values, [name]: event.target.value })
+    setValues({ ...values, [name]: event.target.value });
   };
 
-    return (
-      <main>
-        <div className={classes.backContent} style={{ backgroundImage: `url(${img})` }}>
-        {<img style={{ display: 'none' }} src={img}/>}
-        <div className={classes.overlay} />
-          <Grid container >
-            <Grid item md={12} container direction="row" justify="center" alignItems="center">
-              <Grid item md={6}>
-                <div className={classes.left}>
-                <Paper elevation={3} className={classes.root}>
-                  <Typography gutterBottom variant="h5" component="h2">
-                    Какво представлява MediFind?
-                  </Typography>
-                  <Divider/>
-                  <Typography variant="body2" color="textSecondary" component="p" className={classes.title}>
-                    MediFind е платформа за търсене на лекарства и проверка за наличието им по аптеките. Търсачка за специалисти и връзка с тях. Предоставя и издаване на електронни рецепти и направления. Въсможност да събирате всичко с вързано с ваши лечения на едно място и лекуващите ви лекари да проследят лечениято и да проверят за предишни такива.
-                  </Typography>
-                </Paper>
-                </div>
-              </Grid>
-              <Grid item md={6}>
-                <div className={classes.right}>
-                <Paper className={classes.root}>
-                  <Grid container>
-                    <Grid item md={12}>
-                      <Link to="/signup">
-                        <Button className={classes.signup} variant="contained">Sign up
-                        </Button>
-                      </Link>  
-                    </Grid>
-                  </Grid>                            
-                  <Typography variant="body2" color="textSecondary" component="p" className={classes.signuptext}>
-                    Нямате регистрация? Без регистрация имате достъп само до търсачката. Регистрирайте се като изберете вид потребител и попълнете необходимите данни в съответната форма за регистрация. 
-                  </Typography> 
-                  <Divider/>
-                  <Grid container>
-                    <Grid item md={12}>
-                      <Link to="/login">
-                        <Button className={classes.login} variant="contained">Log In
-                        </Button>
-                      </Link>
-                    </Grid>
-                  </Grid>          
-                </Paper>
-                </div>
-              </Grid>
-            </Grid>
-            <Grid item md={12}>
-              <Paper component="form" className={classes.search}>
-                <IconButton className={classes.iconButton} aria-label="menu">
-                  <MenuIcon />
-                </IconButton>
-                <Divider className={classes.divider} orientation="vertical" />
-                <InputBase
-                  className={classes.input}
-                  placeholder="Търсене..."
-                  inputProps={{ 'aria-label': 'търсене...' }}
-                  id="search" type="search"
-                  value={values.search} onChange={handleChange('search')} 
-                />
-                <IconButton type="submit" className={classes.iconButton} onClick={clickSubmit} aria-label="search">
-                  <SearchIcon />
-                </IconButton>             
+  return (
+    <main>
+      <div className={classes.backContent} style={{ backgroundImage: `url(${img})` }}>
+      {<img style={{ display: 'none' }} src={img}/>}
+      <div className={classes.overlay} />
+        <Grid container >
+          <Grid item md={12} container direction="row" justify="center" alignItems="center">
+            <Grid item md={6}>
+              <div className={classes.left}>
+              <Paper elevation={3} className={classes.root}>
+                <Typography gutterBottom variant="h5" component="h2">
+                  Какво представлява MediFind?
+                </Typography>
+                <Divider/>
+                <Typography variant="body2" color="textSecondary" component="p" className={classes.title}>
+                  MediFind е платформа за търсене на лекарства и проверка за наличието им по аптеките. Търсачка за специалисти и връзка с тях. Предоставя и издаване на електронни рецепти и направления. Въсможност да събирате всичко с вързано с ваши лечения на едно място и лекуващите ви лекари да проследят лечениято и да проверят за предишни такива.
+                </Typography>
               </Paper>
+              </div>
             </Grid>
-          </Grid>         
-        </div>
+            <Grid item md={6}>
+              <div className={classes.right}>
+              <Paper className={classes.root}>
+                <Grid container>
+                  <Grid item md={12}>
+                    <Link to="/signup">
+                      <Button className={classes.signup} variant="contained">Sign up
+                      </Button>
+                    </Link>  
+                  </Grid>
+                </Grid>                            
+                <Typography variant="body2" color="textSecondary" component="p" className={classes.signuptext}>
+                  Нямате регистрация? Без регистрация имате достъп само до търсачката. Регистрирайте се като изберете вид потребител и попълнете необходимите данни в съответната форма за регистрация. 
+                </Typography> 
+                <Divider/>
+                <Grid container>
+                  <Grid item md={12}>
+                    <Link to="/login">
+                      <Button className={classes.login} variant="contained">Log In
+                      </Button>
+                    </Link>
+                  </Grid>
+                </Grid>          
+              </Paper>
+              </div>
+            </Grid>
+          </Grid>
+          <Grid item md={12}>
+            <Paper component="form" className={classes.search}>
+              <IconButton className={classes.iconButton} aria-label="menu">
+                <MenuIcon />
+              </IconButton>
+              <Divider className={classes.divider} orientation="vertical" />
+              <InputBase
+                className={classes.input}
+                placeholder="Търсене..."
+                inputProps={{ 'aria-label': 'търсене...' }}
+                id="search" type="search"
+                value={values.searchText} onChange={handleChange('searchText')} 
+              />
+              <IconButton className={classes.iconButton} onClick={clickSubmit} aria-label="searchText">
+                <SearchIcon />
+              </IconButton>             
+            </Paper>
+          </Grid>
+        </Grid>         
+      </div>
     </main>
-    )
+  )
 }
