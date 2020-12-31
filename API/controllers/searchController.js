@@ -4,24 +4,36 @@ const getDataForItem = (browser, link) => new Promise(async(resolve, reject) => 
   const newPage = await browser.newPage();
   await newPage.goto(link);
 
-  const itemName = await newPage.evaluate('header.product__header > span > h1', text => text.textContent);
-  const imgSrc = await newPage.evaluate('div.product__box-img img', img => img.src);
-  const price = await newPage.evaluate('.price', text => text.textContent);
-  const description = await newPage.evaluate('.slide-box', div => {
-    const paragraphs = div.nextSibling.map(p => p.querySelector('span > span').textContent);
-    let text = '';
-    paragraphs.forEach(p => {
-      text = text + p;
-    });
-
-    return text;
+  const itemName = await newPage.evaluate(() => {
+    return document.querySelector('header.product__header h1').textContent;
   });
 
+  const imgSrc = await newPage.evaluate(() => {
+    const img = document.querySelector('div.product__box-img img');
+    return img.src;
+  });
+
+  const price = await newPage.evaluate(() => {
+    return document.querySelector('.price').textContent;
+  });
+
+  // const description = await newPage.evaluate(() => {
+  //   const items = Array.from(document.querySelectorAll('div.text p span span'));
+  //   // const paragraphs = items.nextSibling.map(p => p.querySelector('span > span').textContent);
+  //   // let text = '';
+  //   // paragraphs.forEach(p => {
+  //   //   text = text + p;
+  //   // });
+
+  //   return items;
+  // });
+
   data = {
+    itemUrl: link,
     itemName: itemName,
     imgSrc: imgSrc,
     price: price,
-    description: description
+    //description: description
   };
 
   resolve(data);
@@ -35,14 +47,15 @@ const scrape = (text) => new Promise(async(resolve, reject) => {
   const page = await browser.newPage();
   const url = 'https://sopharmacy.bg/bg/sophSearch?text=' + text + '&pageselect=96&from=&to=&q=' + text + ':relevance';
   await page.goto(url);
+  await page.waitForSelector('.wrap-content__main');
 
-  const itemsUrls = await page.evaluate('section ul > li', links => {
-    links = links.map(link => link.querySelector('h2 > a').href);
+  const itemsUrls = await page.evaluate(() => {
+    const items = Array.from(document.querySelectorAll('section ul li h2 > a'));
+    const links = items.map(link => link.href);
     return links;
-  })
-  .catch(err => {reject(err)});
+  });
 
-  console.log(itemsUrls);
+  //console.log(itemsUrls);
   if(!itemsUrls) reject("Failed to scrape data");
 
   let allItems = [];
@@ -55,6 +68,10 @@ const scrape = (text) => new Promise(async(resolve, reject) => {
   await page.close();
   resolve(allItems);
 });
+
+// scrape("магнезий")
+//   .then((res) => console.log(res))
+//   .catch(err => console.log(err));
 
 module.exports = {
   search(req, res) {
