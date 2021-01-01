@@ -101,8 +101,8 @@ export default function Home(){
 
   const clickSubmit = () => {
     const searchText = values.searchText || '';
-
-    return (<Redirect to={{ pathname: `/search/remedy/?${searchText}` }} />)
+    console.log(searchText);
+    return (<Redirect to={{ pathname: "/search/remedy/", search: "?q=" + searchText }}/>)
   };
 
   const handleChange = (name: string) => (event: any) => {
@@ -169,9 +169,11 @@ export default function Home(){
                 id="search" type="search"
                 value={values.searchText} onChange={handleChange('searchText')} 
               />
-              <IconButton className={classes.iconButton} onClick={clickSubmit} aria-label="searchText">
-                <SearchIcon />
-              </IconButton>             
+              <Link to={"/search/remedy?q=" + values.searchText }>
+                <IconButton className={classes.iconButton} aria-label="searchText">
+                  <SearchIcon />
+                </IconButton> 
+              </Link>            
             </Paper>
           </Grid>
         </Grid>         

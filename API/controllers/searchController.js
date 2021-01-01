@@ -62,7 +62,6 @@ const scrape = (text) => new Promise(async(resolve, reject) => {
   for(link in itemsUrls){
     const itemData = await getDataForItem(browser ,itemsUrls[link]);
     allItems.push(itemData);
-    console.log(itemData);
   }
 
   await page.close();
@@ -75,7 +74,7 @@ const scrape = (text) => new Promise(async(resolve, reject) => {
 
 module.exports = {
   search(req, res) {
-    const text = req.body.searchText;
+    const text = req.body.q;
     console.log(text);
     return scrape(text)
       .then((result) => {

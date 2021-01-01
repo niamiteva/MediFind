@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {Route, Switch} from 'react-router-dom';
 import Home from './Home';
 import SearchResult from '../items/SearchResults'
@@ -16,6 +16,7 @@ class MainRouter extends Component {
     users: Users,
     signup: SignUp,
     login: LogIn,
+    search: SearchResult
   }
 
   render() {
@@ -26,7 +27,7 @@ class MainRouter extends Component {
         <Route path="/users" component={this.state.users}/>
         <Route path="/signup" component={this.state.signup}/>
         <Route path="/login" component={this.state.login}/>
-        {/* <Route path="/search/remedy/?q=" component={Home}/> */}
+        <Route exact path="/search/remedy" component={this.state.search}/>
         {/* <PrivateRoute path="/user/edit/:userId" component={EditProfile}/> */}
         {/* <Route path="/user/:userId" component={Profile}/> */}
       </Switch>
