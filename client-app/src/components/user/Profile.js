@@ -13,11 +13,11 @@ import Edit from '@material-ui/icons/Edit'
 import Person from '@material-ui/icons/Person'
 import Divider from '@material-ui/core/Divider'
 //import DeleteUser from './DeleteUser'
-import auth from '../api/auth'
-import {getUserById} from '../api/users'
+import auth from '../../api/auth'
+import {getUserById} from '../../api/users'
 import {Redirect, Link} from 'react-router-dom'
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
     maxWidth: 600,
     margin: 'auto',
@@ -30,9 +30,9 @@ const useStyles = makeStyles((theme: any) => ({
   }
 }))
 
-export default function Profile(match: any) {
+export default function Profile(match) {
   const classes = useStyles();
-  const [user, setUser] = useState<any>({});
+  const [user, setUser] = useState({});
   const [redirectToSignin, setRedirectToSignin] = useState(false);
   const jwt = auth.isAuthenticated();
 
@@ -42,7 +42,7 @@ export default function Profile(match: any) {
 
     getUserById({
       userId: match.params.userId
-    }, {t: jwt.token}, signal).then((data: any) => {
+    }, {t: jwt.token}, signal).then((data) => {
       if (data && data.error) {
         setRedirectToSignin(true)
       } else {

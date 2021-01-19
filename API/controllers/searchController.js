@@ -1,4 +1,5 @@
 const puppeteer = require('puppeteer');
+const { all } = require('../routers');
 
 const getDataForItem = (browser, link) => new Promise(async(resolve, reject) => {
   const newPage = await browser.newPage();
@@ -28,7 +29,7 @@ const getDataForItem = (browser, link) => new Promise(async(resolve, reject) => 
   //   return items;
   // });
 
-  data = {
+  const data = {
     itemUrl: link,
     itemName: itemName,
     imgSrc: imgSrc,
@@ -55,7 +56,6 @@ const scrape = (text) => new Promise(async(resolve, reject) => {
     return links;
   });
 
-  //console.log(itemsUrls);
   if(!itemsUrls) reject("Failed to scrape data");
 
   let allItems = [];
@@ -74,7 +74,9 @@ const scrape = (text) => new Promise(async(resolve, reject) => {
 
 module.exports = {
   search(req, res) {
+    debugger;
     const text = req.body.q;
+    console.log(req.body);
     console.log(text);
     return scrape(text)
       .then((result) => {
@@ -83,8 +85,10 @@ module.exports = {
             error: 'No data loaded'
           });
         }
-
-        res.status(200).send(result);
+        console.log("to send:");
+        console.log(result);
+        res.status(200).send(JSON.stringify(result));
+        res.end();
       })
       .catch((err) => {
         return res.status(400).send(err);

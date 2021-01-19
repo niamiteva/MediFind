@@ -27,7 +27,7 @@ class MainRouter extends Component {
         <Route path="/users" component={this.state.users}/>
         <Route path="/signup" component={this.state.signup}/>
         <Route path="/login" component={this.state.login}/>
-        <Route exact path="/search/remedy" component={this.state.search}/>
+        <Route path="/search/remedy" component={this.state.search}/>
         {/* <PrivateRoute path="/user/edit/:userId" component={EditProfile}/> */}
         {/* <Route path="/user/:userId" component={Profile}/> */}
       </Switch>

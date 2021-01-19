@@ -23,7 +23,7 @@ app.use(cookieParser()); //parse and set cookies in request objects.
 //app.use(compress()); //compress response bodies for all requests
 app.use(helmet()); // secure apps by setting various HTTP headers
 app.use(cors()); // enable CORS - Cross Origin Resource Sharing
-
+app.options('*', cors()) ;
 
 app.get('/api',(req,res) => {
   res.status(200).send({
@@ -34,7 +34,7 @@ app.get('/api',(req,res) => {
 
 app.use('/', cors(), auth);
 app.use('/', users);
-app.use('/', search);
+app.use('/', cors(), search);
 app.use(routes);
 // Default response for any other request
 // catch 404 and forward to error handler

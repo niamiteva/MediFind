@@ -2,11 +2,12 @@ import React, {useState} from 'react';
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import homeImg from '../content/img/homepage.jpg';
+import homeImg from '../../content/img/homepage.jpg';
 import { Grid, Typography, Button, Divider, IconButton, InputBase, Paper } from '@material-ui/core';
 import {Link, Redirect} from 'react-router-dom';
+import {search} from '../../api/search';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: '75%',
     padding: theme.spacing(5)
@@ -96,16 +97,37 @@ export default function Home(){
 
   const [values, setValues] = useState({
     searchText: '',
-    error: '',
   });
 
+  const [resultData, setResult] = useState({});
+
   const clickSubmit = () => {
-    const searchText = values.searchText || '';
+    const searchText = {
+      q: values.searchText || undefined
+    };
     console.log(searchText);
-    return (<Redirect to={{ pathname: "/search/remedy/", search: "?q=" + searchText }}/>)
+
+    search(searchText)
+      .then((data) => {
+        debugger;
+        console.log(data);
+        if(!data) {
+          console.log(data);
+          return;
+        } else {
+          setResult(data);
+          debugger;
+          return (<Redirect to={{ 
+            pathname: "/search/remedy/", 
+            search: "?q=" + searchText.q,
+            state: {searchResult: data}
+          }}/>)
+        }
+      })
+      .catch(err => console.error(err));
   };
 
-  const handleChange = (name: string) => (event: any) => {
+  const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
@@ -169,11 +191,9 @@ export default function Home(){
                 id="search" type="search"
                 value={values.searchText} onChange={handleChange('searchText')} 
               />
-              <Link to={"/search/remedy?q=" + values.searchText }>
-                <IconButton className={classes.iconButton} aria-label="searchText">
+                <IconButton className={classes.iconButton} onClick={clickSubmit} aria-label="searchText">
                   <SearchIcon />
-                </IconButton> 
-              </Link>            
+                </IconButton>     
             </Paper>
           </Grid>
         </Grid>         

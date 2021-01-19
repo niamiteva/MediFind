@@ -12,9 +12,9 @@ import Typography from '@material-ui/core/Typography';
 import ArrowForward from '@material-ui/icons/ArrowForward';
 import Person from '@material-ui/icons/Person';
 import {Link} from 'react-router-dom';
-import {getAllUsers} from '../api/users';
+import {getAllUsers} from '../../api/users';
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles((theme) => ({
   root: theme.mixins.gutters({
     padding: theme.spacing(1),
     margin: theme.spacing(5)
@@ -33,7 +33,7 @@ export default function Users() {
     const abortController = new AbortController()
     const signal = abortController.signal
 
-    getAllUsers(signal).then((data: any) => {
+    getAllUsers(signal).then((data) => {
       if (data && data.error) {
         console.log(data.error)
       } else {
@@ -53,7 +53,7 @@ export default function Users() {
           All Users
         </Typography>
         <List dense>
-         {users.map((item: any, i: number) => {
+         {users.map((item, i) => {
           return <Link to={"/user/" + item._id} key={i}>
                     <ListItem button>
                       <ListItemAvatar>

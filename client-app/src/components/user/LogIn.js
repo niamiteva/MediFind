@@ -3,12 +3,12 @@ import {Card, CardActions, CardContent} from '@material-ui/core';
 import {Button, TextField, Typography} from '@material-ui/core';
 import Icon from '@material-ui/core/Icon'
 import { makeStyles, Theme } from '@material-ui/core/styles'
-import auth from '../api/auth'
+import auth from '../../api/auth'
 import {Redirect} from 'react-router-dom'
-import {login} from '../api/users';
-import homeImg from '../content/img/homepage.jpg';
+import {login} from '../../api/users';
+import homeImg from '../../content/img/homepage.jpg';
 
-const useStyles = makeStyles((theme: Theme) => ({
+const useStyles = makeStyles((theme) => ({
   backContent: {
     height: '100%', 
     position: 'relative',
@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme: Theme) => ({
   }
 }))
 
-export default function LogIn(props: any) {
+export default function LogIn(props) {
   const classes = useStyles();
   const img = homeImg;
   const [values, setValues] = useState({
@@ -68,7 +68,7 @@ export default function LogIn(props: any) {
       password: values.password || undefined
     };
 
-    login(user).then((data: any) => {
+    login(user).then((data) => {
       if (data.error) {
         setValues({ ...values, error: data.error});
       } else {
@@ -79,7 +79,7 @@ export default function LogIn(props: any) {
     });
   };
 
-  const handleChange = (name: string) => (event: any) => {
+  const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   }
 

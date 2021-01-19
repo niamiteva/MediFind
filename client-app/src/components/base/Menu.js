@@ -1,10 +1,10 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import {AppBar, Toolbar, Typography, Button} from '@material-ui/core';
-import auth from '../api/auth';
+import auth from '../../api/auth';
 import {Link, withRouter} from 'react-router-dom';
 
-const useStyles = makeStyles((theme: Theme) =>
+const useStyles = makeStyles((theme) =>
   createStyles({
     root: {
       flexGrow: 1,
@@ -20,14 +20,14 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-const isActive = (history: any, path: any) => {
+const isActive = (history, path) => {
   if (history.location.pathname === path)
     return {color: '#ffffff'}
   else
     return {color: '#ffffff'}
 }
 
-export default withRouter((history: any) => {
+export default withRouter((history) => {
   const classes = useStyles();
 
   return (

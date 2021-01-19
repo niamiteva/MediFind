@@ -7,11 +7,11 @@ import TextField from '@material-ui/core/TextField'
 import Typography from '@material-ui/core/Typography'
 import Icon from '@material-ui/core/Icon'
 import { makeStyles } from '@material-ui/core/styles'
-import auth from '../api/auth'
-import {getUserById, updateUser} from '../api/users'
+import auth from '../../api/auth'
+import {getUserById, updateUser} from '../../api/users'
 import {Redirect} from 'react-router-dom'
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles((theme) => ({
   card: {
     maxWidth: 600,
     margin: 'auto',
@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme: any) => ({
   }
 }))
 
-export default function EditProfile(match: any) {
+export default function EditProfile(match) {
   const classes = useStyles()
   const [values, setValues] = useState({
     userId: '',
@@ -56,7 +56,7 @@ export default function EditProfile(match: any) {
 
     getUserById({
       userId: match.params.userId
-    }, {t: jwt.token}, signal).then((data: any) => {
+    }, {t: jwt.token}, signal).then((data) => {
       if (data && data.error) {
         setValues({...values, error: data.error})
       } else {
@@ -79,7 +79,7 @@ export default function EditProfile(match: any) {
       userId: match.params.userId
     }, {
       t: jwt.token
-    }, user).then((data: any) => {
+    }, user).then((data) => {
       if (data && data.error) {
         setValues({...values, error: data.error})
       } else {
@@ -87,7 +87,7 @@ export default function EditProfile(match: any) {
       }
     })
   }
-  const handleChange = (name: string) => (event: any) => {
+  const handleChange = (name) => (event) => {
     setValues({...values, [name]: event.target.value})
   }
 

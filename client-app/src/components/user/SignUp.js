@@ -3,12 +3,12 @@ import {Card, CardActions, CardContent} from '@material-ui/core';
 import {Button, TextField, Typography} from '@material-ui/core';
 import Icon from '@material-ui/core/Icon';
 import { makeStyles } from '@material-ui/core/styles';
-import {createUser} from '../api/users';
+import {createUser} from '../../api/users';
 import {Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle} from '@material-ui/core';
 import {Link} from 'react-router-dom';
-import homeImg from '../content/img/homepage.jpg'
+import homeImg from '../../content/img/homepage.jpg'
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles((theme) => ({
   backContent: {
     height: '100%', 
     position: 'relative',
@@ -67,7 +67,7 @@ export default function Signup() {
     error: ''
   })
 
-  const handleChange = (name: string) => (event: any) => {
+  const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value })
   }
 
