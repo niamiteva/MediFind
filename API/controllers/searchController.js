@@ -11,7 +11,7 @@ const getDataForItem = (browser, link) => new Promise(async(resolve, reject) => 
 
   const imgSrc = await newPage.evaluate(() => {
     const img = document.querySelector('div.product__box-img img');
-    return img.src;
+    return 'https://sopharmacy.bg' + img.srcset;
   });
 
   const price = await newPage.evaluate(() => {

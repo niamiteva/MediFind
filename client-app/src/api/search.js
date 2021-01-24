@@ -4,7 +4,6 @@ const apiUrl = 'http://localhost:3000';
 
 const search = async (searchText, signal) => {
   console.log(searchText);
-  debugger; 
   try{
     let response = await fetch(apiUrl + '/api/search/remedy/', {
         method: 'POST',
@@ -19,7 +18,6 @@ const search = async (searchText, signal) => {
     return await response.json();
   }
   catch(err){
-      debugger;
       console.log(err);
       return err;
   }

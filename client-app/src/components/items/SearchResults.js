@@ -1,24 +1,46 @@
 import {useState, useEffect} from 'react';
 import queryString from 'query-string';
-import Loader from 'react-loader-spinner'
+import LoadingSpinner from 'react-loader-spinner'
 import { makeStyles, Theme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import { Grid, Typography, Button, Divider, IconButton, InputBase, Paper } from '@material-ui/core';
+import {Button, Grid, Typography, Card, CardActionArea, CardContent, CardMedia, Hidden } from '@material-ui/core';
 import {search} from '../../api/search';
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    maxWidth: '75%',
-    padding: theme.spacing(5)
+  card: {
+    display: 'flex',
+    minWidth: '100%',
+    margin: 5
   },
-  
+  cardDetails: {
+    flex: 1,
+    width: '80%'
+  },
+  cardMedia: {
+    width: '80%',
+    height: '70%',
+    padding: 10,
+    margin: 10
+  },
+  detailsButton: {
+    marginBottom: theme.spacing(2),
+    width: '90%',
+    background: '#F44336',
+    color: '#fff'
+  },
+  buyButton: {
+    marginBottom: theme.spacing(2),
+    width: '90%',
+    background: '#B0BEC5',
+    color: '#fff'
+  }
 }));
 
 export default function SearchResult(props) {
   const classes = useStyles();
   const [searchResult, setResult] = useState({});
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true);
   const searchText = queryString.parse(props.location.search);
 
   useEffect(() => {
@@ -54,10 +76,50 @@ export default function SearchResult(props) {
 
     return (
       <main>
-        <b>serach for {searchText.q}</b>
-        {
-           JSON.stringify(searchResult)
-        }
+        <Grid container direction="column" justify="center" alignItems="center">
+          {isLoading && (<LoadingSpinner />)}
+          {!isLoading && searchResult.map(item => (
+
+          <Grid item md={6} spacing={3}> 
+            <CardActionArea component="a" href={item.itemUrl}>
+              <Card className={classes.card} spacing={3}> 
+                <Grid container spacing={3}>
+                  <Grid item xs>
+                    <CardMedia className={classes.cardMedia} image={item.imgSrc}/>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <CardContent>
+                      <Typography component="h2" variant="h5">
+                        {item.itemName}
+                      </Typography>
+                      <Typography variant="subtitle1" color="textSecondary">
+                        {item.price}
+                      </Typography>
+                      {/* <Typography variant="subtitle1" paragraph>
+                        {post.description}
+                      </Typography> */}
+                      <Typography variant="subtitle1" color="primary">
+                        Sopharmacy
+                      </Typography>
+                    </CardContent>
+                  </Grid>
+                  <Grid item xs>
+                    <CardContent>
+                      <Button className={classes.detailsButton}>
+                        Листовка
+                      </Button>
+                      <Button className={classes.buyButton}>
+                        Купи
+                      </Button>
+                    </CardContent>         
+                  </Grid>
+                </Grid>  
+              </Card>
+            </CardActionArea>
+          </Grid>
+
+          ))}
+        </Grid>
       </main> 
     );
 }
