@@ -106,12 +106,13 @@ export default function LogIn(props) {
           </Typography>
           <TextField id="email" type="email" label="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal"/><br/>
           <TextField id="password" type="password" label="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal"/>
-          <br/> {
-            values.error && (<Typography component="p" color="error">
+          <br/> 
+          {values.error && (
+          <Typography component="p" color="error">
               <Icon color="error" className={classes.error}>error</Icon>
               {values.error}
-            </Typography>)
-          }
+            </Typography>
+          )}
         </CardContent>
         <CardActions>
           <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
