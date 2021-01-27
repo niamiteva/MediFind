@@ -50,13 +50,15 @@ export default withRouter((history) => {
         }
         {
           auth.isAuthenticated() && (<span>
-            <Link to={"/user/" + auth.isAuthenticated().user._id}>
-              <Button className={classes.menuButton} style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>My Profile</Button>
+            <Link to={"/user/" + auth.isAuthenticated().user.userId}>
+              <Button className={classes.menuButton} style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>
+                My Profile
+              </Button>
             </Link>
             <Button className={classes.menuButton} color="inherit" onClick={() => {
                 auth.clearJWT(() => history.push('/'))
               }}>
-            Sign out
+              Sign out
             </Button>
           </span>)
         }

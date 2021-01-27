@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 export default function Profile(match) {
+  const theUserId = match.match.params.userId;
   const classes = useStyles();
   const [user, setUser] = useState({});
   const [redirectToSignin, setRedirectToSignin] = useState(false);
@@ -41,7 +42,7 @@ export default function Profile(match) {
     const signal = abortController.signal
 
     getUserById({
-      userId: match.params.userId
+      userId: theUserId
     }, {t: jwt.token}, signal).then((data) => {
       if (data && data.error) {
         setRedirectToSignin(true)
@@ -54,7 +55,7 @@ export default function Profile(match) {
       abortController.abort()
     }
 
-  }, [match.params.userId])
+  }, [theUserId])
   
     if (redirectToSignin) {
       return <Redirect to='/login'/>
@@ -71,10 +72,10 @@ export default function Profile(match) {
                 <Person/>
               </Avatar>
             </ListItemAvatar>
-            <ListItemText primary={user.name} secondary={user.email}/> {
-             auth.isAuthenticated().user && auth.isAuthenticated().user._id === user._id &&
+            <ListItemText primary={user.name} secondary={user.email}/> 
+            { auth.isAuthenticated().user && auth.isAuthenticated().user.userId === user.userId &&
               (<ListItemSecondaryAction>
-                <Link to={"/user/edit/" + user._id}>
+                <Link to={"/user/edit/" + user.userId}>
                   <IconButton aria-label="Edit" color="primary">
                     <Edit/>
                   </IconButton>
@@ -85,8 +86,7 @@ export default function Profile(match) {
           </ListItem>
           <Divider/>
           <ListItem>
-            <ListItemText primary={"Joined: " + (
-              new Date(user.created)).toDateString()}/>
+            <ListItemText primary={"Joined: " + (new Date(user.created)).toDateString()}/>
           </ListItem>
         </List>
       </Paper>

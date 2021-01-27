@@ -3,6 +3,7 @@ import queryString from "query-string";
 import {Grid, CircularProgress } from "@material-ui/core";
 import { search } from "../../api/search";
 import RemedyItemCard from "./remedyItemCard/RemedyItemCard";
+import SearchBar from '../searchBar/SearchBar';
 
 export default function SearchResult(props) {
   const [searchResult, setResult] = useState({});

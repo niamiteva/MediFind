@@ -9,7 +9,7 @@ router.route('/api/users')
   .get(userCtrl.users)
   .post(userCtrl.create);
 
-router.route("/api/user/:id")
+router.route("/api/users/:id")
   .get(userCtrl.userById);
 
 router.param('userId', userCtrl.userById);

@@ -1,10 +1,6 @@
-import { useState, useEffect } from "react";
-import queryString from "query-string";
-import LoadingSpinner from "react-loader-spinner";
 import { makeStyles, Theme } from "@material-ui/core/styles";
 import {Card, CardActionArea, CardContent, CardMedia,} from "@material-ui/core";
 import {Grid,Typography,Button} from "@material-ui/core";
-import { search } from "../../api/search";
 
 const useStyles = makeStyles((theme) => ({
   card: {

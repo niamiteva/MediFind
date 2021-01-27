@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import homeImg from '../../content/img/homepage.jpg';
+import homeImg from '../../../../content/img/homepage.jpg';
 import { Grid} from '@material-ui/core';
-import SearchBar from '../searchBar/SearchBar'
-import {SiteInfoCard, SignUpInvitation } from './HomePageCards'
+import SearchBar from '../../../searchBar/SearchBar'
+import SiteInfoCard  from './HomePageCards/SiteInfoCard';
+import SignUpInvitation from './HomePageCards/SignUpInvitation';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -49,33 +50,31 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default function Home(){
+export default function GuestUserContent(){
   const classes = useStyles();
   const img = homeImg;
 
   return (
-    <main>
-      <div className={classes.backContent} style={{ backgroundImage: `url(${img})` }}>
+    <div className={classes.backContent} style={{ backgroundImage: `url(${img})` }}>
       {<img style={{ display: 'none' }} src={img}/>}
       <div className={classes.overlay} />
-        <Grid container >
-          <Grid item md={12} container direction="row" justify="center" alignItems="center">
-            <Grid item md={6}>
-              <div className={classes.left}>
-                <SiteInfoCard/>
-              </div>
-            </Grid>
-            <Grid item md={6}>
-              <div className={classes.right}>
-                <SignUpInvitation/>
-              </div>
-            </Grid>
+      <Grid container >
+        <Grid item md={12} container direction="row" justify="center" alignItems="center">
+          <Grid item md={6}>
+            <div className={classes.left}>
+              <SiteInfoCard/>
+            </div>
           </Grid>
-          <Grid item md={12}>
-            <SearchBar/>
+          <Grid item md={6}>
+            <div className={classes.right}>
+              <SignUpInvitation/>
+            </div>
           </Grid>
-        </Grid>         
-      </div>
-    </main>
+        </Grid>
+        <Grid item md={12}>
+          <SearchBar/>
+        </Grid>
+      </Grid>         
+    </div>
   )
 }

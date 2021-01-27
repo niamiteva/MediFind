@@ -14,7 +14,10 @@ module.exports = {
   },
 
   userById(req, res) { //next
-    return db.User.findById(req.params.id)
+    return db.User.findOne(
+      {where: {
+        userId: req.params.id
+      }})
       .then((user) => {
         if(!user) {
           return res.status(400).send({
