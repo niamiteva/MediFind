@@ -58,6 +58,7 @@ export default function LogIn(props) {
   const [values, setValues] = useState({
       email: '',
       password: '',
+      userId: '',
       error: '',
       redirectToReferrer: false
   });
@@ -73,7 +74,7 @@ export default function LogIn(props) {
         setValues({ ...values, error: data.error});
       } else {
         auth.authenticate(data, () => {
-          setValues({ ...values, error: '',redirectToReferrer: true})
+          setValues({ ...values, userId: data.user.userId, error: '',redirectToReferrer: true})
         });
       }
     });
@@ -83,15 +84,9 @@ export default function LogIn(props) {
     setValues({ ...values, [name]: event.target.value });
   }
 
-  const {from} = props.location.state || {
-      from: {
-        pathname: '/'
-      }
-  };
-
-  const {redirectToReferrer} = values
+  const {redirectToReferrer, userId} = values
   if (redirectToReferrer) {
-      return (<Redirect to={from}/>);
+      return (<Redirect to={"/user/" + userId}/>);
   }
 
   return (

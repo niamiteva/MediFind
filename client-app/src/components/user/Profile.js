@@ -1,38 +1,12 @@
-import React, { useState, useEffect } from 'react'
-import { makeStyles } from '@material-ui/core/styles'
-import Paper from '@material-ui/core/Paper'
-import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemAvatar from '@material-ui/core/ListItemAvatar'
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction'
-import ListItemText from '@material-ui/core/ListItemText'
-import Avatar from '@material-ui/core/Avatar'
-import IconButton from '@material-ui/core/IconButton'
-import Typography from '@material-ui/core/Typography'
-import Edit from '@material-ui/icons/Edit'
-import Person from '@material-ui/icons/Person'
-import Divider from '@material-ui/core/Divider'
+import React, { useState, useEffect } from 'react';
 //import DeleteUser from './DeleteUser'
-import auth from '../../api/auth'
-import {getUserById} from '../../api/users'
-import {Redirect, Link} from 'react-router-dom'
+import auth from '../../api/auth';
+import {getUserById} from '../../api/users';
+import {Redirect, Link} from 'react-router-dom';
+import PatientProfile from './patients/PatientProfile'
 
-const useStyles = makeStyles((theme) => ({
-  root: theme.mixins.gutters({
-    maxWidth: 600,
-    margin: 'auto',
-    padding: theme.spacing(3),
-    marginTop: theme.spacing(5)
-  }),
-  title: {
-    marginTop: theme.spacing(3),
-    color: theme.palette.protectedTitle
-  }
-}))
-
-export default function Profile(match) {
-  const theUserId = match.match.params.userId;
-  const classes = useStyles();
+export default function Profile(props) {
+  const theUserId = props.match.params.userId;
   const [user, setUser] = useState({});
   const [redirectToSignin, setRedirectToSignin] = useState(false);
   const jwt = auth.isAuthenticated();
@@ -57,38 +31,14 @@ export default function Profile(match) {
 
   }, [theUserId])
   
-    if (redirectToSignin) {
-      return <Redirect to='/login'/>
-    }
-    return (
-      <Paper className={classes.root} elevation={4}>
-        <Typography variant="h6" className={classes.title}>
-          Profile
-        </Typography>
-        <List dense>
-          <ListItem>
-            <ListItemAvatar>
-              <Avatar>
-                <Person/>
-              </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={user.name} secondary={user.email}/> 
-            { auth.isAuthenticated().user && auth.isAuthenticated().user.userId === user.userId &&
-              (<ListItemSecondaryAction>
-                <Link to={"/user/edit/" + user.userId}>
-                  <IconButton aria-label="Edit" color="primary">
-                    <Edit/>
-                  </IconButton>
-                </Link>
-                {/* <DeleteUser userId={user._id}/> */}
-              </ListItemSecondaryAction>)
-            }
-          </ListItem>
-          <Divider/>
-          <ListItem>
-            <ListItemText primary={"Joined: " + (new Date(user.created)).toDateString()}/>
-          </ListItem>
-        </List>
-      </Paper>
-    )
+  if (redirectToSignin) {
+    return <Redirect to='/login'/>
   }
+
+  return (
+    <main>
+        <PatientProfile user={user}/>
+    </main>
+      
+  )
+}
