@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Tab, Tabs } from "@material-ui/core";
+import { Tab, Tabs, Divider } from "@material-ui/core";
 import { TabPanel, TabContext } from "@material-ui/lab";
-import { AccountBox } from "@material-ui/icons";
+import { AccountBox, Event, List,ListAlt, Assignment,AssignmentTurnedIn, Contacts } from "@material-ui/icons";
 import PatientPersonalDetails from "./PatientPersonalDetails/PatientPersonalDetails";
 
 const useStyles = makeStyles((theme) => ({
@@ -20,12 +20,6 @@ const useStyles = makeStyles((theme) => ({
   },
   icon: {
     paddingRight: 10,   
-  },
-  labelContainer: {
-    width: "auto",
-  },
-  iconLabelWrapper: {
-    flexDirection: "row",
   },
 }));
 
@@ -50,16 +44,52 @@ export default function PatientProfile(props) {
           className={classes.tabs}
         >
           <Tab
-            classes={{
-              wrapper: classes.iconLabelWrapper,
-              labelContainer: classes.labelContainer
-            }}
             label="Лични данни"
             value="1"
             icon={<AccountBox color="primary" fontSize='large' className={classes.icon}/>}
           />
-          <Tab label="Item Two" value="2" />
-          <Tab label="Item Three" value="3" />
+          <Divider/>
+          <Tab
+            label="Списъци с лекартсва"
+            value="2"
+            icon={<List color="primary" fontSize='large' className={classes.icon}/>}
+          />
+          <Divider/>
+          <Tab
+            disabled
+            label="Рецепти"
+            value="3"
+            icon={<ListAlt color="primary" fontSize='large' className={classes.icon}/>}
+          />
+          <Divider/>
+          <Tab
+            disabled
+            label="Амбулаорни листи и направления"
+            value="4"
+            icon={<Assignment color="primary" fontSize='large' className={classes.icon}/>}
+          />
+          <Divider/>
+          <Tab
+            disabled
+            label="Изследвания"
+            value="5"
+            icon={<AssignmentTurnedIn color="primary" fontSize='large' className={classes.icon}/>}
+          />
+          <Divider/>
+          <Tab
+            disabled
+            label="Моите лекари"
+            value="6"
+            icon={<Contacts color="primary" fontSize='large' className={classes.icon}/>}
+          />
+          <Divider/>
+          <Tab
+            disabled
+            label="Календар"
+            value="7"
+            icon={<Event color="primary" fontSize='large' className={classes.icon}/>}
+          />
+          <Divider/>
         </Tabs>
         <TabPanel value="1" className={classes.tabPanel}>
           <PatientPersonalDetails user={user} />

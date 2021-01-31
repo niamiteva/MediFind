@@ -5,14 +5,11 @@ import { ThemeProvider } from '@material-ui/styles'
 import theme from './components/base/Theme'
 
 class App extends Component {
-  state = {
-    theme: theme
-  }
 
   render() {
     return (
       <BrowserRouter>
-          <ThemeProvider theme={this.state.theme}>
+          <ThemeProvider theme={theme}>
             <MainRouter/>
           </ThemeProvider>
       </BrowserRouter>

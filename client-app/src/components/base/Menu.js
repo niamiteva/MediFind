@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { createStyles, makeStyles} from '@material-ui/core/styles';
 import {AppBar, Toolbar, Typography, Button} from '@material-ui/core';
 import auth from '../../api/auth';
 import {Link, withRouter} from 'react-router-dom';
@@ -11,8 +11,6 @@ const useStyles = makeStyles((theme) =>
     },
     menuButton: {
       marginRight: theme.spacing(2),
-      background: '#F44336',
-      color: '#fff'
     },
     title: {
       flexGrow: 1,
@@ -39,11 +37,11 @@ export default withRouter((history) => {
         {
           !auth.isAuthenticated() && (<span>
             <Link to="/signup">
-              <Button className={classes.menuButton} variant="contained">Sign up
+              <Button className={classes.menuButton} color="secondary" variant="contained">Sign up
               </Button>
             </Link>
             <Link to="/login">
-              <Button className={classes.menuButton} variant="contained">Log In
+              <Button className={classes.menuButton} color="secondary" variant="contained">Log In
               </Button>
             </Link>
           </span>)

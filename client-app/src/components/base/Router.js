@@ -5,7 +5,6 @@ import RemedyResult from '../remedy/RemedyResults'
 import Users from '../user/Users';
 import SignUp from '../user/SignUp';
 import LogIn from '../user/LogIn';
-import EditProfile from '../user/EditProfile'
 import Profile from '../user/Profile';
 //import PrivateRoute from './auth/PrivateRoute'
 import Menu from './Menu';
@@ -29,7 +28,6 @@ class MainRouter extends Component {
         <Route path="/signup" component={this.state.signup}/>
         <Route path="/login" component={this.state.login}/>
         <Route path="/search/remedy" component={this.state.remedy}/>
-        {/* <Route path="/user/edit/:userId" component={EditProfile}/> */} 
         <Route path="/user/:userId" component={this.state.profile}/>
       </Switch>
     </div>)
