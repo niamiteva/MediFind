@@ -1,4 +1,5 @@
 "use strict"
+const crypto = require('crypto');
 const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
@@ -7,8 +8,20 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
     }
 
+    generateSalt = function() {
+      return crypto.randomBytes(16).toString('base64')
+    }
+    
+    encryptPassword = function(plainText, salt) {
+      return crypto
+          .createHash('RSA-SHA256')
+          .update(plainText)
+          .update(salt)
+          .digest('hex')
+    }
+
     authenticate(password){
-      return password === this.password;
+      return this.encryptPassword(password, this.passwordSalt()) === this.passwordHash();
     }
   };
   User.init({
@@ -50,15 +63,43 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
-    password: {
+    status: {
+      type: DataTypes.STRING, 
+      enum: ['Pending', 'Active'],
+      default: 'Pending'
+    },
+    confirmationCode: { 
+      type: DataTypes.STRING, 
+      unique: true 
+    },
+    passwordHash: {
       type: DataTypes.STRING,
       unique: true,
       allowNull: false,
-    } 
+      get() {
+        return () => this.getDataValue('passwordHash')
+      }
+    },
+    passwordSalt: {
+      type: DataTypes.STRING,
+      get() {
+        return() => this.getDataValue('passwordSalt')
+      }
+    },
   }, {
     sequelize,
     modelName: 'User',
   });
+
+  const setSaltAndPassword = user => {
+    if (user.changed('passwordHash')) {
+        user.passworSalt = User.generateSalt()
+        user.passwordHash = User.encryptPassword(user.passwordHash(), user.passwordSalt())
+    }
+  }
+
+  User.beforeCreate(setSaltAndPassword)
+  User.beforeUpdate(setSaltAndPassword)
 
   return User;
 };
