@@ -2,10 +2,13 @@ const db = require('../models');
 const jwt = require('jsonwebtoken');
 const expressJwt = require('express-jwt');
 const config = require('../../configs/config');
+const crypto = require('crypto-random-string');
+const jwtSecret = crypto(16);
+
 
 module.exports = {
 
-  logIn(req, res) {
+  logIn(req, res, next) {
     const email = req.body.email;
     const password = req.body.password;
     console.log(req.body);
@@ -29,11 +32,17 @@ module.exports = {
   
       console.log(user);
 
+      if (!user.isVerified) {
+        return res.status(401).send({
+          message: "Account is not activated. Please Verify Your Email!",
+        });
+      }
+
       const token = jwt.sign({
         userId: user.userId
-      }, config.jwtSecret)
+      }, jwtSecret)
   
-      res.cookie("t", token, {
+      res.cookie("jwt", token, {
         expire: new Date() + 9999
       })
   
@@ -59,7 +68,7 @@ module.exports = {
 
   requireSignin() {
     return expressJwt({
-      secret: config.jwtSecret,
+      secret: jwtSecret,
       userProperty: 'auth'
     })
   },

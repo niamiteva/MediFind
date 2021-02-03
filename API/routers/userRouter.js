@@ -2,8 +2,6 @@ const express = require('express');
 const app = express();
 const userCtrl = require('../controllers/userController');
 
-//TODO: 
-//routes with express router:
 const router = express.Router();
 router.route('/api/users')
   .get(userCtrl.users)
