@@ -5,8 +5,13 @@ const { Model } = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     static associate(models) {
-      // define association here
+      User.hasOne(models.VerificationToken, {
+        as: 'verificationtoken',
+        foreignKey: 'userId',
+        foreignKeyConstraint: true,
+      });
     }
+    
 
     generateSalt = function() {
       return crypto.randomBytes(16).toString('base64')
@@ -63,14 +68,8 @@ module.exports = (sequelize, DataTypes) => {
         isEmail: true
       }
     },
-    status: {
-      type: DataTypes.STRING, 
-      enum: ['Pending', 'Active'],
-      default: 'Pending'
-    },
-    confirmationCode: { 
-      type: DataTypes.STRING, 
-      unique: true 
+    isVerified: {
+      type: Sequelize.BOOLEAN
     },
     passwordHash: {
       type: DataTypes.STRING,
