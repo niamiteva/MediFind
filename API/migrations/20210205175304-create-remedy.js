@@ -1,40 +1,40 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('Remedies', {
+    await queryInterface.createTable("Remedies", {
       remedyId: {
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         type: Sequelize.UUID,
         validate: {
-            isUUID: 4
-        }
+          isUUID: 4,
+        },
       },
       listId: {
         type: Sequelize.UUID,
         allowNull: false,
         onUpdate: "cascade",
         onDelete: "cascade",
-        references: { model: "RemedyList", key: "listId" }
+        references: { model: "RemedyList", key: "listId" },
       },
       remedyName: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       remedyLink: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('Remedies');
-  }
+    await queryInterface.dropTable("Remedies");
+  },
 };

@@ -5,10 +5,10 @@ module.exports = (sequelize, DataTypes) => {
   class VerificationToken extends Model {
     static associate(models) {
       verificationtoken.belongsTo(models.User, {
-				as: "user",
-				foreignKey: "userId",
-				foreignKeyConstraint: true
-			});
+        as: "user",
+        foreignKey: "userId",
+        foreignKeyConstraint: true,
+      });
     }
   }
   VerificationToken.init(

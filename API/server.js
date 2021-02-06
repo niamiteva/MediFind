@@ -3,7 +3,7 @@ const http = require('http');
 const bodyParser = require("body-parser");
 const path = require("path");
 const cookieParser = require("cookie-parser"); //for the cookie monster
-//const compress = require("compress");
+const compress = require("compress");
 const cors = require("cors");
 const helmet = require("helmet");
 
@@ -12,6 +12,7 @@ const routes = require('./routers/index');
 const auth  = require('./routers/authRouter');
 const users  = require('./routers/userRouter');
 const search  = require("./routers/searchRouter");
+const verify = require("./routers/verificationRouter");
 
 const app = express();
 
@@ -20,7 +21,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser()); //parse and set cookies in request objects. 
-//app.use(compress()); //compress response bodies for all requests
+app.use(compress()); //compress response bodies for all requests
 app.use(helmet()); // secure apps by setting various HTTP headers
 app.use(cors()); // enable CORS - Cross Origin Resource Sharing
 app.options('*', cors()) ;
@@ -31,11 +32,12 @@ app.get('/api',(req,res) => {
   })
 })
 
-
 app.use('/', cors(), auth);
 app.use('/', users);
 app.use('/', cors(), search);
+app.use('/', verify);
 app.use(routes);
+
 // Default response for any other request
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -69,11 +71,4 @@ models.sequelize.sync().then(() => {
 
         console.info("Server running on port %PORT%".replace("%PORT%",HTTP_PORT));
     });  
-});
-  
-
-//   app.listen(HTTP_PORT, (err) => {
-//     if(err) console.log(err);
-
-//     console.info("Server running on port %PORT%".replace("%PORT%",HTTP_PORT));
-// });  
+}); 

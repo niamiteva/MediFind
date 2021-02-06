@@ -3,4 +3,5 @@ const app = express();
 const verifyCtrl = require('../controllers/verificationController');
 
 const router = express.Router();
-router.post('/verification', VerificationController);
+// POST /verication?token=[string]&email=[string]
+router.post('/api/verification', verifyCtrl.verify);
