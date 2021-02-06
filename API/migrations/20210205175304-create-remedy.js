@@ -1,26 +1,28 @@
 'use strict';
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('VerificationToken', {
-      tokenId: {
+    await queryInterface.createTable('Remedies', {
+      remedyId: {
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
         type: Sequelize.UUID,
         validate: {
             isUUID: 4
-        },
+        }
       },
-      userId: {
+      listId: {
         type: Sequelize.UUID,
         allowNull: false,
         onUpdate: "cascade",
         onDelete: "cascade",
-        references: { model: "User", key: "userId" }
+        references: { model: "RemedyList", key: "listId" }
       },
-      token: {
-        type: Sequelize.STRING,
-        allowNull: false
+      remedyName: {
+        type: Sequelize.STRING
+      },
+      remedyLink: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -30,9 +32,9 @@ module.exports = {
         allowNull: false,
         type: Sequelize.DATE
       }
-    })
+    });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('VerificationToken')
+    await queryInterface.dropTable('Remedies');
   }
 };

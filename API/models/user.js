@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'userId',
         foreignKeyConstraint: true,
       });
+      User.hasMany(models.RemedyList, {
+        as: 'remedylist',
+        foreignKey: 'listId'
+      })
     }
     
 
@@ -31,21 +35,13 @@ module.exports = (sequelize, DataTypes) => {
   };
   User.init({
     userId: {
-      allowNull: false,
-      defaultValue: DataTypes.UUIDV4,
-      primaryKey: true,
       type: DataTypes.UUID,
-      validate: {
-          isUUID: 4
-      },
       get() {
           return this.getDataValue('userId').toLowerCase();
       }
     },
     personalNumber: {
       type: DataTypes.STRING,
-      allowNull: false,
-      unique: true,
       validate:{
         isValidNumber() {
 
@@ -56,25 +52,11 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    lastName: {
-      type: DataTypes.STRING,
-      allowNull:false
-    },
-    email: {
-      type: DataTypes.STRING,
-      unique:true,
-      allowNull: false,
-      validate: {
-        isEmail: true
-      }
-    },
-    isVerified: {
-      type: Sequelize.BOOLEAN
-    },
+    lastName:  DataTypes.STRING,
+    email: DataTypes.STRING,
+    isVerified:Sequelize.BOOLEAN,
     passwordHash: {
       type: DataTypes.STRING,
-      unique: true,
-      allowNull: false,
       get() {
         return () => this.getDataValue('passwordHash')
       }

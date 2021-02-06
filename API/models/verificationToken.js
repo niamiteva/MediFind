@@ -13,26 +13,9 @@ module.exports = (sequelize, DataTypes) => {
   }
   VerificationToken.init(
     {
-      tokenId: {
-        allowNull: false,
-        defaultValue: DataTypes.UUIDV4,
-        primaryKey: true,
-        type: DataTypes.UUID,
-        validate: {
-            isUUID: 4
-        },
-      },
-      userId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        onUpdate: "cascade",
-        onDelete: "cascade",
-        references: { model: "User", key: "id" }
-      },
-      token: {
-        type: DataTypes.STRING,
-        allowNull: false
-      }
+      tokenId: DataTypes.UUID,
+      userId: DataTypes.UUID,
+      token: DataTypes.STRING,
     },
     {
       sequelize,
