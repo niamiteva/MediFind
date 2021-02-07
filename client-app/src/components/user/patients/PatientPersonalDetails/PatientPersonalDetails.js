@@ -91,7 +91,7 @@ export default function PatientPersonalDetails(props) {
                 InputProps={{
                   readOnly:
                     auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.userId === user.userId,
+                    auth.isAuthenticated().user.id === user.id,
                 }}
               />
               <br />
@@ -105,7 +105,7 @@ export default function PatientPersonalDetails(props) {
                 InputProps={{
                   readOnly:
                     !(auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.userId === user.userId),
+                    auth.isAuthenticated().user.id === user.id),
                 }}
               />
               <br />
@@ -119,7 +119,7 @@ export default function PatientPersonalDetails(props) {
                 InputProps={{
                   readOnly:
                     auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.userId === user.userId,
+                    auth.isAuthenticated().user.id === user.id,
                 }}
               />
               <br />
@@ -134,7 +134,7 @@ export default function PatientPersonalDetails(props) {
                 InputProps={{
                   readOnly:
                     auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.userId === user.userId,
+                    auth.isAuthenticated().user.id === user.id,
                 }}
               />
               <br />
@@ -149,7 +149,7 @@ export default function PatientPersonalDetails(props) {
                 InputProps={{
                   readOnly:
                     auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.userId === user.userId,
+                    auth.isAuthenticated().user.id === user.id,
                 }}
               />
               <br />

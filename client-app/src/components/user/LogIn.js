@@ -77,7 +77,7 @@ export default function LogIn(props) {
         auth.authenticate(data, () => {
           setValues({
             ...values,
-            userId: data.user.userId,
+            userId: data.user.id,
             error: "",
             redirectToReferrer: true,
           });
