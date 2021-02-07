@@ -45,13 +45,15 @@ module.exports = {
 
   create(req, res, next) {
     console.log("create");
-    const {firstName, lastName, personalNumber, email, password} = req.body;
+    const {firstName, lastName, personalNumber, email, password} = req.body;   
+    const isVerified = true;//temorary becouse of issues with the email verification 
     return db.User.create({
       firstName,
       lastName,
       personalNumber,
       email,
       password,
+      isVerified
     })
       .then((user) => {
         if (!user) {
@@ -67,7 +69,8 @@ module.exports = {
             if (!result) {
               return res.status(400).send("Error occured during token creation in.");
             }
-            sendVerificationEmail(user.firstName, user.email, result.token);
+            //commented because of gmail security issues
+            //sendVerificationEmail(user.firstName, user.email, result.token);
             return res
               .status(200)
               .json(
