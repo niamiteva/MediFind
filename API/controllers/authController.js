@@ -2,8 +2,8 @@ const db = require("../models");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 const config = require("../../configs/config");
-const crypto = require("crypto-random-string");
-const jwtSecret = crypto(16);
+const crypto = require('crypto'); //"crypto-random-string");
+const jwtSecret = crypto.randomBytes(16).toString("base64");
 
 module.exports = {
   logIn(req, res, next) {
@@ -38,7 +38,7 @@ module.exports = {
 
         const token = jwt.sign(
           {
-            userId: user.userId,
+            id: user.id,
           },
           jwtSecret
         );
@@ -50,7 +50,7 @@ module.exports = {
         return res.json({
           token,
           user: {
-            userId: user.userId,
+            id: user.id,
             name: user.name,
             email: user.email,
           },
@@ -75,7 +75,7 @@ module.exports = {
 
   hasAuthorization(req, res, next) {
     const authorized =
-      req.profile && req.auth && req.profile._id == req.auth._id;
+      req.profile && req.auth && req.profile.id == req.auth.id;
     if (!authorized) {
       return res.status("403").json({
         error: "User is not authorized",

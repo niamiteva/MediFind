@@ -1,8 +1,8 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("VerificationToken", {
-      tokenId: {
+    await queryInterface.createTable("VerificationTokens", {
+      id: {
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
@@ -16,7 +16,7 @@ module.exports = {
         allowNull: false,
         onUpdate: "cascade",
         onDelete: "cascade",
-        references: { model: "User", key: "userId" },
+        references: { model: "Users", key: "id" },
       },
       token: {
         type: Sequelize.STRING,
@@ -33,6 +33,6 @@ module.exports = {
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable("VerificationToken");
+    await queryInterface.dropTable("VerificationTokens");
   },
 };

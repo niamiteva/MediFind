@@ -12,35 +12,29 @@ module.exports = (sequelize, DataTypes) => {
       });
       User.hasMany(models.RemedyList, {
         as: "remedylist",
-        foreignKey: "listId",
+        foreignKey: "userId",
       });
-    }
-
-    generateSalt = function () {
-      return crypto.randomBytes(16).toString("base64");
-    };
-
-    encryptPassword = function (plainText, salt) {
-      return crypto
-        .createHash("RSA-SHA256")
-        .update(plainText)
-        .update(salt)
-        .digest("hex");
-    };
+    }  
 
     authenticate(password) {
       return (
-        this.encryptPassword(password, this.passwordSalt()) ===
-        this.passwordHash()
+        this.encryptPassword(password, this.salt()) ===
+        this.password()
       );
     }
   }
   User.init(
     {
-      userId: {
+      id: {
+        allowNull: false,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
         type: DataTypes.UUID,
+        validate: {
+          isUUID: 4,
+        },
         get() {
-          return this.getDataValue("userId").toLowerCase();
+          return this.getDataValue("id").toLowerCase();
         },
       },
       personalNumber: {
@@ -56,16 +50,16 @@ module.exports = (sequelize, DataTypes) => {
       lastName: DataTypes.STRING,
       email: DataTypes.STRING,
       isVerified: DataTypes.BOOLEAN,
-      passwordHash: {
+      password: {
         type: DataTypes.STRING,
         get() {
-          return () => this.getDataValue("passwordHash");
+          return () => this.getDataValue("password");
         },
       },
-      passwordSalt: {
+      salt: {
         type: DataTypes.STRING,
         get() {
-          return () => this.getDataValue("passwordSalt");
+          return () => this.getDataValue("salt");
         },
       },
     },
@@ -75,12 +69,25 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
+  User.generateSalt = function () {
+    return crypto.randomBytes(16).toString("base64");
+  };
+
+  User.encryptPassword = function (plainText, salt) {
+    return crypto
+      .createHash("RSA-SHA256")
+      .update(plainText)
+      .update(salt)
+      .digest("hex");
+  };
+
   const setSaltAndPassword = (user) => {
-    if (user.changed("passwordHash")) {
-      user.passworSalt = User.generateSalt();
-      user.passwordHash = User.encryptPassword(
-        user.passwordHash(),
-        user.passwordSalt()
+    if (user.changed("password")) {
+      console.log(User.generateSalt);
+      user.salt = User.generateSalt();
+      user.password = User.encryptPassword(
+        user.password(),
+        user.salt()
       );
     }
   };

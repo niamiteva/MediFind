@@ -8,6 +8,7 @@ import LogIn from '../user/LogIn';
 import Profile from '../user/Profile';
 //import PrivateRoute from './auth/PrivateRoute'
 import Menu from './Menu';
+import Verify from '../user/Verify';
 
 class MainRouter extends Component {
   state = {
@@ -16,7 +17,8 @@ class MainRouter extends Component {
     signup: SignUp,
     login: LogIn,
     remedy: RemedyResult,
-    profile: Profile
+    profile: Profile,
+    verify: Verify
   }
 
   render() {
@@ -28,7 +30,8 @@ class MainRouter extends Component {
         <Route path="/signup" component={this.state.signup}/>
         <Route path="/login" component={this.state.login}/>
         <Route path="/search/remedy" component={this.state.remedy}/>
-        <Route path="/user/:userId" component={this.state.profile}/>
+        <Route path="/user/:userId" component={this.state.profile}/>      
+        <Route path="/verification" component={this.state.verify} />
       </Switch>
     </div>)
   }

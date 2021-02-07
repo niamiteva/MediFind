@@ -1,5 +1,4 @@
-import { RepeatOneSharp } from '@material-ui/icons';
-import queryString from 'query-string'; 
+const queryString = require('query-string'); 
 const apiUrl = 'http://localhost:3000';
 
 const search = async (searchText, signal) => {

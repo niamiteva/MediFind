@@ -8,15 +8,23 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
         foreignKeyConstraint: true,
       });
-      RemedyList.hasMany(model.Remedy, {
+      RemedyList.hasMany(models.Remedy, {
         as: "remedy",
-        foreignKey: "remedyId",
+        foreignKey: "listId",
       });
     }
   }
   RemedyList.init(
     {
-      listId: DataTypes.UUID,
+      id: {
+        allowNull: false,
+        defaultValue: DataTypes.UUIDV4,
+        primaryKey: true,
+        type: DataTypes.UUID,
+        validate: {
+          isUUID: 4,
+        },
+      },
       listName: DataTypes.STRING,
       userId: DataTypes.UUID,
     },

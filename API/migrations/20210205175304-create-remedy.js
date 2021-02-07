@@ -2,7 +2,7 @@
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Remedies", {
-      remedyId: {
+      id: {
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
@@ -16,7 +16,7 @@ module.exports = {
         allowNull: false,
         onUpdate: "cascade",
         onDelete: "cascade",
-        references: { model: "RemedyList", key: "listId" },
+        references: { model: "RemedyLists", key: "id" },
       },
       remedyName: {
         type: Sequelize.STRING,

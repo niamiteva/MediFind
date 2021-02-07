@@ -1,8 +1,8 @@
 "use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable("User", {
-      userId: {
+    await queryInterface.createTable("Users", {
+      id: {
         allowNull: false,
         defaultValue: Sequelize.UUIDV4,
         primaryKey: true,
@@ -11,7 +11,7 @@ module.exports = {
           isUUID: 4,
         },
         get() {
-          return this.getDataValue("userId").toLowerCase();
+          return this.getDataValue("id").toLowerCase();
         },
       },
       personalNumber: {
@@ -41,18 +41,18 @@ module.exports = {
       isVerified: {
         type: Sequelize.BOOLEAN,
       },
-      passwordHash: {
+      password: {
         type: Sequelize.STRING,
         unique: true,
         allowNull: false,
         get() {
-          return () => this.getDataValue("passwordHash");
+          return () => this.getDataValue("password");
         },
       },
-      passwordSalt: {
+      salt: {
         type: Sequelize.STRING,
         get() {
-          return () => this.getDataValue("passwordSalt");
+          return () => this.getDataValue("salt");
         },
       },
       createdAt: {

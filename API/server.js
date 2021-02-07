@@ -3,7 +3,7 @@ const http = require('http');
 const bodyParser = require("body-parser");
 const path = require("path");
 const cookieParser = require("cookie-parser"); //for the cookie monster
-const compress = require("compress");
+//const compress = require("compress");
 const cors = require("cors");
 const helmet = require("helmet");
 
@@ -21,7 +21,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(cookieParser()); //parse and set cookies in request objects. 
-app.use(compress()); //compress response bodies for all requests
+//app.use(compress()); //compress response bodies for all requests
 app.use(helmet()); // secure apps by setting various HTTP headers
 app.use(cors()); // enable CORS - Cross Origin Resource Sharing
 app.options('*', cors()) ;

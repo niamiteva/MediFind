@@ -1,5 +1,7 @@
 const db = require("../models");
-const crypto = require("crypto-random-string");
+const crypto = require('crypto'); //"crypto-random-string");
+const jwt = require("jsonwebtoken");
+const expressJwt = require("express-jwt");
 const { sendVerificationEmail } = require("../helpers/nodeMailer");
 
 module.exports = {
@@ -22,7 +24,7 @@ module.exports = {
     //next
     return db.User.findOne({
       where: {
-        userId: req.params.id,
+        id: req.params.id,
       },
     })
       .then((user) => {
@@ -42,36 +44,43 @@ module.exports = {
   },
 
   create(req, res, next) {
-    return models.User.findOrCreate({
-      where: { email: req.body.email },
-      defaults: req.body,
+    console.log("create");
+    const {firstName, lastName, personalNumber, email, password} = req.body;
+    return db.User.create({
+      firstName,
+      lastName,
+      personalNumber,
+      email,
+      password,
     })
-      .spread((user, created) => {
+      .then((user) => {
         if (!user) {
           return res.status(400).send("Error occured during sign in.");
         }
-        if (!created) {
-          return res.status(409).json("User with email address already exists");
-        } else {
-          const secretToken = crypto(16);
-          return models.VerificationToken.create({
-            userId: user.userId,
-            token: jwt.sign(mail, secretToken, { expiresIn: "1d" }),
+        const secretToken = crypto.randomBytes(16).toString("base64");
+        return db.VerificationToken.create({
+          userId: user.id,
+          token: jwt.sign({id: user.id}, secretToken, { expiresIn: "1d" }),
+        })
+          .then((result) => {
+            console.log(user.firstName);
+            if (!result) {
+              return res.status(400).send("Error occured during token creation in.");
+            }
+            sendVerificationEmail(user.firstName, user.email, result.token);
+            return res
+              .status(200)
+              .json(
+                "Account created successfully. Please verify your email to activate your account."
+              );
           })
-            .then((result) => {
-              sendVerificationEmail(user.firstName, user.email, result.token);
-              return res
-                .status(200)
-                .json(
-                  "Account created successfully. Please verify your email to activate your account."
-                );
-            })
-            .catch((error) => {
-              return res.status(500).json(error);
-            });
-        }
+          .catch((error) => {
+            console.log(error);
+            return res.status(500).json(error);
+          });
       })
       .catch((error) => {
+        console.log(error);
         return res.status(500).json(error);
       });
   },

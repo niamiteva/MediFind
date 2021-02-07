@@ -3,14 +3,14 @@ const db = require("../models");
 module.exports = {
   verify(req, res, next) {
     return db.User.findOne({
-      where: { email: req.query.email },
+      where: { email: req.body.email },
     })
       .then((user) => {
         if (user.isVerified) {
           return res.status(202).json("Email Already Verified");
         } else {
           return db.VerificationToken.findOne({
-            where: { token: req.query.verificationToken },
+            where: { token: req.body.verificationToken },
           })
             .then((foundToken) => {
               if (foundToken) {
