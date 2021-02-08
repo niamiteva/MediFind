@@ -4,6 +4,7 @@ import { Tab, Tabs, Divider } from "@material-ui/core";
 import { TabPanel, TabContext } from "@material-ui/lab";
 import { AccountBox, Event, List,ListAlt, Assignment,AssignmentTurnedIn, Contacts } from "@material-ui/icons";
 import PatientPersonalDetails from "./PatientPersonalDetails/PatientPersonalDetails";
+import RemedyLists from "./RemedyLists/RemedyLists"
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -94,7 +95,9 @@ export default function PatientProfile(props) {
         <TabPanel value="1" className={classes.tabPanel}>
           <PatientPersonalDetails user={user} />
         </TabPanel>
-        <TabPanel value="2">Item Two</TabPanel>
+        <TabPanel value="2" className={classes.tabPanel}>
+          <RemedyLists/>
+        </TabPanel>
         <TabPanel value="3">Item Three</TabPanel>
       </TabContext>
     </div>

@@ -16,10 +16,22 @@ module.exports = (sequelize, DataTypes) => {
       });
     }  
 
+    generateSalt() {
+      return crypto.randomBytes(16).toString("base64");
+    };
+  
+    encryptPassword(plainText, salt) {
+      return crypto
+        .createHash("RSA-SHA256")
+        .update(plainText)
+        .update(salt)
+        .digest("hex");
+    };
+
     authenticate(password) {
+      console.log(this.encryptPassword(password, this.salt()) === this.password())
       return (
-        this.encryptPassword(password, this.salt()) ===
-        this.password()
+        this.encryptPassword(password, this.salt()) === this.password()
       );
     }
   }
@@ -69,23 +81,23 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  User.generateSalt = function () {
-    return crypto.randomBytes(16).toString("base64");
-  };
+  // User.generateSalt = function () {
+  //   return crypto.randomBytes(16).toString("base64");
+  // };
 
-  User.encryptPassword = function (plainText, salt) {
-    return crypto
-      .createHash("RSA-SHA256")
-      .update(plainText)
-      .update(salt)
-      .digest("hex");
-  };
+  // User.encryptPassword = function (plainText, salt) {
+  //   return crypto
+  //     .createHash("RSA-SHA256")
+  //     .update(plainText)
+  //     .update(salt)
+  //     .digest("hex");
+  // };
 
   const setSaltAndPassword = (user) => {
     if (user.changed("password")) {
-      console.log(User.generateSalt);
-      user.salt = User.generateSalt();
-      user.password = User.encryptPassword(
+      console.log(user.generateSalt);
+      user.salt = user.generateSalt();
+      user.password = user.encryptPassword(
         user.password(),
         user.salt()
       );
