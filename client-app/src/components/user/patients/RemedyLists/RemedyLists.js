@@ -12,8 +12,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const addBlankList = () => {};
-
 export default function RemedyLists(props) {
   const classes = useStyles();
   const userId = props.id;
