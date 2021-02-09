@@ -1,8 +1,9 @@
 ### MediFind project ToDos
 
 - [x] add Remedy List model
+- [ ] session expiration
 - [ ] move scraper functions to separate helper file
-- [ ] add Remedy Lists UI in user(Patient) profile => Remedy Lists Tab
+- [x] add Remedy Lists UI in user(Patient) profile => Remedy Lists Tab
 - [ ] implement adding remedies to Remedy Lists
 - [ ] move css to separate css files
 - [ ] Doctors model

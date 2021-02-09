@@ -96,7 +96,7 @@ export default function PatientProfile(props) {
           <PatientPersonalDetails user={user} />
         </TabPanel>
         <TabPanel value="2" className={classes.tabPanel}>
-          <RemedyLists/>
+          <RemedyLists user={user}/>
         </TabPanel>
         <TabPanel value="3">Item Three</TabPanel>
       </TabContext>

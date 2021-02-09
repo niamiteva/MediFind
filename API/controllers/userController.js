@@ -16,7 +16,7 @@ module.exports = {
           "There was an error querying contacts",
           JSON.stringify(err)
         );
-        return res.status(400).send(err);
+        return res.status(500).send(err);
       });
   },
 
@@ -37,7 +37,7 @@ module.exports = {
         res.status(200).send(user);
       })
       .catch((err) => {
-        return res.status("400").send({
+        return res.status("500").send({
           error: "Could not retrieve user",
         });
       });
