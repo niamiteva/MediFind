@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CardContent, Card, IconButton } from "@material-ui/core";
-import { AddCircle } from "@material-ui/icons";
-import { getRemedyListsByUserId } from "../../../../api/remedyLists";
+import { Grid, CardContent, Card, IconButton ,Devider} from "@material-ui/core";
+import { AddCircle, Edit } from "@material-ui/icons";
+import { getRemedyListsByUserId, createList, editList } from "../../../../api/remedyLists";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +20,7 @@ export default function RemedyLists(props) {
   const jwt = auth.isAuthenticated();
   const [values, setValues] = useState({
     listName: "",
-    items: {},
+    error:""
   });
   const [lists, setLists] = useState({});
 
@@ -29,9 +29,7 @@ export default function RemedyLists(props) {
     const signal = abortController.signal;
 
     getRemedyListsByUserId(
-      {
-        userId: userId,
-      },
+      { userId: userId },
       { t: jwt.token },
       signal
     ).then((data) => {
@@ -51,18 +49,45 @@ export default function RemedyLists(props) {
     return <Redirect to="/login" />;
   }
 
+  const editOrCreateList = (listId) => {
+    const list = {
+      listName: values.listName,
+      userId: userId
+    };
+
+    if(lists){
+      editList({ listId: listId }, { t: jwt.token }, list).then(
+        (data) => {
+          if (data && data.error) {
+            setValues({ ...values, error: data.error });
+          } else {
+            setValues({...values, error: ""});
+          }
+        }
+      );
+    }
+    else{
+      createList({t: jwt.token}, list).then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          setValues({ ...values, error: ""});
+        }
+      });;
+    }
+  };
+
   const addBlankList = () => {
     setIsBlankList(true);
     lists.add({
-      listName: "",
-      items: {},
+      listName: ""
     });
   };
 
   const handleChangeAndUpdate = (name) => (event) => {
     setIsBlankList(false);
     setValues({ ...values, [name]: event.target.value });
-    //updateList
+    editOrCreateList()
   };
 
   return (
@@ -82,7 +107,15 @@ export default function RemedyLists(props) {
                   value={values.listName}
                   onChange={handleChangeAndUpdate("listName")}
                   margin="normal"
+                  InputProps={{
+                    startAdornment: (
+                      <InputAdornment position="start">
+                        <Edit />
+                      </InputAdornment>
+                    ),
+                  }}
                 />
+                <Devider />               
               </CardContent>
             </Card>
           )}

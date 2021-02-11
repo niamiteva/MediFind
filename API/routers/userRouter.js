@@ -8,7 +8,8 @@ router.route('/api/users')
   .post(userCtrl.create);
 
 router.route("/api/users/:id")
-  .get(userCtrl.userById);
+  .get(userCtrl.userById)
+  .put(userCtrl.update);
 
 router.param('userId', userCtrl.userById);
 

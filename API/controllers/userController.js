@@ -1,5 +1,5 @@
 const db = require("../models");
-const crypto = require('crypto'); //"crypto-random-string");
+const crypto = require("crypto"); //"crypto-random-string");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 const { sendVerificationEmail } = require("../helpers/nodeMailer");
@@ -21,10 +21,10 @@ module.exports = {
   },
 
   userById(req, res, next) {
-    //next
+    const userId = req.params.id;
     return db.User.findOne({
       where: {
-        id: req.params.id,
+        id: userId,
       },
     })
       .then((user) => {
@@ -33,7 +33,7 @@ module.exports = {
             error: "User not found",
           });
         }
-        //req.profile = user
+        
         res.status(200).send(user);
       })
       .catch((err) => {
@@ -45,15 +45,15 @@ module.exports = {
 
   create(req, res, next) {
     console.log("create");
-    const {firstName, lastName, personalNumber, email, password} = req.body;   
-    const isVerified = true;//temorary becouse of issues with the email verification 
+    const { firstName, lastName, personalNumber, email, password } = req.body;
+    const isVerified = true; //temorary becouse of issues with the email verification
     return db.User.create({
       firstName,
       lastName,
       personalNumber,
       email,
       password,
-      isVerified
+      isVerified,
     })
       .then((user) => {
         if (!user) {
@@ -62,12 +62,14 @@ module.exports = {
         const secretToken = crypto.randomBytes(16).toString("base64");
         return db.VerificationToken.create({
           userId: user.id,
-          token: jwt.sign({id: user.id}, secretToken, { expiresIn: "1d" }),
+          token: jwt.sign({ id: user.id }, secretToken, { expiresIn: "1d" }),
         })
           .then((result) => {
             console.log(user.firstName);
             if (!result) {
-              return res.status(400).send("Error occured during token creation in.");
+              return res
+                .status(400)
+                .send("Error occured during token creation in.");
             }
             //commented because of gmail security issues
             //sendVerificationEmail(user.firstName, user.email, result.token);
@@ -86,5 +88,29 @@ module.exports = {
         console.log(error);
         return res.status(500).json(error);
       });
+  },
+
+  update(req, res) {
+    //const { firstName, lastName, personalNumber, password, email } = req.body;
+    const userId = req.params.id;
+    return db.User.update(req.body, {
+        where: {
+          id: userId,
+        },
+      }
+    )
+    .then((user) => {
+      if (!user) {
+        return res.status(400).send("Error occured during token creation in.");
+      }
+
+      res.status(200).json(
+          "User was successfully edited."
+        );
+    })
+    .catch((error) => {
+      console.log(error);
+      return res.status(500).json(error);
+    });
   },
 };

@@ -8,6 +8,7 @@ import AccountBox from "@material-ui/icons/AccountBox";
 import Divider from "@material-ui/core/Divider";
 //import DeleteUser from './DeleteUser'
 import auth from "../../../../api/auth";
+import {updateUser} from "../../../../api/users";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,40 +26,48 @@ const useStyles = makeStyles((theme) => ({
 export default function PatientPersonalDetails(props) {
   const classes = useStyles();
   const { user } = props;
+  const canEdit = auth.isAuthenticated().user && auth.isAuthenticated().user.id === user.id;
   const [isEdited, setIsEdited] = useState(false);
   const [values, setValues] = useState({
-    firstName: "",
-    lastName: "",
-    personalNumber: "",
-    password: "",
-    email: "",
-    open: false,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    personalNumber: user.personalNumber,
+    password: user.password,
+    email: user.email,
     error: "",
   });
 
-  // const clickSubmit = () => {
-  //   const user = {
-  //     firstName: values.firstName || undefined,
-  //     lastName: values.lastName || undefined,
-  //     personalNumber: values.personalNumber || undefined,
-  //     email: values.email || undefined,
-  //     password: values.password || undefined,
-  //   };
+  const clickSubmit = () => {
+    const user = {
+      firstName: values.firstName,
+      lastName: values.lastName ,
+      personalNumber: values.personalNumber ,
+      email: values.email ,
+      password: values.password ,
+    };
 
-  //   updateUser({ userId: match.params.userId }, { t: jwt.token }, user).then(
-  //     (data) => {
-  //       if (data && data.error) {
-  //         setValues({ ...values, error: data.error });
-  //       } else {
-  //         setValues({
-  //           ...values,
-  //           userId: data.userId,
-  //           redirectToProfile: true,
-  //         });
-  //       }
-  //     }
-  //   );
-  // };
+    updateUser({ userId: match.params.userId }, { t: jwt.token }, user).then(
+      (data) => {
+        if (data && data.error) {
+          setValues({ ...values, error: data.error });
+          setRedirectToSignin(true);
+        } else {
+          setValues({...values, error: ""});
+        }
+      }
+    );
+  };
+
+  const clickDiscard = () => {
+    values.firstName = user.firstName;
+    values.lastName = user.lastName;
+    values.personalNumber = user.personalNumber;
+    values.password = user.password;
+    values.email = user.email;
+    setValues({
+      ...values
+    });
+  }
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
@@ -89,9 +98,7 @@ export default function PatientPersonalDetails(props) {
                 onChange={handleChange("firstName")}
                 margin="normal"
                 InputProps={{
-                  readOnly:
-                    auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.id === user.id,
+                  readOnly: canEdit
                 }}
               />
               <br />
@@ -103,9 +110,7 @@ export default function PatientPersonalDetails(props) {
                 onChange={handleChange("lastName")}
                 margin="normal"
                 InputProps={{
-                  readOnly:
-                    !(auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.id === user.id),
+                  readOnly: canEdit,
                 }}
               />
               <br />
@@ -117,9 +122,7 @@ export default function PatientPersonalDetails(props) {
                 onChange={handleChange("personalNumber")}
                 margin="normal"
                 InputProps={{
-                  readOnly:
-                    auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.id === user.id,
+                  readOnly: canEdit
                 }}
               />
               <br />
@@ -132,9 +135,7 @@ export default function PatientPersonalDetails(props) {
                 onChange={handleChange("email")}
                 margin="normal"
                 InputProps={{
-                  readOnly:
-                    auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.id === user.id,
+                  readOnly: canEdit
                 }}
               />
               <br />
@@ -147,9 +148,7 @@ export default function PatientPersonalDetails(props) {
                 onChange={handleChange("password")}
                 margin="normal"
                 InputProps={{
-                  readOnly:
-                    auth.isAuthenticated().user &&
-                    auth.isAuthenticated().user.id === user.id,
+                  readOnly: canEdit
                 }}
               />
               <br />
@@ -163,6 +162,7 @@ export default function PatientPersonalDetails(props) {
                 size="medium"
                 color="secondary"
                 disabled={!isEdited}
+                onClick={clickSubmit}
                 style={{marginRight: 10}}
               >
                 Save
@@ -171,6 +171,7 @@ export default function PatientPersonalDetails(props) {
                 variant="outlined"
                 size="medium"
                 color="primary"
+                onClick={clickDiscard}
                 disabled={!isEdited}
               >
                 Discard

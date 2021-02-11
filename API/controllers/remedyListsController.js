@@ -38,13 +38,11 @@ module.exports = {
   },
 
   editRemedyList(req, res, next) {
-    return db.RemedyList.update(
-      {
-        listName: req.body.listName,
-      },
-      {
+    //const {listName, userId} = req.body;
+    const listId = req.params.id;
+    return db.RemedyList.update(req.body, {
         where: {
-          id: req.body.id,
+          id: listId,
         },
       })
       .then((list) => {

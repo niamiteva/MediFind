@@ -15,48 +15,51 @@ module.exports = {
         email: email,
       },
     })
-      .then((user) => {
-        if (!user) {
-          return res.status(401).send({
-            error: "User not found",
-          });
-        }
-
-        if (!user.authenticate(password)) {
-          return res.status(401).send({
-            error: "Email and password don't match.",
-          });
-        }
-
-        console.log(user);
-
-        if (!user.isVerified) {
-          return res.status(401).send({
-            message: "Account is not activated. Please Verify Your Email!",
-          });
-        }
-
-        const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: "1d" });
-        res.cookie("jwt", token, { expire: new Date() + 1 });
-
-        return res.json({
-          token,
-          user: {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-          },
+    .then((user) => {
+      if (!user) {
+        return res.status(401).send({
+          error: "User not found",
         });
-      })
-      .catch((err) => {
-        console.error(err);
-        return res.status("401").send({
-          error: "Could not sign in",
+      }
+
+      if (!user.authenticate(password)) {
+        return res.status(401).send({
+          error: "Email and password don't match.",
         });
+      }
+
+      if (!user.isVerified) {
+        return res.status(401).send({
+          message: "Account is not activated. Please Verify Your Email!",
+        });
+      }
+
+      const token = jwt.sign({ id: user.id }, jwtSecret, { expiresIn: "1d" });
+      res.cookie("jwt", token, { expire: new Date() + 1 });
+
+      return res.json({
+        token,
+        user: {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+        },
       });
+    })
+    .catch((err) => {
+      console.error(err);
+      return res.status("401").send({
+        error: "Could not sign in",
+      });
+    });
   },
 
-  logOut() {},
+  logOut(req, res, next) {
+    res.clearCookie("t")
+    return res.status('200').json({
+      message: "signed out"
+    })
+  },
 
   requireSignin() {
     return expressJwt({
