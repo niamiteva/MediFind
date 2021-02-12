@@ -40,16 +40,15 @@ export default function PatientPersonalDetails(props) {
   });
 
   const clickSubmit = () => {
-    const user = {
+    const editedUser = {
       firstName: values.firstName,
       lastName: values.lastName ,
       personalNumber: values.personalNumber ,
       email: values.email ,
       password: values.password ,
     };
-    debugger;
-    console.log(user);
-    updateUser(user, { t: jwt.token }, { userId: user.id })
+    
+    updateUser({ userId: user.id }, { t: jwt.token }, editedUser)
     .then((data) => {
         console.log(data);
         if (data && data.error) {

@@ -105,11 +105,11 @@ module.exports = {
           });
         }
 
-        user.firstName = firstName;
-        user.lastName = lastName;
-        user.email = email;
-        user.password = password;
-        user.personalNumber = personalNumber;
+        user.firstName = firstName || user.firstName;
+        user.lastName = lastName || user.lastName;
+        user.email = email || user.email;
+        user.password = password || user.password;
+        user.personalNumber = personalNumber || user.personalNumber;
 
         return user.save()
           .then((user) => {
