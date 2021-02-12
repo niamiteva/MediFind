@@ -81,21 +81,9 @@ module.exports = (sequelize, DataTypes) => {
     }
   );
 
-  // User.generateSalt = function () {
-  //   return crypto.randomBytes(16).toString("base64");
-  // };
-
-  // User.encryptPassword = function (plainText, salt) {
-  //   return crypto
-  //     .createHash("RSA-SHA256")
-  //     .update(plainText)
-  //     .update(salt)
-  //     .digest("hex");
-  // };
-
   const setSaltAndPassword = (user) => {
     if (user.changed("password")) {
-      console.log(user.generateSalt);
+      console.log(user.password());
       user.salt = user.generateSalt();
       user.password = user.encryptPassword(
         user.password(),
@@ -106,6 +94,8 @@ module.exports = (sequelize, DataTypes) => {
 
   User.beforeCreate(setSaltAndPassword);
   User.beforeUpdate(setSaltAndPassword);
+
+  //!! beforeUpdate hook called when use instance.save() or instance.update(), when use model.update(), beforeBulkUpdate will be called.
 
   return User;
 };

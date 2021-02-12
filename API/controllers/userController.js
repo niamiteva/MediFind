@@ -91,26 +91,45 @@ module.exports = {
   },
 
   update(req, res) {
-    //const { firstName, lastName, personalNumber, password, email } = req.body;
+    const { firstName, lastName, personalNumber, password, email } = req.body;
     const userId = req.params.id;
-    return db.User.update(req.body, {
-        where: {
-          id: userId,
-        },
-      }
-    )
-    .then((user) => {
-      if (!user) {
-        return res.status(400).send("Error occured during token creation in.");
-      }
+    return db.User.findOne({
+      where: {
+        id: userId,
+      },
+      })
+      .then((user) => {
+        if (!user) {
+          return res.status(400).send({
+            error: "User not found",
+          });
+        }
 
-      res.status(200).json(
-          "User was successfully edited."
-        );
-    })
-    .catch((error) => {
-      console.log(error);
-      return res.status(500).json(error);
-    });
+        user.firstName = firstName;
+        user.lastName = lastName;
+        user.email = email;
+        user.password = password;
+        user.personalNumber = personalNumber;
+
+        return user.save()
+          .then((user) => {
+            if (!user) {
+              return res.status(400).send("Error occured during saving user.");
+            }
+            
+            console.log("User was successfully edited.");
+            return res.status(200).send(user);
+          })
+          .catch((error) => {
+            console.log(error);
+            return res.status(500).json(error);
+          });
+      })
+      .catch((err) => {
+        return res.status("500").send({
+          error: "Could not execute find user",
+        });
+      });
+    
   },
 };
