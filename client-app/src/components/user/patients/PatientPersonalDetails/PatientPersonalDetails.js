@@ -26,8 +26,10 @@ const useStyles = makeStyles((theme) => ({
 export default function PatientPersonalDetails(props) {
   const classes = useStyles();
   const { user } = props;
-  const canEdit = auth.isAuthenticated().user && auth.isAuthenticated().user.id === user.id;
+  const jwt = auth.isAuthenticated();
+  const canEdit = !(auth.isAuthenticated().user && auth.isAuthenticated().user.id === user.id);
   const [isEdited, setIsEdited] = useState(false);
+  //const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [values, setValues] = useState({
     firstName: user.firstName,
     lastName: user.lastName,
@@ -45,14 +47,17 @@ export default function PatientPersonalDetails(props) {
       email: values.email ,
       password: values.password ,
     };
-
-    updateUser({ userId: match.params.userId }, { t: jwt.token }, user).then(
-      (data) => {
+    debugger;
+    console.log(user);
+    updateUser(user, { t: jwt.token }, { userId: user.id })
+    .then((data) => {
+        console.log(data);
         if (data && data.error) {
           setValues({ ...values, error: data.error });
-          setRedirectToSignin(true);
+          //setRedirectToSignin(true);
         } else {
           setValues({...values, error: ""});
+          setIsEdited(false);
         }
       }
     );
@@ -67,9 +72,11 @@ export default function PatientPersonalDetails(props) {
     setValues({
       ...values
     });
+    setIsEdited(false);
   }
 
   const handleChange = (name) => (event) => {
+    debugger;
     setValues({ ...values, [name]: event.target.value });
     setIsEdited(true);
   };
@@ -94,7 +101,7 @@ export default function PatientPersonalDetails(props) {
                 id="firstName"
                 label="Име"
                 className={classes.textField}
-                value={user.firstName}
+                value={values.firstName}
                 onChange={handleChange("firstName")}
                 margin="normal"
                 InputProps={{
@@ -106,7 +113,7 @@ export default function PatientPersonalDetails(props) {
                 id="lastName"
                 label="Фамилия"
                 className={classes.textField}
-                value={values.lastName || user.lastName}
+                value={values.lastName}
                 onChange={handleChange("lastName")}
                 margin="normal"
                 InputProps={{
@@ -118,7 +125,7 @@ export default function PatientPersonalDetails(props) {
                 id="personalNumber"
                 label="ЕГН/ЛЧН/ЛН/СЛН"
                 className={classes.textField}
-                value={user.personalNumber}
+                value={values.personalNumber}
                 onChange={handleChange("personalNumber")}
                 margin="normal"
                 InputProps={{
@@ -131,7 +138,7 @@ export default function PatientPersonalDetails(props) {
                 type="email"
                 label="Email"
                 className={classes.textField}
-                value={user.email}
+                value={values.email}
                 onChange={handleChange("email")}
                 margin="normal"
                 InputProps={{
@@ -144,7 +151,7 @@ export default function PatientPersonalDetails(props) {
                 type="password"
                 label="Password"
                 className={classes.textField}
-                value={user.password}
+                value={values.password}
                 onChange={handleChange("password")}
                 margin="normal"
                 InputProps={{

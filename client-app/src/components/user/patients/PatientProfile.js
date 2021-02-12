@@ -27,19 +27,19 @@ const useStyles = makeStyles((theme) => ({
 export default function PatientProfile(props) {
   const classes = useStyles();
   const { user } = props;
-  const [value, setValue] = useState("1");
+  const [tab, setTab] = useState("1");
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setTab(newValue);
   };
 
   return (
     <div className={classes.root}>
-      <TabContext value={value}>
+      <TabContext value={tab}>
         <Tabs
           orientation="vertical"
           variant="scrollable"
-          value={value}
+          value={tab}
           onChange={handleChange}
           aria-label="Vertical profile tabs"
           className={classes.tabs}
@@ -57,7 +57,6 @@ export default function PatientProfile(props) {
           />
           <Divider/>
           <Tab
-            disabled
             label="Рецепти"
             value="3"
             icon={<ListAlt color="primary" fontSize='large' className={classes.icon}/>}

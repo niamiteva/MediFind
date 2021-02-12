@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CardContent, Card, IconButton ,Devider} from "@material-ui/core";
+import {CircularProgress } from "@material-ui/core";
+import { Grid, CardContent, Card, IconButton ,Divider} from "@material-ui/core";
+import {InputAdornment, TextField} from "@material-ui/core";
 import { AddCircle, Edit } from "@material-ui/icons";
+import auth from '../../../../api/auth';
 import { getRemedyListsByUserId, createList, editList } from "../../../../api/remedyLists";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
 export default function RemedyLists(props) {
   const classes = useStyles();
   const userId = props.id;
-  const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [isBlankList, setIsBlankList] = useState(false);
   const jwt = auth.isAuthenticated();
+  const [isLoading, setLoading] = useState(true);
   const [values, setValues] = useState({
     listName: "",
     error:""
@@ -27,16 +30,17 @@ export default function RemedyLists(props) {
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
-
+    setLoading(true);
     getRemedyListsByUserId(
       { userId: userId },
       { t: jwt.token },
       signal
     ).then((data) => {
       if (data && data.error) {
-        setRedirectToSignin(true);
+        setValues({ ...values, error: data.error });
       } else {
         setLists(data);
+        setLoading(false);
       }
     });
 
@@ -44,10 +48,6 @@ export default function RemedyLists(props) {
       abortController.abort();
     };
   }, [userId]);
-
-  if (redirectToSignin) {
-    return <Redirect to="/login" />;
-  }
 
   const editOrCreateList = (listId) => {
     const list = {
@@ -79,9 +79,18 @@ export default function RemedyLists(props) {
 
   const addBlankList = () => {
     setIsBlankList(true);
-    lists.add({
+    const blankList = {
       listName: ""
-    });
+    }
+    const oldLists = lists;
+    let newLists = [];
+    if(oldLists.length > 0){
+      newLists = oldLists.push(blankList);
+    }
+    else{
+      newLists = [blankList];
+    }
+    setLists(newLists);
   };
 
   const handleChangeAndUpdate = (name) => (event) => {
@@ -94,10 +103,12 @@ export default function RemedyLists(props) {
     <Grid container className={classes.root}>
       <Grid item md={12} container>
         <Grid container>
-          {lists.lenght > 0 && list.map((item) => {
+        {isLoading && <CircularProgress  />}
+        {!isLoading && (
+          lists.lenght > 0 && lists.map((item) => {
             //<RemedyList></RemedyList>
-          })}
-          {isBlankList && (
+          }),
+          isBlankList && (
             <Card>
               <CardContent>
                 <TextField
@@ -115,10 +126,11 @@ export default function RemedyLists(props) {
                     ),
                   }}
                 />
-                <Devider />               
+                <Divider />               
               </CardContent>
             </Card>
-          )}
+          )
+        )}
           <Card>
             <CardContent>
               <IconButton onClick={addBlankList()}>

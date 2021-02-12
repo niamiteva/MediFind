@@ -49,6 +49,8 @@ module.exports = {
         if (!list) {
           console.log("No list found");
         }
+
+        console.log("Successfully edit a remedy list")
         res.status(200).send(JSON.stringify(list));
       })
       .catch((err) => {
