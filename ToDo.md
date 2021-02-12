@@ -1,10 +1,11 @@
 ### MediFind project ToDos
 
 - [x] add Remedy List model
-- [ ] session expiration
+- [x] session expiration
 - [ ] move scraper functions to separate helper file
+- [ ] decide which componnts should be stateful and wich which should be stateless
 - [x] add Remedy Lists UI in user(Patient) profile => Remedy Lists Tab
-- [ ] implement adding remedies to Remedy Lists
+- [x] implement adding remedies to Remedy Lists
 - [ ] move css to separate css files
 - [ ] Doctors model
 - [ ] Association Doctor and Patient
