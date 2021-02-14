@@ -34,6 +34,8 @@ module.exports = {
           });
         }
         
+        console.log("get user");
+        console.log(user);
         res.status(200).send(user);
       })
       .catch((err) => {

@@ -18,14 +18,15 @@ export default function Profile(props) {
     const signal = abortController.signal
     setLoading(true);
 
-    if (user) {
-      setLoading(false);
-      abortController.abort();
-      return;
-    }
+    // if (user) {
+    //   setLoading(false);
+    //   abortController.abort();
+    //   return;
+    // }
 
     getUserById({userId: theUserId}, {t: jwt.token}, signal)
     .then((data) => {
+      console.log(data);
       if (data && data.error) {
         setRedirectToSignin(true)
       } else {

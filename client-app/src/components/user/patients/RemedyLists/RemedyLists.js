@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
 export default function RemedyLists(props) {
   const classes = useStyles();
   console.log(props);
-  const userId = props.user.id;
   const jwt = auth.isAuthenticated();
+  const userId = props.user.id || jwt.user.id;
   const [isLoading, setLoading] = useState(true);
   const [lists, setLists] = useState({});
 

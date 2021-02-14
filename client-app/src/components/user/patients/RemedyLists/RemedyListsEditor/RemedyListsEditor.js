@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CardContent, Card, IconButton ,Divider} from "@material-ui/core";
 import {TextField,InputAdornment } from "@material-ui/core";
@@ -16,55 +16,42 @@ const useStyles = makeStyles((theme) => ({
 export default function RemedyListsEditor(props) { 
   const classes = useStyles();
   const {lists, userId, jwt} = props;
+  const [isBlankList, setIsBlankList] = useState(false);
   const [values, setValues] = useState({
     lists: lists || [],
     error:""
   });
 
+  useEffect(() => {
+    if(isBlankList){
+      const blankList = {
+        listName: "", 
+        userId: userId
+      }
+      const oldLists = values.lists;
+      let newLists = [];
+      if(oldLists.length > 0){
+        oldLists.push(blankList); 
+        newLists = oldLists;
+      }
+      else{
+        newLists = [blankList];
+      }
+      values.lists = newLists;
+      setIsBlankList(false);
+      setValues({...values, error: ""});
+    }
+  }, [isBlankList])
+
   const addBlankList = () => {
-    const blankList = {
-      listName: ""
-    }
-    const oldLists = values.lists;
-    let newLists = [];
-    if(oldLists.length > 0){
-      oldLists.push(blankList); 
-      newLists = oldLists;
-    }
-    else{
-      newLists = [blankList];
-    }
-    values.lists = newLists;
-    setValues({...values, error: ""});
+    setIsBlankList(true);
   };
 
   return (
-    <Grid container>
-    {values.lists.lenght > 0 && values.lists.map((item) => {
+    <Grid container spacing={3}>
+    {values.lists.length > 0 && values.lists.map((item) => (
       <RemedyList list={item} jwt={jwt} userId={userId} />
-    })}
-    <Grid item xs={2} spacing={3}>
-      <Card>
-        <CardContent>
-          <TextField
-            id="listName"
-            label="Име"
-            className={classes.textField}
-            value={values.listName}
-            margin="normal"
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Edit />
-                </InputAdornment>
-              ),
-            }}
-          />
-          <Divider />
-          asd
-        </CardContent>
-      </Card>
-    </Grid>
+    ))}
     <Card>
       <CardContent>
         <IconButton onClick={addBlankList}>

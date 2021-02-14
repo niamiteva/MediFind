@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RemedyList(props) {
   const classes = useStyles();
+  debugger;
+  console.log(props);
   const { userId, jwt, list } = props;
   const [values, setValues] = useState({
     listName: list.listName || "",
@@ -54,7 +56,6 @@ export default function RemedyList(props) {
 
   return (
     <Grid item xs={2} spacing={3}>
-      a
       <Card>
         <CardContent>
           <TextField
@@ -73,7 +74,6 @@ export default function RemedyList(props) {
             }}
           />
           <Divider />
-          asd
         </CardContent>
       </Card>
     </Grid>
