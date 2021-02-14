@@ -48,8 +48,8 @@ export default withRouter((history) => {
         }
         {
           auth.isAuthenticated() && (<span>
-            <Link to={"/user/" + auth.isAuthenticated().user.userId}>
-              <Button className={classes.menuButton} style={isActive(history, "/user/" + auth.isAuthenticated().user._id)}>
+            <Link to={"/user/" + auth.isAuthenticated().user.id}>
+              <Button className={classes.menuButton} style={isActive(history, "/user/" + auth.isAuthenticated().user.id)}>
                 My Profile
               </Button>
             </Link>

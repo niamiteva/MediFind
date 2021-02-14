@@ -10,23 +10,32 @@ export default function Profile(props) {
   const theUserId = props.match.params.userId;
   const [user, setUser] = useState({});
   const [redirectToSignin, setRedirectToSignin] = useState(false);
-  const jwt = auth.isAuthenticated();
   const [isLoading, setLoading] = useState(true);
+  const jwt = auth.isAuthenticated();
 
   useEffect(() => {
     const abortController = new AbortController()
     const signal = abortController.signal
     setLoading(true);
-    getUserById({
-      userId: theUserId
-    }, {t: jwt.token}, signal).then((data) => {
+
+    if (user) {
+      setLoading(false);
+      abortController.abort();
+      return;
+    }
+
+    getUserById({userId: theUserId}, {t: jwt.token}, signal)
+    .then((data) => {
       if (data && data.error) {
         setRedirectToSignin(true)
       } else {
         setUser(data)
-        setLoading(false)
       }
     })
+    .catch((err) => console.error(err))
+    .finally(() => {
+      setLoading(false);
+    });
 
     return function cleanup(){
       abortController.abort()
@@ -41,7 +50,7 @@ export default function Profile(props) {
   return (
     <main>
        {isLoading && <CircularProgress  />}
-       {!isLoading && (
+       {!isLoading && user && (
         <PatientProfile user={user}/>
        )}
     </main>

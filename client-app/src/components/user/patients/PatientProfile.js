@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Tab, Tabs, Divider } from "@material-ui/core";
-import { TabPanel, TabContext } from "@material-ui/lab";
+import { TabPanel, TabContext, TabList } from "@material-ui/lab";
 import { AccountBox, Event, List,ListAlt, Assignment,AssignmentTurnedIn, Contacts } from "@material-ui/icons";
 import PatientPersonalDetails from "./PatientPersonalDetails/PatientPersonalDetails";
 import RemedyLists from "./RemedyLists/RemedyLists"
@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
     minHeight: "100%",
     width: '100%',
     display: 'flex'
-  },
+  }, 
   tabPanel: {
     width: '80%',
   },
@@ -26,17 +26,17 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PatientProfile(props) {
   const classes = useStyles();
-  const { user } = props;
+  const { user} = props;
   const [tab, setTab] = useState("1");
 
-  const handleChange = (event, newValue) => {
+  const handleChange = (event,newValue) => {
     setTab(newValue);
   };
 
   return (
     <div className={classes.root}>
       <TabContext value={tab}>
-        <Tabs
+        <TabList
           orientation="vertical"
           variant="scrollable"
           value={tab}
@@ -90,7 +90,7 @@ export default function PatientProfile(props) {
             icon={<Event color="primary" fontSize='large' className={classes.icon}/>}
           />
           <Divider/>
-        </Tabs>
+        </TabList>
         <TabPanel value="1" className={classes.tabPanel}>
           <PatientPersonalDetails user={user} />
         </TabPanel>

@@ -1,11 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Button, TextField } from "@material-ui/core";
 import { Card, CardContent } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
-import Edit from "@material-ui/icons/Edit";
 import AccountBox from "@material-ui/icons/AccountBox";
-import Divider from "@material-ui/core/Divider";
 //import DeleteUser from './DeleteUser'
 import auth from "../../../../api/auth";
 import {updateUser} from "../../../../api/users";
@@ -25,7 +23,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function PatientPersonalDetails(props) {
   const classes = useStyles();
-  const { user } = props;
+  console.log(props);
+  const { user} = props;
   const jwt = auth.isAuthenticated();
   const canEdit = !(auth.isAuthenticated().user && auth.isAuthenticated().user.id === user.id);
   const [isEdited, setIsEdited] = useState(false);

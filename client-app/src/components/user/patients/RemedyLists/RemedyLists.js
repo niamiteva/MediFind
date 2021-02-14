@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {CircularProgress } from "@material-ui/core";
-import { Grid, CardContent, Card, IconButton ,Divider} from "@material-ui/core";
-import {InputAdornment, TextField} from "@material-ui/core";
-import { AddCircle, Edit } from "@material-ui/icons";
+import { Grid} from "@material-ui/core";
+import { getRemedyListsByUserId} from "../../../../api/remedyLists";
 import auth from '../../../../api/auth';
-import { getRemedyListsByUserId, createList, editList } from "../../../../api/remedyLists";
+import RemedyListsEditor from "./RemedyListsEditor/RemedyListsEditor"; 
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,128 +16,52 @@ const useStyles = makeStyles((theme) => ({
 
 export default function RemedyLists(props) {
   const classes = useStyles();
-  const userId = props.id;
-  const [isBlankList, setIsBlankList] = useState(false);
+  console.log(props);
+  const userId = props.user.id;
   const jwt = auth.isAuthenticated();
   const [isLoading, setLoading] = useState(true);
-  const [values, setValues] = useState({
-    listName: "",
-    error:""
-  });
   const [lists, setLists] = useState({});
 
   useEffect(() => {
     const abortController = new AbortController();
     const signal = abortController.signal;
     setLoading(true);
-    getRemedyListsByUserId(
-      { userId: userId },
-      { t: jwt.token },
-      signal
-    ).then((data) => {
-      if (data && data.error) {
-        setValues({ ...values, error: data.error });
+
+    if (lists) {
+      setLoading(false);
+      abortController.abort();
+      return;
+    }
+
+    getRemedyListsByUserId({ userId: userId },{ t: jwt.token }, signal)
+    .then((data) => {
+      if(!data){
+        return;
+      }
+      else if (data && data.error) {
+        console.error(data.error); //TODO handle errors
       } else {
         setLists(data);
-        setLoading(false);
       }
+    })
+    .catch((err) => console.error(err))
+    .finally(() => {
+      setLoading(false);
     });
 
     return function cleanup() {
       abortController.abort();
     };
+
   }, [userId]);
-
-  const editOrCreateList = (listId) => {
-    const list = {
-      listName: values.listName,
-      userId: userId
-    };
-
-    if(lists){
-      editList({ listId: listId }, { t: jwt.token }, list).then(
-        (data) => {
-          if (data && data.error) {
-            setValues({ ...values, error: data.error });
-          } else {
-            setValues({...values, error: ""});
-          }
-        }
-      );
-    }
-    else{
-      createList({t: jwt.token}, list).then((data) => {
-        if (data.error) {
-          setValues({ ...values, error: data.error });
-        } else {
-          setValues({ ...values, error: ""});
-        }
-      });;
-    }
-  };
-
-  const addBlankList = () => {
-    setIsBlankList(true);
-    const blankList = {
-      listName: ""
-    }
-    const oldLists = lists;
-    let newLists = [];
-    if(oldLists.length > 0){
-      newLists = oldLists.push(blankList);
-    }
-    else{
-      newLists = [blankList];
-    }
-    setLists(newLists);
-  };
-
-  const handleChangeAndUpdate = (name) => (event) => {
-    setIsBlankList(false);
-    setValues({ ...values, [name]: event.target.value });
-    editOrCreateList()
-  };
 
   return (
     <Grid container className={classes.root}>
       <Grid item md={12} container>
-        <Grid container>
         {isLoading && <CircularProgress  />}
         {!isLoading && (
-          lists.lenght > 0 && lists.map((item) => {
-            //<RemedyList></RemedyList>
-          }),
-          isBlankList && (
-            <Card>
-              <CardContent>
-                <TextField
-                  id="listName"
-                  label="Име"
-                  className={classes.textField}
-                  value={values.listName}
-                  onChange={handleChangeAndUpdate("listName")}
-                  margin="normal"
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Edit />
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Divider />               
-              </CardContent>
-            </Card>
-          )
+          <RemedyListsEditor lists={lists} userId={userId} jwt={jwt}/>
         )}
-          <Card>
-            <CardContent>
-              <IconButton onClick={addBlankList()}>
-                <AddCircle style={{ fontSize: 80, color: "grey" }} />
-              </IconButton>
-            </CardContent>
-          </Card>
-        </Grid>
       </Grid>
     </Grid>
   );

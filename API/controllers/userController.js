@@ -104,12 +104,14 @@ module.exports = {
             error: "User not found",
           });
         }
-
+        
         user.firstName = firstName || user.firstName;
         user.lastName = lastName || user.lastName;
         user.email = email || user.email;
-        user.password = password || user.password;
         user.personalNumber = personalNumber || user.personalNumber;
+        if(password){
+          user.password = password
+        }
 
         return user.save()
           .then((user) => {
