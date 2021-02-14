@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import homeImg from '../../../../content/img/homepage.jpg';
 import { Grid} from '@material-ui/core';

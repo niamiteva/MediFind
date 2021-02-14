@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import auth from '../../../api/auth';
 import GuestUserContent from './HomeContents/GuestUserContent';
 import AuthenticatedUserContent from './HomeContents/AuthenticatedUserContent';

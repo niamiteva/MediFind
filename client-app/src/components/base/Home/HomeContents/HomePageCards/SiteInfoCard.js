@@ -26,4 +26,4 @@ export default function SiteInfoCard(){
       </Typography>
     </Paper>
   )
-}
+}  

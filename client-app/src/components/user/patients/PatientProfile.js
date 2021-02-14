@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Tab, Tabs, Divider } from "@material-ui/core";
+import { Tab, Divider } from "@material-ui/core";
 import { TabPanel, TabContext, TabList } from "@material-ui/lab";
 import { AccountBox, Event, List,ListAlt, Assignment,AssignmentTurnedIn, Contacts } from "@material-ui/icons";
 import PatientPersonalDetails from "./PatientPersonalDetails/PatientPersonalDetails";
