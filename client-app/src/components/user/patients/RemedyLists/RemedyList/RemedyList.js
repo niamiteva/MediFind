@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CardContent, Card, IconButton, Divider } from "@material-ui/core";
-import { InputAdornment, TextField } from "@material-ui/core";
-import { AddCircle, Edit } from "@material-ui/icons";
+import { Grid, CardContent, Card, Divider } from "@material-ui/core";
+import { InputAdornment, TextField , IconButton} from "@material-ui/core";
+import { Delete, Edit } from "@material-ui/icons";
 import { createList, editList } from "../../../../../api/remedyLists";
 
 const useStyles = makeStyles((theme) => ({
@@ -18,29 +18,26 @@ export default function RemedyList(props) {
   debugger;
   console.log(props);
   const { userId, jwt, list } = props;
+  const [editMode, setEditMode] = useState(false);
   const [values, setValues] = useState({
     listName: list.listName || "",
+    listId: list.listId || "",
     error: "",
   });
 
-  const editOrCreateList = () => (listId) => {
+  const editOrCreateList = (listId) => {
+    //set timeout
     debugger;
-    const newList = {
+    const editedList = {
       listName: values.listName,
       userId: userId,
     };
 
-    if (list) {
-      editList({ listId: listId }, { t: jwt.token }, newList).then((data) => {
+    if (list && list.id) {
+      console.log("edit list");
+      editList({ listId: listId }, { t: jwt.token }, editedList)
+      .then((data) => {
         if (data && data.error) {
-          setValues({ ...values, error: data.error });
-        } else {
-          setValues({ ...values, error: "" });
-        }
-      });
-    } else {
-      createList({ t: jwt.token }, newList).then((data) => {
-        if (data.error) {
           setValues({ ...values, error: data.error });
         } else {
           setValues({ ...values, error: "" });
@@ -49,26 +46,36 @@ export default function RemedyList(props) {
     }
   };
 
-  const handleChangeAndUpdate = () => (name) => (event) => {
+  const enableEdit = () =>{
+    setEditMode(true);
+  }
+
+  const handleChangeAndUpdate = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
     editOrCreateList();
   };
 
   return (
-    <Grid item md={2}>
+    <Grid item md={3}>
       <Card>
         <CardContent>
           <TextField
-            id="listName"
+            id={values.listId}
             className={classes.textField}
-            value={values.listName}
+            defaultValue={values.listName}
             onChange={handleChangeAndUpdate("listName")}
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
-                  <Edit />
+                  <IconButton onClick={enableEdit} size="small">
+                    <Edit color="primary" style={{ fontSize: 18}}/>
+                  </IconButton>    
+                  <IconButton  size="small">
+                    <Delete color="secondary" style={{ fontSize: 18}}/>
+                  </IconButton>             
                 </InputAdornment>
               ),
+              readOnly: !editMode
             }}
           />
           <Divider />

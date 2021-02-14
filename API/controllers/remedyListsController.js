@@ -2,11 +2,11 @@ const db = require("../models");
 
 module.exports = {
   createList(req, res, next){
-    const {listName, userId} = req.body.listName;
-    return db.RemedyList.create(
+    const {listName, userId} = req.body;
+    return db.RemedyList.create({
       listName,
       userId,
-    )
+    })
     .then((list) => {
       if (!list) {
         return res.status(400).send("Error occured during sign in.");
@@ -20,15 +20,17 @@ module.exports = {
   },
 
   getRemedyListsByUserId(req, res, next) {
+    console.log(req.params);
     return db.RemedyList.findAll({
       where: {
-        userId: req.body.userId,
+        userId: req.params.id,
       },
     })
       .then((lists) => {
         if (!lists) {
           console.log("No lists found");
         }
+        console.log(lists);
         res.status(200).send(JSON.stringify(lists));
       })
       .catch((err) => {

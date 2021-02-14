@@ -1,8 +1,8 @@
 const apiUrl = 'http://localhost:3000';
 
-const getRemedyListsByUserId = async(userId, credentials, signal) => {
+const getRemedyListsByUserId = async(params, credentials, signal) => {
   try {
-    let response = await fetch(apiUrl + '/api/remedylists/', {
+    let response = await fetch(apiUrl + '/api/remedylists/' + params.userId, {
       method: 'GET',
       signal: signal,
       headers: {
@@ -10,11 +10,10 @@ const getRemedyListsByUserId = async(userId, credentials, signal) => {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer ' + credentials.t
       },
-      body: JSON.stringify(userId)
     })
     return await response.json()
   } catch(err) {
-    console.log(err)
+    console.error(err)
   }
 };
 
@@ -32,7 +31,7 @@ const createList = async (credentials, list) => {
       })
     return await response.json()
   } catch(err) {
-    console.log(err)
+    console.error();
   }
 };
 

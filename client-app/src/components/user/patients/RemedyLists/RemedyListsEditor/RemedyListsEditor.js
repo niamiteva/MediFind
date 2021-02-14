@@ -1,9 +1,9 @@
 import React, { useState, useEffect} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CardContent, Card, IconButton ,Divider} from "@material-ui/core";
-import {TextField,InputAdornment } from "@material-ui/core";
-import { AddCircle, Edit} from "@material-ui/icons";
+import { Grid, CardContent, Card, IconButton } from "@material-ui/core";
+import { AddCircle} from "@material-ui/icons";
 import RemedyList from "../RemedyList/RemedyList";
+import { createList } from "../../../../../api/remedyLists";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,50 +16,71 @@ const useStyles = makeStyles((theme) => ({
 export default function RemedyListsEditor(props) { 
   const classes = useStyles();
   const {lists, userId, jwt} = props;
-  const [isBlankList, setIsBlankList] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [values, setValues] = useState({
     lists: lists || [],
     error:""
   });
 
-  useEffect(() => {
-    if(isBlankList){
-      const blankList = {
-        listName: "New list", 
-        userId: userId
-      }
-      const oldLists = values.lists;
-      let newLists = [];
-      if(oldLists.length > 0){
-        oldLists.push(blankList); 
-        newLists = oldLists;
-      }
-      else{
-        newLists = [blankList];
-      }
-      values.lists = newLists;
-      setIsBlankList(false);
-      setValues({...values, error: ""});
-    }
-  }, [isBlankList])
+  // useEffect(() => {
+  //   if(isBlankList){
+  //     const blankList = {
+  //       listName: "New list", 
+  //       userId: userId
+  //     }
+  //     const oldLists = values.lists;
+  //     let newLists = [];
+  //     if(oldLists.length > 0){
+  //       oldLists.push(blankList); 
+  //       newLists = oldLists;
+  //     }
+  //     else{
+  //       newLists = [blankList];
+  //     }
+  //     values.lists = newLists;
+  //     setIsBlankList(false);
+  //     setValues({...values, error: ""});
+  //   }
+  // }, [isBlankList])
 
   const addBlankList = () => {
-    setIsBlankList(true);
+    //setIsBlankList(true);
+    const newList = {
+      listName: "New list", 
+      userId: userId
+    }
+    const oldLists = values.lists;
+    setLoading(true);
+    createList({ t: jwt.token }, newList)
+      .then((data) => {
+        if (data.error) {
+          setValues({ ...values, error: data.error });
+        } else {
+          let newLists = [];
+          if(oldLists.length > 0){
+            oldLists.push(data); 
+            newLists = oldLists;
+          }
+          else{
+            newLists = [data];
+          }
+          values.lists = newLists;
+          //setIsBlankList(false);
+          setValues({...values, error: ""});
+          setLoading(false);
+        }
+      });
   };
 
   return (
     <Grid container spacing={3}>
-      {values.lists.length > 0 && values.lists.map((item) => (
+      {!isLoading && values.lists.length > 0 && values.lists.map((item) => (
         <RemedyList list={item} jwt={jwt} userId={userId} />
       ))}
        <Grid item md={2}>
-        <Card>
-          <CardContent>
-            <IconButton onClick={addBlankList} >
-              <AddCircle style={{ fontSize: 90, color: "grey" }} />
+            <IconButton onClick={addBlankList} size="small">
+              <AddCircle color="secondary" style={{ fontSize: 80}} />
             </IconButton>
-          </CardContent>
-        </Card>
       </Grid>
     </Grid>
   );
