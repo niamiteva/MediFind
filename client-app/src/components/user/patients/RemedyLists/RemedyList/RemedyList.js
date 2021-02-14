@@ -55,19 +55,17 @@ export default function RemedyList(props) {
   };
 
   return (
-    <Grid item xs={2} spacing={3}>
+    <Grid item md={2}>
       <Card>
         <CardContent>
           <TextField
             id="listName"
-            label="Име"
             className={classes.textField}
             value={values.listName}
             onChange={handleChangeAndUpdate("listName")}
-            margin="normal"
             InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
+              endAdornment: (
+                <InputAdornment position="end">
                   <Edit />
                 </InputAdornment>
               ),

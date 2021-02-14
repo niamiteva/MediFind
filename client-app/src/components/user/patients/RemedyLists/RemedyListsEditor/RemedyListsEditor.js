@@ -25,7 +25,7 @@ export default function RemedyListsEditor(props) {
   useEffect(() => {
     if(isBlankList){
       const blankList = {
-        listName: "", 
+        listName: "New list", 
         userId: userId
       }
       const oldLists = values.lists;
@@ -49,16 +49,18 @@ export default function RemedyListsEditor(props) {
 
   return (
     <Grid container spacing={3}>
-    {values.lists.length > 0 && values.lists.map((item) => (
-      <RemedyList list={item} jwt={jwt} userId={userId} />
-    ))}
-    <Card>
-      <CardContent>
-        <IconButton onClick={addBlankList}>
-          <AddCircle style={{ fontSize: 80, color: "grey" }} />
-        </IconButton>
-      </CardContent>
-    </Card>
+      {values.lists.length > 0 && values.lists.map((item) => (
+        <RemedyList list={item} jwt={jwt} userId={userId} />
+      ))}
+       <Grid item md={2}>
+        <Card>
+          <CardContent>
+            <IconButton onClick={addBlankList} >
+              <AddCircle style={{ fontSize: 90, color: "grey" }} />
+            </IconButton>
+          </CardContent>
+        </Card>
+      </Grid>
     </Grid>
   );
 }
