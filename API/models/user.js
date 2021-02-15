@@ -10,9 +10,16 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "userId",
         foreignKeyConstraint: true,
       });
+      
       User.hasMany(models.RemedyList, {
         as: "remedylist",
         foreignKey: "userId",
+      });
+
+      User.belongsToMany(models.Doctor, {
+        through: 'User_Doctor',
+        as: 'doctors',
+        foreignKey: 'userId'
       });
     }  
 

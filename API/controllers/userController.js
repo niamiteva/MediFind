@@ -29,12 +29,33 @@ module.exports = {
     })
       .then((user) => {
         if (!user) {
-          return res.status(400).send({
-            error: "User not found",
+          return db.Doctor.findOne({
+            where: {
+              id: userId
+            }
+          })
+          .then((doctor) => {
+            if(!doctor){
+              return res.status(400).send({
+                error: "User not found",
+              });
+            }
+
+            console.log("get user");
+            doctor.type = "Doctor";
+            console.log(doctor);
+            res.status(200).send(doctor);
+          })
+          .catch((err) => {
+            return res.status("500").send({
+              error: "Could not retrieve user",
+            });
           });
+          
         }
         
         console.log("get user");
+        user.type = "Pacient";
         console.log(user);
         res.status(200).send(user);
       })
