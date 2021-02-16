@@ -1,8 +1,7 @@
 'use strict';
 const crypto = require("crypto");
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
+
 module.exports = (sequelize, DataTypes) => {
   class Doctor extends Model {
     static associate(models) {

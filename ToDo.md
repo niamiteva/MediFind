@@ -9,10 +9,10 @@
 - [ ] remove and edit lists
 - [ ] save the data after edit => refresh the whole page or some other way?
 - [ ] move css to separate css files
-- [ ] Doctors model
+- [x] Doctors model
+- [ ] add Doctors biography 
 - [ ] Association Doctor and Patient
-- [ ] Register as chosen user type
-- [ ] Doctor profile UI 
+- [x] Doctor profile UI 
 - [ ] Doctors Tab in users profile page
 - [ ] Reciept model
 - [ ] Add receipt to user profile from Doctor

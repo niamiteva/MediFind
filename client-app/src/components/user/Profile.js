@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-//import DeleteUser from './DeleteUser'
 import {CircularProgress } from "@material-ui/core";
 import auth from '../../api/auth';
 import {getUserById} from '../../api/users';
-import {Redirect, Link} from 'react-router-dom';
-import PatientProfile from './patients/PatientProfile'
+import {Redirect} from 'react-router-dom';
+import PatientProfile from './patients/PatientProfile';
+import DoctorProfile from './doctors/DoctorProfile';
 
 export default function Profile(props) {
   const theUserId = props.match.params.userId;
@@ -17,13 +17,7 @@ export default function Profile(props) {
     const abortController = new AbortController()
     const signal = abortController.signal
     setLoading(true);
-
-    // if (user) {
-    //   setLoading(false);
-    //   abortController.abort();
-    //   return;
-    // }
-
+    
     getUserById({userId: theUserId}, {t: jwt.token}, signal)
     .then((data) => {
       console.log(data);
@@ -51,8 +45,11 @@ export default function Profile(props) {
   return (
     <main>
        {isLoading && <CircularProgress  />}
-       {!isLoading && user && (
+       {!isLoading && user && user.type === "Patient" && (
         <PatientProfile user={user}/>
+       )}
+       {!isLoading && user && user.type === "Doctor" && (
+        <DoctorProfile doctor={user}/>
        )}
     </main>
       
