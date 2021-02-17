@@ -3,6 +3,7 @@ import { createStyles, makeStyles} from '@material-ui/core/styles';
 import {AppBar, Toolbar, Typography, Button} from '@material-ui/core';
 import auth from '../../api/auth';
 import {Link, withRouter} from 'react-router-dom';
+import logo from '../../content/img/MediFindLogo.png'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -34,6 +35,9 @@ export default withRouter((history) => {
         <Typography variant="h6" color="inherit" className={classes.title} style={isActive(history, "/")}>
           MediFind
         </Typography>
+        <div>
+          <img style={{ display: 'none' }} src={logo}/>
+        </div>
         {
           !auth.isAuthenticated() && (<span>
             <Link to="/signup">
