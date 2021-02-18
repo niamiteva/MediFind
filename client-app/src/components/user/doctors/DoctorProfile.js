@@ -3,6 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Tab, Divider } from "@material-ui/core";
 import { TabPanel, TabContext, TabList } from "@material-ui/lab";
 import { AccountBox, Event, RecentActors } from "@material-ui/icons";
+import DoctorPersonalDetails from './DoctorPersonalDetails/DoctorPersonalDetails';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -24,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function DoctorProfile(props) {
   const classes = useStyles();
-  const { user} = props;
+  const { doctor} = props;
   const [tab, setTab] = useState("1");
 
   const handleChange = (event,newValue) => {
@@ -49,12 +50,14 @@ export default function DoctorProfile(props) {
           />
           <Divider/>
           <Tab
+            disabled
             label="Пациенти"
             value="2"
             icon={<RecentActors color="primary" fontSize='large' className={classes.icon}/>}
           />
           <Divider/>
           <Tab
+            disabled
             disabled
             label="Календар"
             value="7"
@@ -63,13 +66,10 @@ export default function DoctorProfile(props) {
           <Divider/>
         </TabList>
         <TabPanel value="1" className={classes.tabPanel}>
-          <PatientPersonalDetails user={user} />
-        </TabPanel>
-        <TabPanel value="2" className={classes.tabPanel}>
-          <RemedyLists user={user}/>
+          <DoctorPersonalDetails doctor={doctor} />
         </TabPanel>
         <TabPanel value="3">Item Three</TabPanel>
       </TabContext>
-    </div>
+    </div> 
   );
 }

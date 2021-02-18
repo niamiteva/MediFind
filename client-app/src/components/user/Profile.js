@@ -45,10 +45,10 @@ export default function Profile(props) {
   return (
     <main>
        {isLoading && <CircularProgress  />}
-       {!isLoading && user && user.type === "Patient" && (
+       {!isLoading && user && !user.doctorUIN && (
         <PatientProfile user={user}/>
        )}
-       {!isLoading && user && user.type === "Doctor" && (
+       {!isLoading && user && user.doctorUIN && (
         <DoctorProfile doctor={user}/>
        )}
     </main>

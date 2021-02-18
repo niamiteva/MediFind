@@ -1,10 +1,18 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Button, TextField } from "@material-ui/core";
+import {
+  Button,
+  TextField,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl,
+} from "@material-ui/core";
 import { Card, CardContent } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import AccountBox from "@material-ui/icons/AccountBox";
 import auth from "../../../../api/auth";
+import {updateUser} from "../../../../api/users";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,39 +25,57 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1),
     width: "85%",
   },
+  select: {
+    width: "100%",
+  },
 }));
 
-export default function PatientPersonalDetails(props) {
+export default function DoctorPersonalDetails(props) {
   const classes = useStyles();
   console.log(props);
-  const { doctor} = props;
+  const { doctor } = props;
   const jwt = auth.isAuthenticated();
-  const canEdit = !(auth.isAuthenticated().doctor && auth.isAuthenticated().doctor.id === doctor.id);
+  const canEdit = !(
+    auth.isAuthenticated().user &&
+    auth.isAuthenticated().user.id === doctor.id
+  );
   const [isEdited, setIsEdited] = useState(false);
   //const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [values, setValues] = useState({
     firstName: doctor.firstName,
     lastName: doctor.lastName,
     personalNumber: doctor.personalNumber,
-    doctorUIN: doctor.personalNumber,
+    doctorUIN: doctor.doctorUIN,
     specialtyName: doctor.specialtyName,
-    specialtyId: doctor.specialtyId ,
+    specialtyId: doctor.specialtyId,
     password: doctor.password,
     email: doctor.email,
     error: "",
   });
 
   const clickSubmit = () => {
-    const editedUser = {
+    const editedDoctor = {
       firstName: values.firstName,
-      lastName: values.lastName ,
-      personalNumber: values.personalNumber ,
+      lastName: values.lastName,
+      personalNumber: values.personalNumber,
       specialtyName: values.specialtyName,
       specialtyId: values.specialty,
-      email: values.email ,
-      password: values.password ,
+      email: values.email,
+      password: values.password,
     };
-    
+
+    updateUser({ userId: doctor.id }, { t: jwt.token }, editedDoctor)
+    .then((data) => {
+        console.log(data);
+        if (data && data.error) {
+          setValues({ ...values, error: data.error });
+          //setRedirectToSignin(true);
+        } else {
+          setValues({...values, error: ""});
+          setIsEdited(false);
+        }
+      }
+    );
   };
 
   const clickDiscard = () => {
@@ -61,13 +87,12 @@ export default function PatientPersonalDetails(props) {
     values.password = doctor.password;
     values.email = doctor.email;
     setValues({
-      ...values
+      ...values,
     });
     setIsEdited(false);
-  }
+  };
 
   const handleChange = (name) => (event) => {
-    debugger;
     setValues({ ...values, [name]: event.target.value });
     setIsEdited(true);
   };
@@ -76,15 +101,16 @@ export default function PatientPersonalDetails(props) {
     <Card className={classes.root}>
       <CardContent>
         <Grid container spacing={3}>
-          <Grid item container md={12} >
-            <Grid item md={3} >
-              <AccountBox style={{ fontSize: 200, color: 'grey' }}/>
-              <Button  
+          <Grid item container md={12}>
+            <Grid item md={3}>
+              <AccountBox style={{ fontSize: 200, color: "grey" }} />
+              <Button
                 variant="outlined"
                 size="medium"
                 color="secondary"
-                style={{marginLeft: 19}}>
-                  Change picture
+                style={{ marginLeft: 19 }}
+              >
+                Change picture
               </Button>
             </Grid>
             <Grid item md={8}>
@@ -96,7 +122,7 @@ export default function PatientPersonalDetails(props) {
                 onChange={handleChange("firstName")}
                 margin="normal"
                 InputProps={{
-                  readOnly: canEdit
+                  readOnly: canEdit,
                 }}
               />
               <br />
@@ -121,7 +147,7 @@ export default function PatientPersonalDetails(props) {
                 onChange={handleChange("email")}
                 margin="normal"
                 InputProps={{
-                  readOnly: canEdit
+                  readOnly: canEdit,
                 }}
               />
               <br />
@@ -130,11 +156,11 @@ export default function PatientPersonalDetails(props) {
                 type="password"
                 label="Password"
                 className={classes.textField}
-                value={values.password}
+                defaultValue={values.password}
                 onChange={handleChange("password")}
                 margin="normal"
                 InputProps={{
-                  readOnly: canEdit
+                  readOnly: canEdit,
                 }}
               />
               <TextField
@@ -145,7 +171,7 @@ export default function PatientPersonalDetails(props) {
                 onChange={handleChange("personalNumber")}
                 margin="normal"
                 InputProps={{
-                  readOnly: canEdit
+                  readOnly: canEdit,
                 }}
               />
               <br />
@@ -157,20 +183,27 @@ export default function PatientPersonalDetails(props) {
                 onChange={handleChange("doctorUIN")}
                 margin="normal"
                 InputProps={{
-                  readOnly: false
+                  readOnly: false,
                 }}
               />
               <br />
-              <Select
-                label="Специалист"
-                id="specialty"
-                value={values.specialtyId}
-                onChange={handleChange("specialtyId")}
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
+              <FormControl className={classes.textField}>
+                <InputLabel id="lspecialty" className={classes.select}>
+                  Специалист
+                </InputLabel>
+                <Select
+                  id="specialty"
+                  labelId="lspecialty"
+                  className={classes.select}
+                  value={values.specialtyId}
+                  onChange={handleChange("specialtyId")}
+                >
+                  <MenuItem value={10}>Ten</MenuItem>
+                  <MenuItem value={20}>Twenty</MenuItem>
+                  <MenuItem value={30}>Thirty</MenuItem>
+                </Select>
+              </FormControl>
+              <br /><br />
             </Grid>
           </Grid>
           <Grid item container md={12}>
@@ -182,7 +215,7 @@ export default function PatientPersonalDetails(props) {
                 color="secondary"
                 disabled={!isEdited}
                 onClick={clickSubmit}
-                style={{marginRight: 10}}
+                style={{ marginRight: 10 }}
               >
                 Save
               </Button>

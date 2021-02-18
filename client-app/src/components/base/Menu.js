@@ -13,12 +13,20 @@ const useStyles = makeStyles((theme) =>
     menuButton: {
       marginRight: theme.spacing(2),
     },
-    title: {
+    space: {
       flexGrow: 1,
     },
+    title: {
+      fontWeight: 'bold',
+      fontSize: 40
+    },
+    logoIcon:{
+      width: 100,
+      margin: theme.spacing(1),
+      marginRight: theme.spacing(2),
+    }
   }),
-);
-
+); 
 const isActive = (history, path) => {
   if (history.location.pathname === path)
     return {color: '#ffffff'}
@@ -31,13 +39,12 @@ export default withRouter((history) => {
 
   return (
     <AppBar position="static">
-      <Toolbar>
-        <Typography variant="h6" color="inherit" className={classes.title} style={isActive(history, "/")}>
+      <Toolbar>       
+        <Typography color="inherit" className={classes.title} style={isActive(history, "/")}>
           MediFind
         </Typography>
-        <div>
-          <img style={{ display: 'none' }} src={logo}/>
-        </div>
+        <img className={classes.logoIcon} src={logo}/>
+        <div className={classes.space}/>
         {
           !auth.isAuthenticated() && (<span>
             <Link to="/signup">
@@ -53,11 +60,11 @@ export default withRouter((history) => {
         {
           auth.isAuthenticated() && (<span>
             <Link to={"/user/" + auth.isAuthenticated().user.id}>
-              <Button className={classes.menuButton} style={isActive(history, "/user/" + auth.isAuthenticated().user.id)}>
+              <Button className={classes.menuButton} color="secondary" variant="contained" style={isActive(history, "/user/" + auth.isAuthenticated().user.id)}>
                 My Profile
               </Button>
             </Link>
-            <Button className={classes.menuButton} color="inherit" onClick={() => {
+            <Button className={classes.menuButton} color="secondary" variant="contained" onClick={() => {
                 auth.clearJWT(() => history.push('/'))
               }}>
               Sign out
