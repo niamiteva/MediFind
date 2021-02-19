@@ -47,6 +47,10 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: theme.spacing(4),
       paddingRight: theme.spacing(8),
     },
+  },
+  searchBottom: {
+    marginBottom: theme.spacing(14),
+    marginTop: theme.spacing(4)
   }
 }));
 
@@ -71,7 +75,7 @@ export default function GuestUserContent(){
             </div>
           </Grid>
         </Grid>
-        <Grid item md={12}>
+        <Grid item md={12} className={classes.searchBottom}>
           <SearchBar/>
         </Grid>
       </Grid>         

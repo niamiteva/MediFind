@@ -2,8 +2,9 @@ import React from 'react';
 import { createStyles, makeStyles} from '@material-ui/core/styles';
 import {AppBar, Toolbar, Typography, Button} from '@material-ui/core';
 import auth from '../../api/auth';
-import {Link, withRouter} from 'react-router-dom';
+import {Link, withRouter, Redirect} from 'react-router-dom';
 import logo from '../../content/img/MediFindLogo.png'
+import SearchBar from '../search/searchBar/SearchBar'
 
 const useStyles = makeStyles((theme) =>
   createStyles({
@@ -44,6 +45,7 @@ export default withRouter((history) => {
           MediFind
         </Typography>
         <img className={classes.logoIcon} src={logo} alt="site logo"/>
+        {auth.isAuthenticated() && (<div style={{width: '50%'}}><SearchBar /></div>)}
         <div className={classes.space}/>
         {
           !auth.isAuthenticated() && (<span>
@@ -65,7 +67,11 @@ export default withRouter((history) => {
               </Button>
             </Link>
             <Button className={classes.menuButton} color="secondary" variant="contained" onClick={() => {
-                auth.clearJWT(() => history.push('/'))
+                debugger;
+                auth.clearJWT(() => {
+                  (history.length > 0 && history.push('/') ) || (history.history.length > 0 && history.history.push('/'))
+                  //return <Redirect to='/'/>
+                });
               }}>
               Sign out
             </Button>

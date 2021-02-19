@@ -2,8 +2,9 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CardContent, Card, Divider } from "@material-ui/core";
 import { InputAdornment, TextField , IconButton} from "@material-ui/core";
-import { Delete, Edit } from "@material-ui/icons";
+import { Delete, Edit , Done} from "@material-ui/icons";
 import { editList } from "../../../../../api/remedyLists";
+import Remedies from './Remedies/Remedies';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,11 +22,11 @@ export default function RemedyList(props) {
   const [editMode, setEditMode] = useState(false);
   const [values, setValues] = useState({
     listName: list.listName || "",
-    listId: list.listId || "",
+    listId: list.id || "",
     error: "",
   });
 
-  const editOrCreateList = (listId) => {
+  const editTheList = () => {
     //set timeout
     debugger;
     const editedList = {
@@ -35,7 +36,7 @@ export default function RemedyList(props) {
 
     if (list && list.id) {
       console.log("edit list");
-      editList({ listId: listId }, { t: jwt.token }, editedList)
+      editList({ listId: values.listId }, { t: jwt.token }, editedList)
       .then((data) => {
         if (data && data.error) {
           setValues({ ...values, error: data.error });
@@ -50,9 +51,13 @@ export default function RemedyList(props) {
     setEditMode(true);
   }
 
+  const saveList = () => {
+    setEditMode(false);
+    editTheList();
+  } 
+
   const handleChangeAndUpdate = (name) => (event) => {
-    setValues({ ...values, [name]: event.target.value });
-    editOrCreateList();
+    setValues({ ...values, [name]: event.target.value });  
   };
 
   return (
@@ -66,7 +71,8 @@ export default function RemedyList(props) {
             onChange={handleChangeAndUpdate("listName")}
             InputProps={{
               endAdornment: (
-                <InputAdornment position="end">
+                (!editMode && (
+                  <InputAdornment position="end">
                   <IconButton onClick={enableEdit} size="small">
                     <Edit color="primary" style={{ fontSize: 18}}/>
                   </IconButton>    
@@ -74,11 +80,20 @@ export default function RemedyList(props) {
                     <Delete color="secondary" style={{ fontSize: 18}}/>
                   </IconButton>             
                 </InputAdornment>
+                )) ||
+                (editMode && (
+                  <InputAdornment position="end">
+                  <IconButton onClick={saveList} size="small">
+                    <Done color="primary" style={{ fontSize: 18}}/>
+                  </IconButton>               
+                </InputAdornment>
+                ))
               ),
               readOnly: !editMode
             }}
           />
           <Divider />
+          <Remedies editMode={editMode} listId={list.id} jwt={jwt}/>
         </CardContent>
       </Card>
     </Grid>
