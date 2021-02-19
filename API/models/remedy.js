@@ -23,6 +23,9 @@ module.exports = (sequelize, DataTypes) => {
       },
       listId: DataTypes.UUID,
       remedyName: DataTypes.STRING,
+      remedyLink: DataTypes.STRING,
+      price: DataTypes.DOUBLE,
+      checked: DataTypes.BOOLEAN
     },
     {
       sequelize,

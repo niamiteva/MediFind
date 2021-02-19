@@ -13,9 +13,9 @@
 - [ ] save remedies after search => only missing from db => save only name, description and photo => on itemOpen serach in different pharmacies for prices 
 
 - Functionalities: 
-- [ ] search doctors => doctors search result page => connect to doctor
+- [ ] connect to doctor
 - [ ] search filters 
-- [ ] remove and edit lists
+- [ ] remove lists
 - [ ] add Doctors biography, institution, address, worktime, gender, position, type of specialist,  info, etc 
 - [ ] Association Doctor and Patient
 - [ ] Doctors Tab in users profile page
