@@ -1,21 +1,22 @@
 ### MediFind project ToDos
 
-- [x] make a logo
-- [x] add Remedy List model
-- [x] session expiration
+- Clean the code:
+- [ ] api responce handler
 - [ ] move scraper functions to separate helper file
 - [ ] clean repeatable code
-- [ ] decide which componnts should be stateful and wich which should be stateless
-- [x] add Remedy Lists UI in user(Patient) profile => Remedy Lists Tab
-- [x] implement adding remedies to Remedy Lists
-- [ ] remove and edit lists
-- [ ] save the data after edit => refresh the whole page or some other way?
 - [ ] move css to separate css files
-- [x] Doctors model
+- [ ] decide which componnts should be stateful and wich which should be stateless
+- [ ] save the data after edit => refresh the whole page or some other way?
+
+- Functionalities: 
+- [ ] serach doctors => doctors search result page => connect to doctor
+- [ ] search filters 
+- [ ] remove and edit lists
 - [ ] add Doctors biography 
 - [ ] Association Doctor and Patient
-- [x] Doctor profile UI 
 - [ ] Doctors Tab in users profile page
+- [ ] Calendar UI
+- [ ] Events model
 - [ ] Reciept model
 - [ ] Add receipt to user profile from Doctor
 - [ ] ...
