@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     minWidth: "99%",
     minHeight: 200,
-    margin: 5,
+    margin: '0 5 5 5',
   },
   cardDetails: {
     flex: 1,
@@ -38,7 +38,7 @@ export default function RemedyItemCard(props) {
   const classes = useStyles();
 
   return (
-    <Grid item xs={6} spacing={6}>
+    <Grid item xs={5} >
       <CardActionArea component="a" href={props.itemUrl}>
         <Card className={classes.card}>
           <Grid container spacing={1}>

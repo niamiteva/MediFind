@@ -1,4 +1,5 @@
 const db = require("../models");
+const { Op } = require("sequelize");
 
 module.exports = {
   update(req, res) {
@@ -95,6 +96,36 @@ module.exports = {
         });
       });
   },
+
+  searchDoctors(req, res, next) {
+    const text = req.body.q;
+    return db.Doctor.findAll({
+      where: {
+        [Op.or]: [
+          {firstName: {[Op.startsWith]: text}},
+          {firstName: {[Op.like]: text}},
+          {lastName: {[Op.startsWith]: text}},
+          {lastName: {[Op.like]: text}}
+        ]
+      }
+    })
+      .then((doctors) => {
+        if (!doctors) {
+          return res.status(400).send({
+            error: "User not found",
+          });
+        }
+
+        console.log(doctors);
+        res.status(200).send(doctors);
+      })
+      .catch((err) => {
+        return res.status("500").send({
+          error: "Could not retrieve doctors",
+        });
+      });
+  },
+
 
   //relatedToContacts
 };

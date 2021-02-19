@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
       display: 'flex',
       alignItems: 'center',
       marginLeft: theme.spacing(18),
-      marginBottom: theme.spacing(18),
+      marginBottom: theme.spacing(3),
       marginTop: theme.spacing(3)
   },
   input: {   
@@ -42,7 +42,7 @@ export default function SearchBar(){
 
   return (
     <Paper component="form" className={classes.search}>
-      <CategoriesMenu changeCategory={setCategory} category={category}/>
+      <CategoriesMenu setCategory={setCategory} category={category}/>
       <Divider className={classes.divider} orientation="vertical" />
       <InputBase
         className={classes.input}

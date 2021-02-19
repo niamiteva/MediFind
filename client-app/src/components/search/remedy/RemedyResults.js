@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import queryString from "query-string";
 import {Grid, CircularProgress } from "@material-ui/core";
-import { search } from "../../api/search";
+import { searchRemedy } from "../../../api/search";
 import RemedyItemCard from "./remedyItemCard/RemedyItemCard";
 import SearchBar from '../searchBar/SearchBar';
 
-export default function SearchResult(props) {
+export default function RemedyResult(props) {
   const [searchResult, setResult] = useState({});
   const [isLoading, setLoading] = useState(true);
   const searchText = queryString.parse(props.location.search);
@@ -19,7 +19,7 @@ export default function SearchResult(props) {
       abortController.abort();
       return;
     }
-    search(searchText, signal)
+    searchRemedy(searchText, signal)
       .then((data) => {
         debugger;
         console.log(data);
@@ -39,18 +39,18 @@ export default function SearchResult(props) {
       console.log("Clean the search result");
       abortController.abort();
     };
-  }, [searchResult, searchText]);
+  }, [searchResult]);
 
   return (
     <main>
       <Grid container>
         <Grid item xs></Grid>
-        <Grid item md={8} container>
-          <Grid item md={12} maxWidth="md">
+        <Grid item md={12} container>
+          <Grid item md={12} maxWidth="md" style={{backgroundColor: 'rgb(0 0 0 / 12%)'}}>
             <SearchBar />
           </Grid>
           {isLoading && <CircularProgress  />}
-          <Grid container direction="row" justify="center" alignItems="center">
+          <Grid item md={12} container direction="row" justify="center" alignItems="center">
             {!isLoading && searchResult.map((item) => (
                <RemedyItemCard remedy={item.itemName} imgUrl={item.imgSrc} price={item.price} itemUrl={item.itemUrl}/>
             ))}

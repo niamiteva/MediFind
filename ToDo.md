@@ -10,12 +10,13 @@
 - [ ] casche the remedy serach results till session expiration
 - [ ] api responce handler
 - [ ] save the data after edit => refresh the whole page or some other way?
+- [ ] save remedies after search => only missing from db => save only name, description and photo => on itemOpen serach in different pharmacies for prices 
 
 - Functionalities: 
 - [ ] search doctors => doctors search result page => connect to doctor
 - [ ] search filters 
 - [ ] remove and edit lists
-- [ ] add Doctors biography 
+- [ ] add Doctors biography, institution, address, worktime, gender, position, type of specialist,  info, etc 
 - [ ] Association Doctor and Patient
 - [ ] Doctors Tab in users profile page
 - [ ] Calendar UI

@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {Route, Switch} from 'react-router-dom';
 import Home from './Home/Home';
-import RemedyResult from '../remedy/RemedyResults'
+import RemedyResult from '../search/remedy/RemedyResults';
+import DoctorsResult from '../search/doctors/DoctorsResults';
 import Users from '../user/Users';
 import SignUp from '../user/SignUp';
 import LogIn from '../user/LogIn';
@@ -17,6 +18,7 @@ class MainRouter extends Component {
     signup: SignUp,
     login: LogIn,
     remedy: RemedyResult,
+    doctors: DoctorsResult,
     profile: Profile,
     verify: Verify
   }
@@ -30,6 +32,7 @@ class MainRouter extends Component {
         <Route path="/signup" component={this.state.signup}/>
         <Route path="/login" component={this.state.login}/>
         <Route path="/search/remedy" component={this.state.remedy}/>
+        <Route path="/search/doctors" component={this.state.doctors}/>
         <Route path="/user/:userId" component={this.state.profile}/>      
         <Route path="/verification" component={this.state.verify} />
       </Switch>

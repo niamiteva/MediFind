@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Tab, Divider } from "@material-ui/core";
 import { TabPanel, TabContext, TabList } from "@material-ui/lab";
-import { AccountBox, Event, RecentActors } from "@material-ui/icons";
+import { AccountBox, Event, RecentActors, ImportContacts, PostAdd } from "@material-ui/icons";
 import DoctorPersonalDetails from './DoctorPersonalDetails/DoctorPersonalDetails';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +47,20 @@ export default function DoctorProfile(props) {
             label="Лични данни"
             value="1"
             icon={<AccountBox color="primary" fontSize='large' className={classes.icon}/>}
+          />
+          <Divider/>
+          <Tab
+            disabled
+            label="Биография"
+            value="2"
+            icon={<ImportContacts color="primary" fontSize='large' className={classes.icon}/>}
+          />
+          <Divider/>
+          <Tab
+            disabled
+            label="Публикации"
+            value="2"
+            icon={<PostAdd color="primary" fontSize='large' className={classes.icon}/>}
           />
           <Divider/>
           <Tab
