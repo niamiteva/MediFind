@@ -17,8 +17,48 @@ module.exports = {
     })
     .then((user) => {
       if (!user) {
-        return res.status(401).send({
-          error: "User not found",
+        
+        return db.Doctor.findOne({
+          where: {
+            email: email,
+          },
+        })
+        .then((doctor) => {
+          if (!doctor) {
+            return res.status(401).send({
+              error: "User not found",
+            });
+          }
+    
+          if (!doctor.authenticate(password)) {
+            return res.status(401).send({
+              error: "Email and password don't match.",
+            });
+          }
+    
+          if (!doctor.isVerified) {
+            return res.status(401).send({
+              message: "Account is not activated. Please Verify Your Email!",
+            });
+          }
+    
+          const token = jwt.sign({ id: doctor.id }, jwtSecret, { expiresIn: "1d" });
+          res.cookie("jwt", token, { expire: new Date() + 1 });
+    
+          return res.json({
+            token,
+            user: {
+              id: doctor.id,
+              name: doctor.name,
+              email: doctor.email,
+            },
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          return res.status("401").send({
+            error: "Could not sign in",
+          });
         });
       }
 

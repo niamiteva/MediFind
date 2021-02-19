@@ -3,6 +3,7 @@ const crypto = require("crypto"); //"crypto-random-string");
 const jwt = require("jsonwebtoken");
 const expressJwt = require("express-jwt");
 const { sendVerificationEmail } = require("../helpers/nodeMailer");
+const {doctorById} = require("./doctorController");
 
 module.exports = {
   users(req, res, next) {
@@ -29,28 +30,7 @@ module.exports = {
     })
       .then((user) => {
         if (!user) {
-          return db.Doctor.findOne({
-            where: {
-              id: userId,
-            },
-          })
-            .then((doctor) => {
-              if (!doctor) {
-                return res.status(400).send({
-                  error: "User not found",
-                });
-              }
-
-              console.log("get user");
-              doctor.type = "Doctor";
-              console.log(doctor);
-              res.status(200).send(doctor);
-            })
-            .catch((err) => {
-              return res.status("500").send({
-                error: "Could not retrieve user",
-              });
-            });
+          return doctorById(req, res, next);
         }
 
         console.log("get user");
@@ -122,51 +102,9 @@ module.exports = {
     })
       .then((user) => {
         if (!user) {
-          const {specialtyId, specialtyName } = req.body;
-          return db.Doctor.findOne({
-            where: {
-              id: userId,
-            },
-          })
-            .then((doctor) => {
-              if (!doctor) {
-                return res.status(400).send({
-                  error: "User not found",
-                });
-              }
-
-              doctor.firstName = firstName || doctor.firstName;
-              doctor.lastName = lastName || doctor.lastName;
-              doctor.email = email || doctor.email;
-              doctor.personalNumber = personalNumber || doctor.personalNumber;
-              doctor.specialtyId = specialtyId || doctor.specialtyId;
-              doctor.specialtyName = specialtyName || doctor.specialtyName;
-              if (password) {
-                doctor.password = password;
-              }
-
-              return doctor
-                .save()
-                .then((doctor) => {
-                  if (!doctor) {
-                    return res
-                      .status(400)
-                      .send("Error occured during saving user.");
-                  }
-
-                  console.log("User was successfully edited.");
-                  return res.status(200).send(doctor);
-                })
-                .catch((error) => {
-                  console.log(error);
-                  return res.status(500).json(error);
-                });
-            })
-            .catch((err) => {
-              return res.status("500").send({
-                error: "Could not execute find user",
-              });
-            });
+          return res.status(400).send({
+            error: "User not found",
+          });
         }
 
         user.firstName = firstName || user.firstName;
