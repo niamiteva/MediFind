@@ -1,15 +1,18 @@
 ### MediFind project ToDos
 
 - Clean the code:
-- [ ] api responce handler
 - [ ] move scraper functions to separate helper file
 - [ ] clean repeatable code
 - [ ] move css to separate css files
 - [ ] decide which componnts should be stateful and wich which should be stateless
+
+- Improvements:
+- [ ] casche the remedy serach results till session expiration
+- [ ] api responce handler
 - [ ] save the data after edit => refresh the whole page or some other way?
 
 - Functionalities: 
-- [ ] serach doctors => doctors search result page => connect to doctor
+- [ ] search doctors => doctors search result page => connect to doctor
 - [ ] search filters 
 - [ ] remove and edit lists
 - [ ] add Doctors biography 
