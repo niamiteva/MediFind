@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import {Grid, Card, CardActions, CardContent } from "@material-ui/core";
 import { Button, TextField, Typography } from "@material-ui/core";
 import Icon from "@material-ui/core/Icon";
-import { makeStyles, Theme } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import auth from "../../api/auth";
 import { Redirect } from "react-router-dom";
 import { login } from "../../api/users";
@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
   card: {
     position: "relative",
     maxWidth: "80%",
-    margin: "auto",
     textAlign: "center",
     paddingBottom: theme.spacing(2),
     margin: '8%',
@@ -100,8 +99,9 @@ export default function LogIn(props) {
       <div
         className={classes.backContent}
         style={{ backgroundImage: `url(${img})` }}
+        
       >
-        {<img style={{ display: "none" }} src={img} />}
+        {<img style={{ display: "none" }} src={img} alt="background image"/>}
         <div className={classes.overlay} />
         <Grid container>
           <Grid item xs></Grid>

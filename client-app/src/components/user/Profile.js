@@ -36,7 +36,7 @@ export default function Profile(props) {
       abortController.abort()
     }
 
-  }, [theUserId])
+  }, [theUserId, jwt])
   
   if (redirectToSignin) {
     return <Redirect to='/login'/>

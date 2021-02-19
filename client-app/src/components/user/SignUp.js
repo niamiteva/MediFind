@@ -36,7 +36,6 @@ const useStyles = makeStyles((theme) => ({
   card: {
     position: "relative",
     maxWidth: '80%',
-    margin: "auto",
     textAlign: "center",
     margin: '8%',
     paddingBottom: theme.spacing(2),
@@ -100,7 +99,7 @@ export default function Signup() {
         className={classes.backContent}
         style={{ backgroundImage: `url(${img})` }}
       >
-        {<img style={{ display: "none" }} src={img} />}
+        {<img style={{ display: "none" }} src={img} alt="background image"/>}
         <div className={classes.overlay} />
         <Grid container>
           <Grid item xs />

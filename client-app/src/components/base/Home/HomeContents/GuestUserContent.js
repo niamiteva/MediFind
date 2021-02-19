@@ -56,7 +56,7 @@ export default function GuestUserContent(){
 
   return (
     <div className={classes.backContent} style={{ backgroundImage: `url(${img})` }}>
-      {<img style={{ display: 'none' }} src={img}/>}
+      {<img style={{ display: 'none' }} src={img} alt="background image"/>}
       <div className={classes.overlay} />
       <Grid container >
         <Grid item md={12} container direction="row" justify="center" alignItems="center">

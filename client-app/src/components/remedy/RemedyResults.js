@@ -39,7 +39,7 @@ export default function SearchResult(props) {
       console.log("Clean the search result");
       abortController.abort();
     };
-  }, [searchResult]);
+  }, [searchResult, searchText]);
 
   return (
     <main>

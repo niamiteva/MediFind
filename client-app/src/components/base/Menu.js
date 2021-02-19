@@ -43,7 +43,7 @@ export default withRouter((history) => {
         <Typography color="inherit" className={classes.title} style={isActive(history, "/")}>
           MediFind
         </Typography>
-        <img className={classes.logoIcon} src={logo}/>
+        <img className={classes.logoIcon} src={logo} alt="site logo"/>
         <div className={classes.space}/>
         {
           !auth.isAuthenticated() && (<span>

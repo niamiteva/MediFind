@@ -1,6 +1,6 @@
-import React, { useState, useEffect} from "react";
+import React, { useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, CardContent, Card, IconButton } from "@material-ui/core";
+import { Grid, IconButton } from "@material-ui/core";
 import { AddCircle} from "@material-ui/icons";
 import RemedyList from "../RemedyList/RemedyList";
 import { createList } from "../../../../../api/remedyLists";

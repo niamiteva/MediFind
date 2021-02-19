@@ -47,8 +47,8 @@ export default function RemedyLists(props) {
       abortController.abort();
     };
 
-  }, [userId]);
-
+  }, [userId, jwt]);
+ 
   return (
     <Grid container className={classes.root}>
       <Grid item md={12} container>

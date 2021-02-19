@@ -12,7 +12,7 @@ import { Card, CardContent } from "@material-ui/core";
 import { Grid } from "@material-ui/core";
 import AccountBox from "@material-ui/icons/AccountBox";
 import auth from "../../../../api/auth";
-import {updateUser} from "../../../../api/users";
+import {updateDoctor} from "../../../../api/doctors";
 import {getAllSpecialties} from "../../../../api/specialties";
 
 const useStyles = makeStyles((theme) => ({
@@ -83,7 +83,7 @@ export default function DoctorPersonalDetails(props) {
       password: values.password,
     };
 
-    updateUser({ userId: doctor.id }, { t: jwt.token }, editedDoctor)
+    updateDoctor({ doctorId: doctor.id }, { t: jwt.token }, editedDoctor)
     .then((data) => {
         console.log(data);
         if (data && data.error) {

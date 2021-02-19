@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import homeImg from '../../content/img/homepage.jpg';
-import { Grid, Typography, Button, Divider, IconButton, InputBase, Paper } from '@material-ui/core';
+import {Divider, IconButton, InputBase, Paper } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SearchBar(){
   const classes = useStyles();
-  const img = homeImg;
 
   const [values, setValues] = useState({
     searchText: '',

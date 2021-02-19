@@ -58,7 +58,6 @@ export default function DoctorProfile(props) {
           <Divider/>
           <Tab
             disabled
-            disabled
             label="Календар"
             value="7"
             icon={<Event color="primary" fontSize='large' className={classes.icon}/>}
