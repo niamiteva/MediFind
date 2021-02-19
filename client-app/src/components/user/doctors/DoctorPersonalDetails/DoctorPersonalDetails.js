@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Button,
@@ -13,6 +13,7 @@ import { Grid } from "@material-ui/core";
 import AccountBox from "@material-ui/icons/AccountBox";
 import auth from "../../../../api/auth";
 import {updateUser} from "../../../../api/users";
+import {getAllSpecialties} from "../../../../api/specialties";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,6 +41,7 @@ export default function DoctorPersonalDetails(props) {
     auth.isAuthenticated().user.id === doctor.id
   );
   const [isEdited, setIsEdited] = useState(false);
+  const [specialties, setSpecialties] = useState([])
   //const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [values, setValues] = useState({
     firstName: doctor.firstName,
@@ -53,13 +55,30 @@ export default function DoctorPersonalDetails(props) {
     error: "",
   });
 
+  useEffect(() => {
+    const abortController = new AbortController()
+    const signal = abortController.signal
+
+    getAllSpecialties(signal).then((data) => {
+      if (data && data.error) {
+        console.log(data.error)
+      } else {
+        setSpecialties(data)
+      }
+    })
+
+    return function cleanup(){
+      abortController.abort()
+    }
+  }, [])
+
   const clickSubmit = () => {
     const editedDoctor = {
       firstName: values.firstName,
       lastName: values.lastName,
       personalNumber: values.personalNumber,
-      specialtyName: values.specialtyName,
-      specialtyId: values.specialty,
+      specialtyName: specialties.find(x => x.id === values.specialtyId).name,
+      specialtyId: values.specialtyId,
       email: values.email,
       password: values.password,
     };
@@ -198,9 +217,9 @@ export default function DoctorPersonalDetails(props) {
                   value={values.specialtyId}
                   onChange={handleChange("specialtyId")}
                 >
-                  <MenuItem value={10}>Ten</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {specialties.length > 0 && specialties.map((specialty) => (
+                    <MenuItem value={specialty.id}>{specialty.name}</MenuItem>
+                  ))}
                 </Select>
               </FormControl>
               <br /><br />

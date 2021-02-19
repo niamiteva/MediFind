@@ -8,7 +8,7 @@ module.exports = {
       doctorUIN: "100000000", 
       firstName: "Todor",
       lastName: "Todorov",
-      email: "asdfg@medifind.com",
+      email: "todor@medifind.comx",
       isVerified: true,
       password: "8&GgS6pJeBE76!kM",
     })

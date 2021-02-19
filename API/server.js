@@ -13,7 +13,8 @@ const auth  = require('./routers/authRouter');
 const users  = require('./routers/userRouter');
 const search  = require("./routers/searchRouter");
 const verify = require("./routers/verificationRouter");
-const remedyLists = require("./routers/remedyListsRoute")
+const remedyLists = require("./routers/remedyListsRoute");
+const specialty = require('./routers/specialtyRouter');
 
 const app = express();
 
@@ -38,6 +39,7 @@ app.use('/', users);
 app.use('/', cors(), search);
 app.use('/', verify);
 app.use('/', remedyLists);
+app.use('/', specialty);
 app.use(routes);
 
 // Default response for any other request

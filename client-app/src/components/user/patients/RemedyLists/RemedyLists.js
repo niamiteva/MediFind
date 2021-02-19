@@ -27,12 +27,6 @@ export default function RemedyLists(props) {
     const signal = abortController.signal;
     setLoading(true);
 
-    // if (lists) {
-    //   setLoading(false);
-    //   abortController.abort();
-    //   return;
-    // }
-
     getRemedyListsByUserId({ userId: userId },{ t: jwt.token }, signal)
     .then((data) => {
       if(!data){

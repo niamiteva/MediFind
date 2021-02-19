@@ -22,27 +22,6 @@ export default function RemedyListsEditor(props) {
     error:""
   });
 
-  // useEffect(() => {
-  //   if(isBlankList){
-  //     const blankList = {
-  //       listName: "New list", 
-  //       userId: userId
-  //     }
-  //     const oldLists = values.lists;
-  //     let newLists = [];
-  //     if(oldLists.length > 0){
-  //       oldLists.push(blankList); 
-  //       newLists = oldLists;
-  //     }
-  //     else{
-  //       newLists = [blankList];
-  //     }
-  //     values.lists = newLists;
-  //     setIsBlankList(false);
-  //     setValues({...values, error: ""});
-  //   }
-  // }, [isBlankList])
-
   const addBlankList = () => {
     //setIsBlankList(true);
     const newList = {
