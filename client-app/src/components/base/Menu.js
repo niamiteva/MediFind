@@ -52,7 +52,7 @@ export default withRouter((history) => {
               </Button>
             </Link>
             <Link to="/login">
-              <Button className={classes.menuButton} color="secondary" variant="contained">Log In
+              <Button className={classes.menuButton} variant="contained">Log In
               </Button>
             </Link>
           </span>)

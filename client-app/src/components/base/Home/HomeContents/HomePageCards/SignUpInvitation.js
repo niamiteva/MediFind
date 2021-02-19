@@ -11,7 +11,6 @@ const useStyles = makeStyles((theme) => ({
   signup: {
     marginBottom: theme.spacing(2),
     width: '100%',
-    background: '#F44336',
     color: '#fff'
   },
   signuptext: {
@@ -21,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
   login: {
       marginTop: theme.spacing(2),
       width: '100%',
-      background: '#B0BEC5',
       color: '#fff'
   },
 }));
@@ -34,7 +32,7 @@ export default function SignUpInvitation(){
       <Grid container>
         <Grid item md={12}>
           <Link to="/signup">
-            <Button className={classes.signup} variant="contained">Sign up</Button>
+            <Button className={classes.signup} color="secondary" variant="contained">Sign up</Button>
           </Link>  
         </Grid>
       </Grid>                            
@@ -45,7 +43,7 @@ export default function SignUpInvitation(){
       <Grid container>
         <Grid item md={12}>
           <Link to="/login">
-            <Button className={classes.login} variant="contained">Log In</Button>
+            <Button className={classes.login} color="primary" variant="contained">Log In</Button>
           </Link>
         </Grid>
       </Grid>          
