@@ -50,6 +50,7 @@ module.exports = {
       .then((list) => {
         if (!list) {
           console.log("No list found");
+          return res.status(400).send("List not found");
         }
 
         console.log("Successfully edit a remedy list")
@@ -60,4 +61,27 @@ module.exports = {
         return res.status(500).send(err);
       });
   },
+
+  deleteRemedyList(req, res, next) {
+    const listId = req.params.id;
+    return db.RemedyList.destroy({
+      where:{
+        id: listId,
+      }
+    })
+    .then((deletedList)=> {
+      if(!deletedList) {
+        console.log("List not found");
+        return res.status(400).send("List not found");
+      }
+
+      console.log("List deleted");
+      res.json(deletedList);
+    })
+    .catch((err) => {
+      console.log("There was an error deleting list");
+      console.log(err);
+      return res.status(500).json(err);
+    })
+  }
 };

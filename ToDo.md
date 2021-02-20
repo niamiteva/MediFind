@@ -16,6 +16,7 @@
 - [ ] connect to doctor
 - [ ] search filters 
 - [ ] remove lists
+- [ ] fix checkboxes
 - [ ] add Doctors biography, institution, address, worktime, gender, position, type of specialist,  info, etc 
 - [ ] Association Doctor and Patient
 - [ ] Doctors Tab in users profile page

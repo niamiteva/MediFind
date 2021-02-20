@@ -3,7 +3,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CardContent, Card, Divider } from "@material-ui/core";
 import { InputAdornment, TextField , IconButton} from "@material-ui/core";
 import { Delete, Edit , Done} from "@material-ui/icons";
-import { editList } from "../../../../../api/remedyLists";
+import { editList , deleteRemedyList} from "../../../../../api/remedyLists";
 import Remedies from './Remedies/Remedies';
 
 const useStyles = makeStyles((theme) => ({
@@ -47,6 +47,17 @@ export default function RemedyList(props) {
     }
   };
 
+  const deleteList = () => {
+    deleteRemedyList({ listId: values.listId }, { t: jwt.token })
+    .then((data) => {
+      if (data && data.error) {
+        setValues({ ...values, error: data.error });
+      } else {
+        setValues({ ...values, error: "" });
+      }
+    })
+  }
+
   const enableEdit = () =>{
     setEditMode(true);
   }
@@ -76,7 +87,7 @@ export default function RemedyList(props) {
                   <IconButton onClick={enableEdit} size="small">
                     <Edit color="primary" style={{ fontSize: 18}}/>
                   </IconButton>    
-                  <IconButton  size="small">
+                  <IconButton  onClick={deleteList} size="small">
                     <Delete color="secondary" style={{ fontSize: 18}}/>
                   </IconButton>             
                 </InputAdornment>

@@ -4,7 +4,8 @@ import { Tab, Divider } from "@material-ui/core";
 import { TabPanel, TabContext, TabList } from "@material-ui/lab";
 import { AccountBox, Event, List,ListAlt, Assignment,AssignmentTurnedIn, Contacts } from "@material-ui/icons";
 import PatientPersonalDetails from "./PatientPersonalDetails/PatientPersonalDetails";
-import RemedyLists from "./RemedyLists/RemedyLists"
+import RemedyLists from "./RemedyLists/RemedyLists";
+import MyDoctors from "./MyDoctros/MyDoctors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -57,6 +58,7 @@ export default function PatientProfile(props) {
           />
           <Divider/>
           <Tab
+            disabled
             label="Рецепти"
             value="3"
             icon={<ListAlt color="primary" fontSize='large' className={classes.icon}/>}
@@ -77,7 +79,6 @@ export default function PatientProfile(props) {
           />
           <Divider/>
           <Tab
-            disabled
             label="Моите лекари"
             value="6"
             icon={<Contacts color="primary" fontSize='large' className={classes.icon}/>}
@@ -96,6 +97,9 @@ export default function PatientProfile(props) {
         </TabPanel>
         <TabPanel value="2" className={classes.tabPanel}>
           <RemedyLists user={user}/>
+        </TabPanel>
+        <TabPanel value="6" className={classes.tabPanel}>
+          <MyDoctors user={user}/>
         </TabPanel>
         <TabPanel value="3">Item Three</TabPanel>
       </TabContext>

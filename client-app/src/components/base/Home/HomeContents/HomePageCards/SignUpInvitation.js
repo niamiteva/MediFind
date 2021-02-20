@@ -32,7 +32,7 @@ export default function SignUpInvitation(){
       <Grid container>
         <Grid item md={12}>
           <Link to="/signup">
-            <Button className={classes.signup} color="secondary" variant="contained">Sign up</Button>
+            <Button className={classes.signup} color="secondary" variant="contained">Регистрация</Button>
           </Link>  
         </Grid>
       </Grid>                            
@@ -43,7 +43,7 @@ export default function SignUpInvitation(){
       <Grid container>
         <Grid item md={12}>
           <Link to="/login">
-            <Button className={classes.login} color="primary" variant="contained">Log In</Button>
+            <Button className={classes.login} color="primary" variant="contained">Вход</Button>
           </Link>
         </Grid>
       </Grid>          

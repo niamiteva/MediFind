@@ -9,5 +9,8 @@ router.route('/api/doctors')
 router.route("/api/doctors/:id")
   .get(doctorCtrl.doctorById)
   .put(doctorCtrl.update);
+  
+router.route('/api/doctors/:id/patients')
+  .get(doctorCtrl.getDoctorsPatients)
 
 module.exports = router;

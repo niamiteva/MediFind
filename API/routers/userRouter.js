@@ -9,7 +9,11 @@ router.route('/api/users')
 
 router.route("/api/users/:id")
   .get(userCtrl.userById)
-  .put(userCtrl.update);
+  .put(userCtrl.update)
+  .post(userCtrl.relateToDoctor);
+
+router.route("/api/users/:id/doctors")
+  .get(userCtrl.getPatientsDoctors);
 
 router.param('userId', userCtrl.userById);
 

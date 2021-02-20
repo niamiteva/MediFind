@@ -126,6 +126,71 @@ module.exports = {
       });
   },
 
+  getDoctorsPatients(req, res, next) {
+    const doctorId = req.params.id;
+    return db.Doctor.findByPk(doctorId, {
+      include: [
+        {
+          model: db.User,
+          as: "users",
+          attributes: ["id", "firstName", "lastName", "personalNumber", "email"],
+          through:{
+            attributes: [],
+          }
+        }
+      ]
+    })
+    .then((users) => {
+      if(!users) {
+        console.log("Doctor does not have users (patients)");
+      }
 
-  //relatedToContacts
+      res.status(200).send(users);
+    })
+    .catch((err) => {
+      console.log(err);
+      console.log("Error during retrieving users by doctor id");
+      res.status(500).send("Error during retrieving users by doctor id");
+    })
+  },
+
+  relateToUser(req, res, next) {
+    const doctorId = req.params.id;
+    const userId = req.body.userId;
+    return db.Doctor.findOne({
+      where: {
+        id: doctorId
+      }
+    })
+    .then((doctor) => {
+      if(!doctor) {
+        console.log("Doctor not found");
+        return res.status(400).send("Doctor not found");
+      }
+
+      return db.User.findOne({
+        where: {
+          id: userId
+        }
+      })
+      .then((user) => {
+        if(!user) {
+          console.log("User not found");
+          return res.status(400).send("User not found");
+        }
+
+        doctor.addUser(user);;
+        console.log("Doctor was relted to user");
+        return res.status(200).send(doctor);
+      })
+      .catch((err) => {
+        console.log(err);
+        return res.status(500).send("Error during creatting relation doctor-user");
+      })
+    })
+    .catch((err) => {
+      console.log(err);
+      return res.status(500).send("Error during searching for doctor");
+    })
+  }
 };

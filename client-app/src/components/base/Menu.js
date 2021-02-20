@@ -50,11 +50,11 @@ export default withRouter((history) => {
         {
           !auth.isAuthenticated() && (<span>
             <Link to="/signup">
-              <Button className={classes.menuButton} color="secondary" variant="contained">Sign up
+              <Button className={classes.menuButton} color="secondary" variant="contained">Регистрация
               </Button>
             </Link>
             <Link to="/login">
-              <Button className={classes.menuButton} variant="contained">Log In
+              <Button className={classes.menuButton} variant="contained">Вход
               </Button>
             </Link>
           </span>)
@@ -63,7 +63,7 @@ export default withRouter((history) => {
           auth.isAuthenticated() && (<span>
             <Link to={"/user/" + auth.isAuthenticated().user.id}>
               <Button className={classes.menuButton} color="secondary" variant="contained" style={isActive(history, "/user/" + auth.isAuthenticated().user.id)}>
-                My Profile
+                Профил
               </Button>
             </Link>
             <Button className={classes.menuButton} color="secondary" variant="contained" onClick={() => {
@@ -73,7 +73,7 @@ export default withRouter((history) => {
                   //return <Redirect to='/'/>
                 });
               }}>
-              Sign out
+              Изход
             </Button>
           </span>)
         }

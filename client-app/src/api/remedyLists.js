@@ -50,10 +50,27 @@ const editList = async (params, credentials, list) => {
   } catch(err) {
     console.log(err)
   }
-};
+}
+
+const deleteRemedyList = async (params, credentials) => {
+  try {
+    let response = await fetch('/api/remedylist/' + params.listId, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + credentials.t
+      }
+    })
+    return await response.json()
+  } catch(err) {
+    console.log(err)
+  }
+}
 
 export {
   getRemedyListsByUserId,
   createList,
-  editList
+  editList,
+  deleteRemedyList
 }

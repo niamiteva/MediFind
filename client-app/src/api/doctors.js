@@ -46,9 +46,30 @@ const getDoctorById = async(params, credentials, signal) => {
     }
   };
   
+  const relateToDoctor = async () =>{
+
+  }
+
+  const getDoctorsPatients = async (params, credentials, signal) => {
+    try {
+      let response = await fetch(apiUrl + '/api/doctors/' + params.doctorId + '/patients', {
+        method: 'GET',
+        signal: signal,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + credentials.t
+        }
+      })
+      return await response.json()
+    } catch(err) {
+      console.log(err)
+    }
+  }
 
 export {
   getAllDoctors,
   getDoctorById,
   updateDoctor,
+  getDoctorsPatients
 }

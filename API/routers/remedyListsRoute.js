@@ -9,7 +9,8 @@ router.route('/api/remedylists')
 
 router.route("/api/remedylists/:id")
   .get(listsCtrl.getRemedyListsByUserId)
-  .put(listsCtrl.editRemedyList);
+  .put(listsCtrl.editRemedyList)
+  .delete(listsCtrl.deleteRemedyList);
 
 router.route("/api/remedy/:id")
   .get(remedyCtrl.getRemediesByListId)

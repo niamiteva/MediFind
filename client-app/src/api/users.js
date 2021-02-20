@@ -62,21 +62,21 @@ const getUserById = async(params, credentials, signal) => {
     }
   };
 
-  // const remove = async (params, credentials) => {
-  //   try {
-  //     let response = await fetch('/api/users/' + params.userId, {
-  //       method: 'DELETE',
-  //       headers: {
-  //         'Accept': 'application/json',
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer ' + credentials.t
-  //       }
-  //     })
-  //     return await response.json()
-  //   } catch(err) {
-  //     console.log(err)
-  //   }
-  // }
+  const deleteUser = async (params, credentials) => {
+    try {
+      let response = await fetch('/api/users/' + params.userId, {
+        method: 'DELETE',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + credentials.t
+        }
+      })
+      return await response.json()
+    } catch(err) {
+      console.log(err)
+    }
+  }
 
   const login = async (user) => {
     console.log(user);
@@ -105,11 +105,33 @@ const getUserById = async(params, credentials, signal) => {
     }
   }
 
+  const relateToDoctor = async () =>{
+
+  }
+
+  const getPatientsDoctors = async (params, credentials, signal) => {
+    try {
+      let response = await fetch(apiUrl + '/api/users/' + params.userId + '/doctors', {
+        method: 'GET',
+        signal: signal,
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + credentials.t
+        }
+      })
+      return await response.json()
+    } catch(err) {
+      console.log(err)
+    }
+  }
+
 export {
   createUser,
   getAllUsers,
   getUserById,
   updateUser,
   login,
-  logout
+  logout,
+  getPatientsDoctors
 }
