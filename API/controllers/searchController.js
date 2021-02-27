@@ -1,4 +1,8 @@
 const puppeteer = require("puppeteer");
+//const redis = require("redis");
+//const client = redis.createClient();
+const mcache = require("memory-cache");
+const memCache = new mcache.Cache();
 const { all } = require("../routers");
 
 const getDataForItem = (browser, link) =>
@@ -83,24 +87,32 @@ const scrape = (text) =>
 
 module.exports = {
   search(req, res, next) {
-    debugger;
-    const text = req.body.q;
-    console.log(req.body);
-    console.log(text);
-    return scrape(text)
-      .then((result) => {
-        if (!result) {
-          return res.status(400).send({
-            error: "No data loaded",
+    const key = "__cache__" + req.originalUrl || req.url;
+
+    let cacheContent = memCache.get(key);
+    if (cacheContent) {
+      res.status(200).send(JSON.stringify(cacheContent));     
+      res.end(); 
+    }else {
+        const text = req.body.q;
+        console.log(req.body);
+        console.log(text);
+        return scrape(text)
+          .then((result) => {
+            if (!result) {
+              return res.status(400).send({
+                error: "No data loaded",
+              });
+            }
+            console.log("to send:");
+            console.log(result);
+            memCache.put(key, result, 200000);
+            res.status(200).send(JSON.stringify(result));
+            res.end();
+          })
+          .catch((err) => {
+            return res.status(400).send(err);
           });
-        }
-        console.log("to send:");
-        console.log(result);
-        res.status(200).send(JSON.stringify(result));
-        res.end();
-      })
-      .catch((err) => {
-        return res.status(400).send(err);
-      });
+      }
   },
 };
