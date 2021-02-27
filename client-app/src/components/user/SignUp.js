@@ -177,10 +177,10 @@ export default function Signup() {
               </CardActions>
             </Card>
             <Dialog open={values.open} disableBackdropClick={true}>
-              <DialogTitle>New Account</DialogTitle>
+              <DialogTitle>Нов Акаунт</DialogTitle>
               <DialogContent>
                 <DialogContentText>
-                  New account successfully created.
+                  Успешна регистрация.
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
@@ -190,7 +190,7 @@ export default function Signup() {
                     autoFocus={true}
                     variant="contained"
                   >
-                    Sign In
+                    Вход
                   </Button>
                 </Link>
               </DialogActions>

@@ -10,6 +10,7 @@ import Avatar from "@material-ui/core/Avatar";
 import { Spa, AddCircle } from "@material-ui/icons";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import {getRemediesByListId, createRemedy, editRemedy} from '../../../../../../api/remedy';
+import RemedySearchList from './RemedySearchList'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,8 +35,10 @@ export default function Remedies(props) {
   const { editMode, listId, jwt } = props;
   const [remedies, setRemedies] = useState({});
   const [isLoading, setLoading] = useState(false);
+  const [search, setSearch] = useState(false);
   const [values, setValues] = useState({
     remedyName: "",
+    price: "",
     error: "",
   });
 
@@ -66,6 +69,8 @@ export default function Remedies(props) {
 
   const editTheRemedy = (remedy) => {
     //set timeout
+    setSearch(false);
+    setLoading(true);
     const editedRemedy = {
       checked: remedy.checked
     };
@@ -76,7 +81,9 @@ export default function Remedies(props) {
           setValues({ ...values, error: data.error });
         } else {
           setValues({ ...values, error: "" });
+          
         }
+        setLoading(false);
       });
   };
 
@@ -89,6 +96,7 @@ export default function Remedies(props) {
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
+    setSearch(true);
   };
 
   const addListItem = () => {
@@ -160,6 +168,9 @@ export default function Remedies(props) {
             </IconButton>
           </Grid>
         </Grid>
+      )}
+      {search && (
+        <RemedySearchList q={values.remedyName} setRemedyName={setValues} />
       )}
     </List>
   );
