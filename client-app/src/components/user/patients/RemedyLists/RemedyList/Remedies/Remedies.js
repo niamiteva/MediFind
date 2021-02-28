@@ -127,7 +127,7 @@ export default function Remedies(props) {
   };
 
   return (
-    <List dense className={classes.root}>
+    !isLoading && (<List dense className={classes.root}>
       {!isLoading &&
         remedies.length > 0 &&
         remedies.map((remedy) => {
@@ -169,9 +169,10 @@ export default function Remedies(props) {
           </Grid>
         </Grid>
       )}
-      {search && (
-        <RemedySearchList q={values.remedyName} setRemedyName={setValues} />
-      )}
-    </List>
+      
+    </List>)}
+    {search && (
+      <RemedySearchList q={values.remedyName} setRemedyName={setValues} />
+    )}
   );
 }

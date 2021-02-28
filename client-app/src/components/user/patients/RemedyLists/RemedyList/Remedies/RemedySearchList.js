@@ -4,6 +4,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import {Card} from '@material-ui/core'
 import Avatar from "@material-ui/core/Avatar";
 import { Spa } from "@material-ui/icons";
 import { searchRemedy } from "../../../../../../api/search";
@@ -28,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Remedies(props) {
   const classes = useStyles();
-  const { remedyName, setValues } = props;
+  const { q, setRemedyName } = props;
   const [remedies, setRemedies] = useState({});
   const [isLoading, setLoading] = useState(false);
 
@@ -37,7 +38,7 @@ export default function Remedies(props) {
     const signal = abortController.signal;
     setLoading(true);
 
-    searchRemedy({ q: values.remedyName},  signal)
+    searchRemedy({ q: q},  signal)
       .then((data) => {
         if (!data) {
           return;
@@ -55,17 +56,17 @@ export default function Remedies(props) {
     return function cleanup() {
       abortController.abort();
     };
-  }, [values.remedyName]);
+  }, [q]);
 
   const selectRemedyForTheList = (remedy, price) => {
-    setValues({ remedyName:remedy, price: price , error: "" });
+    setRemedyName({ remedyName:remedy, price: price , error: "" });
   }
 
   return (
     <Card>
       <List>
         {!isLoading && remedies.length > 0 && remedies.map(item => (
-          <ListItem onClick={selectRemedyForTheList(item.itemName, item.price)}>
+          <ListItem onClick={selectRemedyForTheList.bind(this, item.itemName, item.price)}>
             <ListItemAvatar className={classes.avatar}>
               <Avatar alt="Remedy" >
                 <Spa />
