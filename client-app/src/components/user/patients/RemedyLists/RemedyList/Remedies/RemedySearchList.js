@@ -4,7 +4,7 @@ import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
-import {Card} from '@material-ui/core'
+import {Card, CircularProgress} from '@material-ui/core'
 import Avatar from "@material-ui/core/Avatar";
 import { Spa } from "@material-ui/icons";
 import { searchRemedy } from "../../../../../../api/search";
@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Remedies(props) {
+export default function RemedySearchList(props) {
   const classes = useStyles();
   const { q, setRemedyName } = props;
   const [remedies, setRemedies] = useState({});
@@ -58,15 +58,16 @@ export default function Remedies(props) {
     };
   }, [q]);
 
-  const selectRemedyForTheList = (remedy, price) => {
-    setRemedyName({ remedyName:remedy, price: price , error: "" });
+  const selectRemedyForTheList = (remedy, price, link) => {
+    setRemedyName({ remedyName:remedy, price: price , remedyLink: link, error: "" });
   }
 
   return (
     <Card>
       <List>
+        {isLoading && <CircularProgress />}
         {!isLoading && remedies.length > 0 && remedies.map(item => (
-          <ListItem onClick={selectRemedyForTheList.bind(this, item.itemName, item.price)}>
+          <ListItem onClick={selectRemedyForTheList.bind(this, item.itemName, item.price, item.itemLink)}>
             <ListItemAvatar className={classes.avatar}>
               <Avatar alt="Remedy" >
                 <Spa />

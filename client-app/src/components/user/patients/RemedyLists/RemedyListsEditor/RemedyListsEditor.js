@@ -1,6 +1,6 @@
 import React, { useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Grid, IconButton } from "@material-ui/core";
+import { Grid, IconButton, CircularProgress } from "@material-ui/core";
 import { AddCircle} from "@material-ui/icons";
 import RemedyList from "../RemedyList/RemedyList";
 import { createList } from "../../../../../api/remedyLists";
@@ -53,6 +53,7 @@ export default function RemedyListsEditor(props) {
 
   return (
     <Grid container spacing={3}>
+      {isLoading && <CircularProgress />}
       {!isLoading && values.lists.length > 0 && values.lists.map((item) => (
         <RemedyList list={item} jwt={jwt} userId={userId} />
       ))}

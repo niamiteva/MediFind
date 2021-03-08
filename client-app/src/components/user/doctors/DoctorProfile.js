@@ -28,7 +28,7 @@ export default function DoctorProfile(props) {
   const classes = useStyles();
   const { doctor} = props;
   const [tab, setTab] = useState("1");
-
+  
   const handleChange = (event,newValue) => {
     setTab(newValue);
   };

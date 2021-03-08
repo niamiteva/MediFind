@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import { Grid, CardContent, Card, Divider } from "@material-ui/core";
-import { InputAdornment, TextField , IconButton} from "@material-ui/core";
+import { InputAdornment, TextField , IconButton, CircularProgress} from "@material-ui/core";
 import { Delete, Edit , Done} from "@material-ui/icons";
 import { editList , deleteRemedyList} from "../../../../../api/remedyLists";
 import Remedies from './Remedies/Remedies';
@@ -20,6 +20,7 @@ export default function RemedyList(props) {
   console.log(props);
   const { userId, jwt, list } = props;
   const [editMode, setEditMode] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [values, setValues] = useState({
     listName: list.listName || "",
     listId: list.id || "",
@@ -33,7 +34,7 @@ export default function RemedyList(props) {
       listName: values.listName,
       userId: userId,
     };
-
+    setLoading(true);
     if (list && list.id) {
       console.log("edit list");
       editList({ listId: values.listId }, { t: jwt.token }, editedList)
@@ -43,11 +44,14 @@ export default function RemedyList(props) {
         } else {
           setValues({ ...values, error: "" });
         }
+
+        setLoading(false);
       });
     }
   };
 
   const deleteList = () => {
+    setLoading(true);
     deleteRemedyList({ listId: values.listId }, { t: jwt.token })
     .then((data) => {
       if (data && data.error) {
@@ -55,6 +59,7 @@ export default function RemedyList(props) {
       } else {
         setValues({ ...values, error: "" });
       }
+      setLoading(false);
     })
   }
 
@@ -73,39 +78,42 @@ export default function RemedyList(props) {
 
   return (
     <Grid item md={3}>
-      <Card>
-        <CardContent>
-          <TextField
-            id={values.listId}
-            className={classes.textField}
-            defaultValue={values.listName}
-            onChange={handleChangeAndUpdate("listName")}
-            InputProps={{
-              endAdornment: (
-                (!editMode && (
-                  <InputAdornment position="end">
-                  <IconButton onClick={enableEdit} size="small">
-                    <Edit color="primary" style={{ fontSize: 18}}/>
-                  </IconButton>    
-                  <IconButton  onClick={deleteList} size="small">
-                    <Delete color="secondary" style={{ fontSize: 18}}/>
-                  </IconButton>             
-                </InputAdornment>
-                )) ||
-                (editMode && (
-                  <InputAdornment position="end">
-                  <IconButton onClick={saveList} size="small">
-                    <Done color="primary" style={{ fontSize: 18}}/>
-                  </IconButton>               
-                </InputAdornment>
-                ))
-              ),
-              readOnly: !editMode
-            }}
-          />
-          <Divider />
-          <Remedies editMode={editMode} listId={list.id} jwt={jwt}/>
-        </CardContent>
+      <Card>    
+        {isLoading && <CircularProgress />}
+        {!isLoading && (
+          <CardContent>       
+            <TextField
+              id={values.listId}
+              className={classes.textField}
+              defaultValue={values.listName}
+              onChange={handleChangeAndUpdate("listName")}
+              InputProps={{
+                endAdornment: (
+                  (!editMode && (
+                    <InputAdornment position="end">
+                    <IconButton onClick={enableEdit} size="small">
+                      <Edit color="primary" style={{ fontSize: 18}}/>
+                    </IconButton>    
+                    <IconButton  onClick={deleteList} size="small">
+                      <Delete color="secondary" style={{ fontSize: 18}}/>
+                    </IconButton>             
+                  </InputAdornment>
+                  )) ||
+                  (editMode && (
+                    <InputAdornment position="end">
+                    <IconButton onClick={saveList} size="small">
+                      <Done color="primary" style={{ fontSize: 18}}/>
+                    </IconButton>               
+                  </InputAdornment>
+                  ))
+                ),
+                readOnly: !editMode
+              }}
+            />
+            <Divider />
+            <Remedies editMode={editMode} listId={list.id} jwt={jwt}/>         
+          </CardContent>
+        )}
       </Card>
     </Grid>
   );

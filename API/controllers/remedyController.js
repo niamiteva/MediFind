@@ -8,7 +8,9 @@ module.exports = {
     return db.Remedy.create({
       remedyName,
       listId,
-      checked
+      checked, 
+      price, 
+      remedyLink
     })
     .then((remedy) => {
       if (!remedy) {

@@ -9,7 +9,7 @@ import {
   FormControl,
 } from "@material-ui/core";
 import { Card, CardContent } from "@material-ui/core";
-import { Grid } from "@material-ui/core";
+import { Grid , CircularProgress} from "@material-ui/core";
 import AccountBox from "@material-ui/icons/AccountBox";
 import auth from "../../../../api/auth";
 import {updateDoctor} from "../../../../api/doctors";
@@ -41,6 +41,7 @@ export default function DoctorPersonalDetails(props) {
     auth.isAuthenticated().user.id === doctor.id
   );
   const [isEdited, setIsEdited] = useState(false);
+  const [isLoading, setLoading] = useState(false);
   const [specialties, setSpecialties] = useState([])
   //const [redirectToSignin, setRedirectToSignin] = useState(false);
   const [values, setValues] = useState({
@@ -59,12 +60,14 @@ export default function DoctorPersonalDetails(props) {
     const abortController = new AbortController()
     const signal = abortController.signal
 
+    setLoading(true);
     getAllSpecialties(signal).then((data) => {
       if (data && data.error) {
         console.log(data.error)
       } else {
         setSpecialties(data)
       }
+      setLoading(false);
     })
 
     return function cleanup(){
@@ -82,7 +85,7 @@ export default function DoctorPersonalDetails(props) {
       email: values.email,
       password: values.password,
     };
-
+    setLoading(true);
     updateDoctor({ doctorId: doctor.id }, { t: jwt.token }, editedDoctor)
     .then((data) => {
         console.log(data);
@@ -93,6 +96,7 @@ export default function DoctorPersonalDetails(props) {
           setValues({...values, error: ""});
           setIsEdited(false);
         }
+        setloading(false);
       }
     );
   };
@@ -118,139 +122,142 @@ export default function DoctorPersonalDetails(props) {
 
   return (
     <Card className={classes.root}>
-      <CardContent>
-        <Grid container spacing={3}>
-          <Grid item container md={12}>
-            <Grid item md={3}>
-              <AccountBox style={{ fontSize: 200, color: "grey" }} />
-              <Button
-                variant="outlined"
-                size="medium"
-                color="secondary"
-                style={{ marginLeft: 19 }}
-              >
-                Change picture
-              </Button>
-            </Grid>
-            <Grid item md={8}>
-              <TextField
-                id="firstName"
-                label="Име"
-                className={classes.textField}
-                value={values.firstName}
-                onChange={handleChange("firstName")}
-                margin="normal"
-                InputProps={{
-                  readOnly: canEdit,
-                }}
-              />
-              <br />
-              <TextField
-                id="lastName"
-                label="Фамилия"
-                className={classes.textField}
-                value={values.lastName}
-                onChange={handleChange("lastName")}
-                margin="normal"
-                InputProps={{
-                  readOnly: canEdit,
-                }}
-              />
-              <br />
-              <TextField
-                id="email"
-                type="email"
-                label="Email"
-                className={classes.textField}
-                value={values.email}
-                onChange={handleChange("email")}
-                margin="normal"
-                InputProps={{
-                  readOnly: canEdit,
-                }}
-              />
-              <br />
-              <TextField
-                id="password"
-                type="password"
-                label="Password"
-                className={classes.textField}
-                defaultValue={values.password}
-                onChange={handleChange("password")}
-                margin="normal"
-                InputProps={{
-                  readOnly: canEdit,
-                }}
-              />
-              <TextField
-                id="personalNumber"
-                label="ЕГН/ЛЧН/ЛН/СЛН"
-                className={classes.textField}
-                value={values.personalNumber}
-                onChange={handleChange("personalNumber")}
-                margin="normal"
-                InputProps={{
-                  readOnly: canEdit,
-                }}
-              />
-              <br />
-              <TextField
-                id="doctorUIN"
-                label="УИН"
-                className={classes.textField}
-                value={values.doctorUIN}
-                onChange={handleChange("doctorUIN")}
-                margin="normal"
-                InputProps={{
-                  readOnly: false,
-                }}
-              />
-              <br />
-              <FormControl className={classes.textField}>
-                <InputLabel id="lspecialty" className={classes.select}>
-                  Специалист
-                </InputLabel>
-                <Select
-                  id="specialty"
-                  labelId="lspecialty"
-                  className={classes.select}
-                  value={values.specialtyId}
-                  onChange={handleChange("specialtyId")}
+      {isLoading && <CircularProgress />}
+      {!isLoading && (
+        <CardContent>
+          <Grid container spacing={3}>
+            <Grid item container md={12}>
+              <Grid item md={3}>
+                <AccountBox style={{ fontSize: 200, color: "grey" }} />
+                <Button
+                  variant="outlined"
+                  size="medium"
+                  color="secondary"
+                  style={{ marginLeft: 19 }}
                 >
-                  {specialties.length > 0 && specialties.map((specialty) => (
-                    <MenuItem value={specialty.id}>{specialty.name}</MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-              <br /><br />
+                  Change picture
+                </Button>
+              </Grid>
+              <Grid item md={8}>
+                <TextField
+                  id="firstName"
+                  label="Име"
+                  className={classes.textField}
+                  value={values.firstName}
+                  onChange={handleChange("firstName")}
+                  margin="normal"
+                  InputProps={{
+                    readOnly: canEdit,
+                  }}
+                />
+                <br />
+                <TextField
+                  id="lastName"
+                  label="Фамилия"
+                  className={classes.textField}
+                  value={values.lastName}
+                  onChange={handleChange("lastName")}
+                  margin="normal"
+                  InputProps={{
+                    readOnly: canEdit,
+                  }}
+                />
+                <br />
+                <TextField
+                  id="email"
+                  type="email"
+                  label="Email"
+                  className={classes.textField}
+                  value={values.email}
+                  onChange={handleChange("email")}
+                  margin="normal"
+                  InputProps={{
+                    readOnly: canEdit,
+                  }}
+                />
+                <br />
+                <TextField
+                  id="password"
+                  type="password"
+                  label="Password"
+                  className={classes.textField}
+                  defaultValue={values.password}
+                  onChange={handleChange("password")}
+                  margin="normal"
+                  InputProps={{
+                    readOnly: canEdit,
+                  }}
+                />
+                <TextField
+                  id="personalNumber"
+                  label="ЕГН/ЛЧН/ЛН/СЛН"
+                  className={classes.textField}
+                  value={values.personalNumber}
+                  onChange={handleChange("personalNumber")}
+                  margin="normal"
+                  InputProps={{
+                    readOnly: canEdit,
+                  }}
+                />
+                <br />
+                <TextField
+                  id="doctorUIN"
+                  label="УИН"
+                  className={classes.textField}
+                  value={values.doctorUIN}
+                  onChange={handleChange("doctorUIN")}
+                  margin="normal"
+                  InputProps={{
+                    readOnly: false,
+                  }}
+                />
+                <br />
+                <FormControl className={classes.textField}>
+                  <InputLabel id="lspecialty" className={classes.select}>
+                    Специалист
+                  </InputLabel>
+                  <Select
+                    id="specialty"
+                    labelId="lspecialty"
+                    className={classes.select}
+                    value={values.specialtyId}
+                    onChange={handleChange("specialtyId")}
+                  >
+                    {specialties.length > 0 && specialties.map((specialty) => (
+                      <MenuItem value={specialty.id}>{specialty.name}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+                <br /><br />
+              </Grid>
+            </Grid>
+            <Grid item container md={12}>
+              <Grid item xs={8} />
+              <Grid item xs={4}>
+                <Button
+                  variant="contained"
+                  size="medium"
+                  color="secondary"
+                  disabled={!isEdited}
+                  onClick={clickSubmit}
+                  style={{ marginRight: 10 }}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant="outlined"
+                  size="medium"
+                  color="primary"
+                  onClick={clickDiscard}
+                  disabled={!isEdited}
+                >
+                  Discard
+                </Button>
+              </Grid>
             </Grid>
           </Grid>
-          <Grid item container md={12}>
-            <Grid item xs={8} />
-            <Grid item xs={4}>
-              <Button
-                variant="contained"
-                size="medium"
-                color="secondary"
-                disabled={!isEdited}
-                onClick={clickSubmit}
-                style={{ marginRight: 10 }}
-              >
-                Save
-              </Button>
-              <Button
-                variant="outlined"
-                size="medium"
-                color="primary"
-                onClick={clickDiscard}
-                disabled={!isEdited}
-              >
-                Discard
-              </Button>
-            </Grid>
-          </Grid>
-        </Grid>
-      </CardContent>
+        </CardContent>
+      )}
     </Card>
   );
 }

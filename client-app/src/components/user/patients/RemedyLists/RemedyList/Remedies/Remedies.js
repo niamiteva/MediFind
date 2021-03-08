@@ -8,7 +8,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
 import { Spa, AddCircle } from "@material-ui/icons";
-import { Grid, TextField, IconButton } from "@material-ui/core";
+import { Grid, TextField, IconButton, Divider } from "@material-ui/core";
 import {getRemediesByListId, createRemedy, editRemedy} from '../../../../../../api/remedy';
 import RemedySearchList from './RemedySearchList'
 
@@ -31,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function Remedies(props) {
+  debugger;
   const classes = useStyles();
   const { editMode, listId, jwt } = props;
   const [remedies, setRemedies] = useState({});
@@ -39,6 +40,7 @@ export default function Remedies(props) {
   const [values, setValues] = useState({
     remedyName: "",
     price: "",
+    remedyLink: "",
     error: "",
   });
 
@@ -96,6 +98,7 @@ export default function Remedies(props) {
 
   const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
+    //todo: set input timeout
     setSearch(true);
   };
 
@@ -122,13 +125,16 @@ export default function Remedies(props) {
         setRemedies(newList);
         setValues({...values, error: ""});
         setLoading(false);
+        setSearch(false);
       }
     })
   };
 
   return (
-    !isLoading && (<List dense className={classes.root}>
-      {!isLoading &&
+    <List dense className={classes.root}>
+      {isLoading && <CircularProgress />}
+      {!isLoading && 
+        remedies.length &&
         remedies.length > 0 &&
         remedies.map((remedy) => {
           return (
@@ -169,10 +175,20 @@ export default function Remedies(props) {
           </Grid>
         </Grid>
       )}
-      
-    </List>)}
-    {search && (
-      <RemedySearchList q={values.remedyName} setRemedyName={setValues} />
-    )}
+      {search && (
+        <RemedySearchList q={values.remedyName} setRemedyName={setValues} />
+      )}        
+      {!isLoading && remedies.length && remedies.length > 0 (     
+      <ListItem key="total" button>
+        {/* <ListItemText primary={remedies.reduce(
+          (a, b)=> {
+            return a + (b.price || 0);
+          }, 0)} /> */}
+          <ListItemText primary="0.00"/>
+      </ListItem> )} 
+    </List>
+    // search && (
+    //   <RemedySearchList q={values.remedyName} setRemedyName={setValues} />
+    // )
   );
 }

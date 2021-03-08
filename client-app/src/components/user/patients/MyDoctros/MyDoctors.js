@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { makeStyles } from "@material-ui/core/styles";
-import { Card, CardContent, List } from "@material-ui/core";
+import { Card, CardContent, List, CircularProgress } from "@material-ui/core";
 //import DeleteUser from './DeleteUser'
 import DoctorListItem from '../../../search/doctors/doctorListItem/DoctorListItem'
 import auth from "../../../../api/auth";
@@ -56,6 +56,7 @@ export default function MyDoctors(props) {
     <Card className={classes.root}>
       <CardContent>
         <List>
+          {isLoading && <CircularProgress />}
           {!isLoading &&
             doctors.length > 0 &&
             doctors.map((item) => <DoctorListItem doctor={item} />)}
