@@ -8,7 +8,7 @@ import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Checkbox from "@material-ui/core/Checkbox";
 import Avatar from "@material-ui/core/Avatar";
 import { Spa, AddCircle } from "@material-ui/icons";
-import { Grid, TextField, IconButton, Divider } from "@material-ui/core";
+import { Grid, TextField, IconButton, Divider , CircularProgress, ListSubheader} from "@material-ui/core";
 import {getRemediesByListId, createRemedy, editRemedy} from '../../../../../../api/remedy';
 import RemedySearchList from './RemedySearchList'
 
@@ -16,6 +16,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
     maxWidth: 360,
+    maxHeight: 300,
+    overflow: 'auto',
     backgroundColor: theme.palette.background.paper,
   },
   avatar: {
@@ -131,6 +133,7 @@ export default function Remedies(props) {
   };
 
   return (
+    <div>
     <List dense className={classes.root}>
       {isLoading && <CircularProgress />}
       {!isLoading && 
@@ -177,18 +180,23 @@ export default function Remedies(props) {
       )}
       {search && (
         <RemedySearchList q={values.remedyName} setRemedyName={setValues} />
-      )}        
-      {!isLoading && remedies.length && remedies.length > 0 (     
-      <ListItem key="total" button>
-        {/* <ListItemText primary={remedies.reduce(
-          (a, b)=> {
-            return a + (b.price || 0);
-          }, 0)} /> */}
-          <ListItemText primary="0.00"/>
-      </ListItem> )} 
-    </List>
-    // search && (
-    //   <RemedySearchList q={values.remedyName} setRemedyName={setValues} />
-    // )
+      )}   
+      </List>
+      <Divider/> 
+      <List>   
+      {!isLoading && remedies.length && remedies.length>0 && (    
+
+          <ListSubheader> 
+          {"total: " + remedies.reduce(
+            (a, b)=> {
+              return a + (b.price || 0);
+            }, 0)} 
+          </ListSubheader>
+          
+       
+      )}
+      </List>
+      </div>
+    
   );
 }

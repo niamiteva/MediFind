@@ -12,6 +12,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(3),
     marginTop: theme.spacing(1),
   },
+  textField: {
+    width: "100%"
+  }
 }));
 
 export default function RemedyList(props) {
@@ -77,7 +80,7 @@ export default function RemedyList(props) {
   };
 
   return (
-    <Grid item md={3}>
+    <Grid item md={4}>
       <Card>    
         {isLoading && <CircularProgress />}
         {!isLoading && (

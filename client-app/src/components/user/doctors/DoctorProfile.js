@@ -5,6 +5,7 @@ import { TabPanel, TabContext, TabList } from "@material-ui/lab";
 import { AccountBox, Event, RecentActors, ImportContacts, PostAdd } from "@material-ui/icons";
 import DoctorPersonalDetails from './DoctorPersonalDetails/DoctorPersonalDetails';
 import MyPatients from './MyPatients/MyPatients';
+import ScheduleCalendar from '../scheduleCalendar/Calendar'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -71,7 +72,6 @@ export default function DoctorProfile(props) {
           />
           <Divider/>
           <Tab
-            disabled
             label="Календар"
             value="5"
             icon={<Event color="primary" fontSize='large' className={classes.icon}/>}
@@ -84,7 +84,9 @@ export default function DoctorProfile(props) {
         <TabPanel value="4" className={classes.tabPanel}>
           <MyPatients doctor={doctor} />
         </TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
+        <TabPanel value="5" className={classes.tabPanel}>
+          <ScheduleCalendar/>
+        </TabPanel>
       </TabContext>
     </div> 
   );

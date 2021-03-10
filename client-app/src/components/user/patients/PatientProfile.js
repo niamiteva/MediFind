@@ -6,6 +6,7 @@ import { AccountBox, Event, List,ListAlt, Assignment,AssignmentTurnedIn, Contact
 import PatientPersonalDetails from "./PatientPersonalDetails/PatientPersonalDetails";
 import RemedyLists from "./RemedyLists/RemedyLists";
 import MyDoctors from "./MyDoctros/MyDoctors";
+import ScheduleCalendar from '../scheduleCalendar/Calendar'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -85,7 +86,6 @@ export default function PatientProfile(props) {
           />
           <Divider/>
           <Tab
-            disabled
             label="Календар"
             value="7"
             icon={<Event color="primary" fontSize='large' className={classes.icon}/>}
@@ -101,7 +101,9 @@ export default function PatientProfile(props) {
         <TabPanel value="6" className={classes.tabPanel}>
           <MyDoctors user={user}/>
         </TabPanel>
-        <TabPanel value="3">Item Three</TabPanel>
+        <TabPanel value="7" className={classes.tabPanel}>
+          <ScheduleCalendar/>
+        </TabPanel>
       </TabContext>
     </div>
   );

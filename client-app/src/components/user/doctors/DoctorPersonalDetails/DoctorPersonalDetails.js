@@ -96,7 +96,7 @@ export default function DoctorPersonalDetails(props) {
           setValues({...values, error: ""});
           setIsEdited(false);
         }
-        setloading(false);
+        setLoading(false);
       }
     );
   };
