@@ -29,6 +29,24 @@ app.use(helmet()); // secure apps by setting various HTTP headers
 app.use(cors()); // enable CORS - Cross Origin Resource Sharing
 app.options('*', cors()) ;
 
+// const cacheMiddleware = (req, res, next) => {
+//     let key = "__cached__" + req.originalUrl || req.url;
+  
+//     client.get(key, (err, reply) =>{
+//       if (reply) {
+//         res.send(reply);
+//         return;
+//       } else {
+//         res.sendResponse = res.send;
+//         res.send = body => {
+//           client.set(key, JSON.stringify(body));
+//           res.sendResponse(body);
+//         };
+//         next();
+//       }
+//     });
+//   };
+
 app.get('/api',(req,res) => {
   res.status(200).send({
       data : "Welcome Node Sequlize API v1"

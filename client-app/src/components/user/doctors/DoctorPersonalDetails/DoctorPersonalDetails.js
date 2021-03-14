@@ -229,6 +229,8 @@ export default function DoctorPersonalDetails(props) {
                   </Select>
                 </FormControl>
                 <br /><br />
+                <Divider/>
+                <DoctorWorktime/>
               </Grid>
             </Grid>
             <Grid item container md={12}>

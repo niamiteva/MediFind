@@ -17,6 +17,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'doctorId'
       });
 
+      Doctor.hasMany(models.WorkTimes, {
+        as: "worktime",
+        foreignKey: "worktimeId",
+      });
     }  
 
     generateSalt() {
