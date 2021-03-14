@@ -16,6 +16,7 @@ const verify = require("./routers/verificationRouter");
 const remedyLists = require("./routers/remedyListsRoute");
 const specialty = require('./routers/specialtyRouter');
 const doctors = require('./routers/doctorRouter');
+const worktime  = require('./routers/worktimeRouter');
 
 const app = express();
 
@@ -60,6 +61,7 @@ app.use('/', verify);
 app.use('/', remedyLists);
 app.use('/', specialty);
 app.use('/', doctors);
+app.use('/', worktime);
 app.use(routes);
 
 // Default response for any other request

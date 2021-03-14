@@ -14,6 +14,9 @@ module.exports = {
       doctorId: {
         type: Sequelize.UUID,
         allowNull: false,
+        onUpdate: "cascade",
+        onDelete: "cascade",
+        references: { model: "Doctors", key: "id" },
       },
       from: {
         type: Sequelize.TIME,

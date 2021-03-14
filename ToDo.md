@@ -8,6 +8,7 @@
 
 - Improvements:
 - [x] casche the remedy serach results till session expiration
+- [ ] retrieve user and doc info and related info with only one endpoint 
 - [ ] api responce handler
 - [ ] save the data after edit => refresh the whole page or some other way?
 - [ ] save remedies after search => only missing from db => save only name, description and photo => on itemOpen serach in different pharmacies for prices 
@@ -19,7 +20,7 @@
 - [ ] price total in remedy lists
 - [ ] link to remedy info page from list item and item in search result list
 - [ ] fix checkboxes
-- [ ] add Doctors biography, institution, address, worktime, gender, position, type of specialist,  info, etc 
+- [ ] add Doctors biography, institution, address, gender, position, type of specialist,  info, etc 
 - [x] Association Doctor and Patient
 - [x] Doctors Tab in users profile page
 - [ ] Doctor and Patient profile viewers on clicking

@@ -3,7 +3,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import auth from "../../../../api/auth";
 import { FormControl, Grid, IconButton, MenuItem, Select } from "@material-ui/core";
 import { AddCircle } from "@material-ui/icons";
-import { TimePicker } from '@material-ui/pickers'
+import { TimePicker } from '@material-ui/pickers';
+import { createWorktime} from '../../../../api/worktime';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -12,8 +13,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function DoctorWorktime(props) {
-  const doctorId = props.doctorId;
-  const worktime = props.worktime; //array
+  const {doctorId, worktime, jwt} = props;
   const days = ["Понеделник", "Вторник", "Сряда", "Четвъртък", "Петък", "Събота", "Неделя"];
   const [isLoading, setLoading] = useState(false);
   const [values, setValues] = useState({
@@ -37,7 +37,14 @@ export default function DoctorWorktime(props) {
       to: to,
     });
     setValues({...values, ["worktime"]: newWorktime});
-    //Todo: createWorktime()
+    createWorktime({t: jwt.token}, newWorktime)
+      .then((worktime) => {
+        if(!worktime) {
+        }
+        else {
+          setValues({...values, error: ""});
+        }
+      });
   }
 
   return (
